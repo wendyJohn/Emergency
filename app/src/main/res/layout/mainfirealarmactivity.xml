@@ -1,0 +1,80 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <FrameLayout
+        android:layout_weight="1.0"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/vPager"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:background="@color/white"
+        android:flipInterval="30"
+        android:persistentDrawingCache="animation" />
+
+    </FrameLayout>
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="1px"
+        android:background="#CFCFCF" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
+        <RadioGroup
+            android:id="@+id/bottom_tab_group"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/widget_size_55"
+            android:background="@drawable/tab_bg"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingTop="3dp"
+            >
+
+            <RadioButton
+                android:id="@+id/opa"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@android:color/transparent"
+                android:button="@android:color/transparent"
+                android:checked="true"
+                android:gravity="center"
+                android:textSize="@dimen/text_size_13"
+                android:text="实时监控"
+                />
+
+            <RadioButton
+                android:id="@+id/opb"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@android:color/transparent"
+                android:button="@android:color/transparent"
+                android:gravity="center"
+                android:textSize="@dimen/text_size_13"
+                android:text="历史记录"
+               />
+
+            <RadioButton
+                android:id="@+id/opc"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@android:color/transparent"
+                android:button="@android:color/transparent"
+                android:gravity="center"
+                android:textSize="@dimen/text_size_13"
+                android:text="个人中心"
+                />
+
+        </RadioGroup>
+    </RelativeLayout>
+</LinearLayout>
