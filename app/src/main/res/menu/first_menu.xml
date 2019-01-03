@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/item_tab1"
+        android:icon="@drawable/taba"
+        android:title="实时监控" />
+    <item
+        android:id="@+id/item_tab2"
+        android:icon="@drawable/tabb"
+        android:title="历史数据" />
+    <item
+        android:id="@+id/item_tab3"
+        android:icon="@drawable/tabc"
+        android:title="个人中心" />
+</menu>
