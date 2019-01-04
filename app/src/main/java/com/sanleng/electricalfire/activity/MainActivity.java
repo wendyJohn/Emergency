@@ -1,4 +1,4 @@
-package com.sanleng.electricalfire;
+package com.sanleng.electricalfire.activity;
 
 import android.annotation.SuppressLint;
 import android.app.AppOpsManager;
@@ -15,11 +15,10 @@ import android.support.design.widget.BottomNavigationView;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
-import android.view.MotionEvent;
-import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 
+import com.sanleng.electricalfire.R;
 import com.sanleng.electricalfire.adapter.BottomAdapter;
 import com.sanleng.electricalfire.fragment.AlarmRecordFragment;
 import com.sanleng.electricalfire.fragment.E_RealTimeDataFragment;
@@ -43,7 +42,6 @@ public class MainActivity extends AppCompatActivity {
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_main);
         initView();
-        //数据填充
         setupViewPager(mVp);
         // 消息通知栏是否打开
         if (isNotificationEnabled(MainActivity.this) == false) {

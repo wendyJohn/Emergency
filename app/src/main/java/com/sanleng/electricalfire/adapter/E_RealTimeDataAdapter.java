@@ -11,6 +11,7 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -71,7 +72,7 @@ public class E_RealTimeDataAdapter extends BaseAdapter {
         Holder holder;
 
         if (convertView == null) {
-            convertView = LayoutInflater.from(mContext).inflate(R.layout.e_realtimedata_item, null);
+            convertView = LayoutInflater.from(mContext).inflate(R.layout.e_realtimedata_items, null);
             holder = new Holder();
             holder.address = (TextView) convertView.findViewById(R.id.w_address);
             holder.temperature = (TextView) convertView.findViewById(R.id.temperature);
@@ -80,7 +81,7 @@ public class E_RealTimeDataAdapter extends BaseAdapter {
             holder.currentlimit = (TextView) convertView.findViewById(R.id.currentlimit);
             holder.temperaturealarm = (ImageView) convertView.findViewById(R.id.temperaturealarm);
             holder.temperaturealarms = (ImageView) convertView.findViewById(R.id.temperaturealarms);
-            holder.contactnumber = (TextView) convertView.findViewById(R.id.contactnumber);
+            holder.contactnumber = (LinearLayout) convertView.findViewById(R.id.contactnumber);
 
             holder.electricalmaintenance = (TextView) convertView.findViewById(R.id.electricalmaintenance);
             holder.pendingdisposal = (TextView) convertView.findViewById(R.id.pendingdisposal);
@@ -102,7 +103,6 @@ public class E_RealTimeDataAdapter extends BaseAdapter {
 
         RequestOptions options = new RequestOptions().diskCacheStrategy(DiskCacheStrategy.RESOURCE);
         Glide.with(mContext).load(R.drawable.ealarm).apply(options).into(holder.temperaturealarm);
-        Linkify.addLinks(holder.contactnumber, Linkify.PHONE_NUMBERS);
         String state = mList.get(position).getState();
         String number = mList.get(position).getNumber();
         int str = Integer.parseInt(number);
@@ -124,6 +124,19 @@ public class E_RealTimeDataAdapter extends BaseAdapter {
             holder.temperaturealarms.setVisibility(View.GONE);
 //            holder.address.setTextColor(mContext.getResources().getColor(R.color.red));
         }
+        //打电话
+        holder.contactnumber.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Message msg = new Message();
+                Bundle data = new Bundle();
+                data.putInt("selIndex", position);
+                msg.setData(data);
+                msg.what = 66663;
+                handler.sendMessage(msg);
+            }
+        });
+
         //确认拍照
         holder.confirmphoto.setOnClickListener(new OnClickListener() {
             @Override
@@ -175,7 +188,7 @@ public class E_RealTimeDataAdapter extends BaseAdapter {
         TextView residualcurrent;
         TextView electricalmaintenance;
         TextView currentlimit;
-        TextView contactnumber;
+        LinearLayout contactnumber;
 
         TextView confirmphoto;
         TextView pendingdisposal;

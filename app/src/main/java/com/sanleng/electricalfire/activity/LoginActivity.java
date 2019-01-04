@@ -9,7 +9,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewTreeObserver.OnGlobalLayoutListener;
@@ -22,7 +21,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.loopj.android.http.RequestParams;
-import com.sanleng.electricalfire.MainActivity;
 import com.sanleng.electricalfire.R;
 import com.sanleng.electricalfire.net.NetCallBack;
 import com.sanleng.electricalfire.net.RequestUtils;
