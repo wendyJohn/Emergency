@@ -165,8 +165,6 @@ public class E_RealTimeDataFragment extends BaseFragment implements OnClickListe
                 case 66660:
                     int selIndex = data.getInt("selIndex");
 
-
-
                     break;
                 //待处理
                 case 66661:
@@ -178,7 +176,7 @@ public class E_RealTimeDataFragment extends BaseFragment implements OnClickListe
                     int selIndex_p = data.getInt("selIndex");
 
                     break;
-                // 打电话
+                // 打电话快捷键
                 case 66663:
                     int selIndexp = data.getInt("selIndex");
 

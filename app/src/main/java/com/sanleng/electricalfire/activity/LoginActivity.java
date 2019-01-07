@@ -1,12 +1,12 @@
 package com.sanleng.electricalfire.activity;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Rect;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
@@ -39,7 +39,7 @@ import cn.pedant.SweetAlert.SweetAlertDialog;
  *
  * @author qiaoshi
  */
-public class LoginActivity extends Activity implements OnClickListener, TextWatcher {
+public class LoginActivity extends AppCompatActivity implements OnClickListener, TextWatcher {
     private EditText login_number;
     private EditText login_password;
     private Button login_btn;

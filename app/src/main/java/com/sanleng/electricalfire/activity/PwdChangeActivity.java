@@ -1,8 +1,8 @@
 package com.sanleng.electricalfire.activity;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -23,7 +23,7 @@ import org.json.JSONObject;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
 
-public class PwdChangeActivity extends Activity implements OnClickListener {
+public class PwdChangeActivity extends AppCompatActivity implements OnClickListener {
 
     private EditText originalpassword;// 原密码
     private EditText newpassword;// 新密码
