@@ -42,6 +42,7 @@ public class MainActivity extends AppCompatActivity {
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_main);
         initView();
+
         setupViewPager(mVp);
         // 消息通知栏是否打开
         if (isNotificationEnabled(MainActivity.this) == false) {
