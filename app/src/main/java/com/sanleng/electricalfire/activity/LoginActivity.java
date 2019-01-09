@@ -37,7 +37,7 @@ import cn.pedant.SweetAlert.SweetAlertDialog;
 
 /**
  * 登陆界面
- *
+ *2019/1/9
  * @author qiaoshi
  */
 public class LoginActivity extends AppCompatActivity implements OnClickListener, TextWatcher {
