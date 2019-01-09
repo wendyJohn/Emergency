@@ -15,8 +15,6 @@ import android.support.design.widget.BottomNavigationView;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
-import android.view.Window;
-import android.view.WindowManager;
 
 import com.sanleng.electricalfire.R;
 import com.sanleng.electricalfire.adapter.BottomAdapter;
@@ -36,10 +34,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        this.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        this.getSupportActionBar().hide();
-        this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-                WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_main);
         initView();
 
@@ -48,8 +42,8 @@ public class MainActivity extends AppCompatActivity {
         if (isNotificationEnabled(MainActivity.this) == false) {
             new SweetAlertDialog(this, SweetAlertDialog.WARNING_TYPE)
                     .setTitleText("消息通知")
-                    .setContentText("请打开通知消息接收")
-                    .setConfirmText("确认")
+                    .setContentText("请点击设置打开通知消息接收")
+                    .setConfirmText("设置")
                     .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                         @Override
                         public void onClick(SweetAlertDialog sDialog) {

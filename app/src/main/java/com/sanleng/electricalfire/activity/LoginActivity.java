@@ -22,6 +22,7 @@ import android.widget.TextView;
 
 import com.loopj.android.http.RequestParams;
 import com.sanleng.electricalfire.R;
+import com.sanleng.electricalfire.dialog.PromptDialog;
 import com.sanleng.electricalfire.net.NetCallBack;
 import com.sanleng.electricalfire.net.RequestUtils;
 import com.sanleng.electricalfire.net.URLs;
@@ -50,7 +51,7 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener,
     private String lastAccount;
     private String lastPwd;
     private CheckBox whether_contact;
-    private SweetAlertDialog pDialoga;
+    private PromptDialog promptDialog;
 
     @Override
     protected void onCreate(Bundle arg0) {
@@ -61,6 +62,10 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener,
     }
 
     private void initView() {
+        // 创建对象
+        promptDialog = new PromptDialog(this);
+        // 设置自定义属性
+        promptDialog.getDefaultBuilder().touchAble(true).round(3).loadingDuration(2000);
         login_btn = (Button) findViewById(R.id.login_btn);
         login_number = (EditText) findViewById(R.id.login_number);
         login_password = (EditText) findViewById(R.id.login_password);
@@ -115,11 +120,7 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener,
                 RequestUtils.ClientPost(URLs.BULOGIN_URL, params, new NetCallBack() {
                     @Override
                     public void onStart() {
-                        pDialoga = new SweetAlertDialog(LoginActivity.this, SweetAlertDialog.PROGRESS_TYPE);
-                        pDialoga.getProgressHelper().setBarColor(Color.parseColor("#A5DC86"));
-                        pDialoga.setTitleText("正在登陆...");
-                        pDialoga.setCancelable(false);
-                        pDialoga.show();
+                        promptDialog.showLoading("正在登录...");
                         super.onStart();
                     }
 
@@ -135,11 +136,7 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener,
                             String msg = jsonObject.getString("msg");
 
                             if (msg.equals("登录成功")) {
-                                pDialoga.dismiss();
-                                SweetAlertDialog pDialog = new SweetAlertDialog(LoginActivity.this, SweetAlertDialog.SUCCESS_TYPE);
-                                pDialog.setTitleText("登陆成功");
-                                pDialog.show();
-
+                                promptDialog.showSuccess("登录成功");
                                 String data = jsonObject.getString("data");
                                 JSONObject object = new JSONObject(data);
                                 String unitcode = object.getString("unitcode");
@@ -165,11 +162,7 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener,
                                     }
                                 }, 1000);
                             } else {
-                                pDialoga.dismiss();
-                                SweetAlertDialog pDialog = new SweetAlertDialog(LoginActivity.this, SweetAlertDialog.ERROR_TYPE);
-                                pDialog.setTitleText("温馨提示");
-                                pDialog.setContentText(msg);
-                                pDialog.show();
+                                promptDialog.showError(msg);
                             }
 
                         } catch (JSONException e) {
@@ -180,12 +173,7 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener,
 
                     @Override
                     public void onMyFailure(Throwable arg0) {
-                        pDialoga.dismiss();
-                        SweetAlertDialog pDialog = new SweetAlertDialog(LoginActivity.this, SweetAlertDialog.ERROR_TYPE);
-                        pDialog.setTitleText("温馨提示");
-                        pDialog.setContentText("服务器请求异常");
-                        pDialog.show();
-
+                        promptDialog.showError("登录失败");
                     }
                 });
 
