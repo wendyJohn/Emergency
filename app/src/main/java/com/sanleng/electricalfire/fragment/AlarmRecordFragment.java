@@ -43,6 +43,7 @@ public class AlarmRecordFragment extends Fragment {
     private List<Map<String, Object>> allList = new ArrayList<Map<String, Object>>();
     private View view;
 
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.alarmrecordfragment, null);
@@ -60,11 +61,10 @@ public class AlarmRecordFragment extends Fragment {
     //获取历史报警信息
     private void AddPolice(int page) {
         RequestParams params = new RequestParams();
-        params.put("event_no", "142");
         params.put("pageNum", page + "");
         params.put("pageSize", "10");
         params.put("unit_code", PreferenceUtils.getString(getActivity(), "unitcode"));
-        params.put("username", PreferenceUtils.getString(getActivity(), "MobileFig_username"));
+        params.put("username", PreferenceUtils.getString(getActivity(), "ElectriFire_username"));
         params.put("platformkey", "app_firecontrol_owner");
 
         RequestUtils.ClientPost(URLs.Police_URL, params, new NetCallBack() {
@@ -78,7 +78,6 @@ public class AlarmRecordFragment extends Fragment {
                 if (result == null || result.length() == 0) {
                     return;
                 }
-                System.out.println("数据请求成功" + result);
                 try {
                     int length = 10;
                     int SIZE = 0;
@@ -95,15 +94,14 @@ public class AlarmRecordFragment extends Fragment {
                         for (int i = 0; i < array.length(); i++) {
                             object = (JSONObject) array.get(i);
                             //获取数据
-                            String unit_name = object.getString("unit_name");
                             String build_name = object.getString("build_name");
-                            String equipment_name = object.getString("equipment_name");
-                            String position = object.getString("position");
+                            String equipment_name = object.getString("detector_name");
+                            String device_name = object.getString("device_name");
                             String receive_time = object.getString("receive_time");
 
                             Map<String, Object> map = new HashMap<String, Object>();
                             map.put("name", "设备名称：" + equipment_name);
-                            map.put("postion", "设备位置：" + unit_name + build_name + position);
+                            map.put("postion", "设备位置：" + build_name + device_name);
                             map.put("time", "报警时间：" + receive_time);
                             lists.add(map);
                         }

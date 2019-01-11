@@ -19,8 +19,9 @@ import android.view.MenuItem;
 import com.sanleng.electricalfire.R;
 import com.sanleng.electricalfire.adapter.BottomAdapter;
 import com.sanleng.electricalfire.fragment.AlarmRecordFragment;
-import com.sanleng.electricalfire.fragment.E_RealTimeDataFragment;
 import com.sanleng.electricalfire.fragment.NewMineFragment;
+import com.sanleng.electricalfire.fragment.RealTimeDataFragment;
+
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -108,7 +109,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void setupViewPager(ViewPager viewPager) {
         BottomAdapter adapter = new BottomAdapter(getSupportFragmentManager());
-        adapter.addFragment(new E_RealTimeDataFragment());
+        adapter.addFragment(new RealTimeDataFragment());
         adapter.addFragment(new AlarmRecordFragment());
         adapter.addFragment(new NewMineFragment());
         viewPager.setAdapter(adapter);
