@@ -42,7 +42,6 @@ import com.sanleng.electricalfire.R;
 import com.sanleng.electricalfire.dialog.PromptDialog;
 import com.sanleng.electricalfire.util.Bimp;
 import com.sanleng.electricalfire.util.FileUtils;
-import com.sanleng.electricalfire.util.PreferenceUtils;
 import com.sanleng.electricalfire.util.RectificationUplaod;
 
 import java.io.File;
@@ -54,27 +53,28 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * 隐患整改办理
- *
+ *巡查（拍照确认）
  * @author qiaoshi
  */
-public class RectificationitemActivity extends AppCompatActivity implements OnClickListener {
+public class PatrolActivity extends AppCompatActivity implements OnClickListener {
     private RelativeLayout task_ac_back;
     private Button commit;
     private GridView noScrollgridview;
     private GridAdapter adapter;
     public File tempFile;
-    private RectificationUplaod post;
+//    private RectificationUplaod post;
     private PromptDialog promptDialog;
 
-    private String ids;
-    private String pointId;
+    private String buildids;
+    private String floorids;
+    private String electricalDetectorInfos;
+
     private EditText info_editText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.rectificationactivity);
+        setContentView(R.layout.patrolactivity);
         initview();
     }
 
@@ -98,17 +98,18 @@ public class RectificationitemActivity extends AppCompatActivity implements OnCl
         noScrollgridview.setOnItemClickListener(new OnItemClickListener() {
             public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
                 if (arg2 == Bimp.bmp.size()) {
-                    new PopupWindows(RectificationitemActivity.this, noScrollgridview);
+                    new PopupWindows(PatrolActivity.this, noScrollgridview);
                 } else {
-                    Intent intent = new Intent(RectificationitemActivity.this, PhotoActivity.class);
+                    Intent intent = new Intent(PatrolActivity.this, PhotoActivity.class);
                     intent.putExtra("ID", arg2);
                     startActivity(intent);
                 }
             }
         });
         Intent intent = getIntent();
-        ids = intent.getStringExtra("ids");
-        pointId = intent.getStringExtra("point_id");
+        buildids = intent.getStringExtra("buildids");
+        floorids = intent.getStringExtra("floorids");
+        electricalDetectorInfos = intent.getStringExtra("electricalDetectorInfos");
     }
 
     // 提交
@@ -120,8 +121,8 @@ public class RectificationitemActivity extends AppCompatActivity implements OnCl
                     Bimp.drr.get(i).lastIndexOf("."));
             list.add(FileUtils.SDPATH + Str + ".JPEG");
         }
-        post = new RectificationUplaod(RectificationitemActivity.this, list, ids,pointId, desc, PreferenceUtils.getString(RectificationitemActivity.this, "ElectriFire_username"), m_handler);
-        post.execute();
+//        post = new RectificationUplaod(PatrolActivity.this, list, buildids,floorids, desc, PreferenceUtils.getString(PatrolActivity.this, "ElectriFire_username"), m_handler);
+//        post.execute();
     }
 
     @SuppressLint("HandlerLeak")
@@ -129,7 +130,7 @@ public class RectificationitemActivity extends AppCompatActivity implements OnCl
         public void handleMessage(Message msg) {
             switch (msg.what) {
                 case 578678:
-                    new SVProgressHUD(RectificationitemActivity.this).showSuccessWithStatus("上传成功");
+                    new SVProgressHUD(PatrolActivity.this).showSuccessWithStatus("上传成功");
                     new Handler().postDelayed(new Runnable() {
                         public void run() {
                             finish();
@@ -150,7 +151,7 @@ public class RectificationitemActivity extends AppCompatActivity implements OnCl
             case R.id.commit_task:
                 String desc = info_editText.getText().toString().trim();
                 if ("".equals(desc) || desc == null) {
-                    Toast.makeText(RectificationitemActivity.this, "整改描述不能为空", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(PatrolActivity.this, "问题描述不能为空", Toast.LENGTH_SHORT).show();
                 } else {
                     doCommit();
                 }
@@ -183,7 +184,6 @@ public class RectificationitemActivity extends AppCompatActivity implements OnCl
         }
 
         public void update() {
-
             loading();
         }
 
@@ -347,10 +347,10 @@ public class RectificationitemActivity extends AppCompatActivity implements OnCl
 
         StringBuffer sDir = new StringBuffer();
         if (hasSDcard()) {
-            sDir.append(Environment.getExternalStorageDirectory() + "/EPicture/" + ids + "/");
+            sDir.append(Environment.getExternalStorageDirectory() + "/EPictures/" + buildids + "/");
         } else {
             String dataPath = Environment.getRootDirectory().getPath();
-            sDir.append(dataPath + "/EPicture/" + ids + "/");
+            sDir.append(dataPath + "/EPictures/" + buildids + "/");
         }
 
         File fileDir = new File(sDir.toString());

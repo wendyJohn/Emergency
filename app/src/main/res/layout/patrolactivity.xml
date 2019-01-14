@@ -3,18 +3,18 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
-    android:orientation="vertical" >
+    android:orientation="vertical">
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/widget_size_45"
-        android:background="@color/text_blue" >
+        android:background="@color/text_blue">
 
         <RelativeLayout
             android:id="@+id/task_ac_back"
             android:layout_width="@dimen/widget_size_45"
             android:layout_height="@dimen/widget_size_45"
-            android:background="@color/text_blue" >
+            android:background="@color/text_blue">
 
             <ImageView
                 android:id="@+id/ac_back"
@@ -35,17 +35,6 @@
                 android:textSize="@dimen/text_size_16" />
         </RelativeLayout>
 
-        <TextView
-            android:id="@+id/add_tasks"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:gravity="center"
-            android:text="清空"
-            android:textColor="@color/white"
-            android:textSize="16sp"
-            android:visibility="gone" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -53,7 +42,7 @@
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
             android:gravity="center"
-            android:text="隐患整改"
+            android:text="隐患上报"
             android:textColor="@android:color/white"
             android:textSize="@dimen/text_size_16" />
     </RelativeLayout>
@@ -62,41 +51,107 @@
         android:id="@+id/list_show"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1" >
+        android:layout_weight="1">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/white"
-            android:orientation="vertical" >
+            android:orientation="vertical">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/white"
-                android:orientation="horizontal" >
+                android:orientation="horizontal">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dip"
-                    android:orientation="vertical" >
+                    android:orientation="vertical">
 
                     <EditText
                         android:id="@+id/info_editText"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="10dip"
-                        android:layout_marginRight="10dip"
                         android:layout_marginTop="5dip"
+                        android:layout_marginRight="10dip"
                         android:gravity="left|top"
-                        android:hint="请填写整改描述......"
+                        android:hint="请填写问题描述......"
                         android:lines="5"
                         android:maxLines="5"
                         android:textColor="@color/gray"
                         android:textSize="@dimen/text_size_15" />
                 </LinearLayout>
             </LinearLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/normal_bg_color" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="3dp"
+                android:text="问题点位："/>
+            <LinearLayout
+                android:id="@+id/l_yout"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:background="@color/white"
+                android:orientation="vertical">
+
+                <RadioGroup
+                    android:id="@+id/radiogrou"
+                    android:layout_width="match_parent"
+                    android:layout_height="45dp"
+                    android:layout_marginLeft="10dp"
+                    android:gravity="center"
+                    android:checkedButton="@+id/male"
+                    android:orientation="horizontal">
+
+                    <RadioButton
+                        android:id="@+id/normal"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:button="@null"
+                        android:drawableLeft="@drawable/radio_button_state"
+                        android:text="温度"
+                        android:textColor="@color/black"
+                        android:textSize="15dp" />
+
+                    <RadioButton
+                        android:id="@+id/fault"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:button="@null"
+                        android:drawableLeft="@drawable/radio_button_state"
+                        android:text="电流"
+                        android:textColor="@color/black"
+                        android:textSize="15dp" />
+
+                    <RadioButton
+                        android:id="@+id/paralysis"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:button="@null"
+                        android:drawableLeft="@drawable/radio_button_state"
+                        android:text="剩余电流"
+                        android:textColor="@color/black"
+                        android:textSize="15dp" />
+                </RadioGroup>
+            </LinearLayout>
+
+            <View
+                android:id="@+id/viewa"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/normal_bg_color" />
 
             <GridView
                 android:id="@+id/noScrollgridview"
@@ -108,24 +163,22 @@
                 android:horizontalSpacing="3dp"
                 android:numColumns="4"
                 android:scrollbars="vertical"
-                android:verticalSpacing="5dp"
-                >
-            </GridView>
+                android:verticalSpacing="5dp"></GridView>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/white" >
+                android:background="@color/white">
 
                 <Button
                     android:id="@+id/commit_task"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/widget_size_45"
                     android:layout_gravity="center"
-                    android:layout_marginBottom="10dp"
                     android:layout_marginLeft="20dp"
-                    android:layout_marginRight="20dp"
                     android:layout_marginTop="10dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_marginBottom="10dp"
                     android:background="@drawable/login_btn_color"
                     android:gravity="center"
                     android:text="提交"

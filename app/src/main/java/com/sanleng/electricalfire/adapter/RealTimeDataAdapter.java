@@ -52,7 +52,9 @@ public class RealTimeDataAdapter extends BaseAdapter {
 
     private String c_data;
     private String c_limit;
-
+    private String buildids;
+    private String floorids;
+    private String electricalDetectorInfos;
     /**
      * bindData用来传递数据给适配器。
      *
@@ -147,6 +149,9 @@ public class RealTimeDataAdapter extends BaseAdapter {
                 Message msg = new Message();
                 Bundle data = new Bundle();
                 data.putInt("selIndex", position);
+                data.putString("electricalDetectorInfos",electricalDetectorInfos);
+                data.putString("buildids",buildids);
+                data.putString("floorids",floorids);
                 msg.setData(data);
                 msg.what = 66660;
                 handler.sendMessage(msg);
@@ -187,7 +192,7 @@ public class RealTimeDataAdapter extends BaseAdapter {
                     holder.ll_dialog_bottom.setVisibility(View.VISIBLE);
 
                     String device_id = mList.get(position).getId();
-                    final String contact_name = mList.get(position).getContact_name();
+                    String contact_name = mList.get(position).getContact_name();
                     String contact_tel = mList.get(position).getContact_tel();
                     holder.electricalmaintenance.setText("电气维修：" + contact_name);
                     holder.contactnumber.setText("电话：" + contact_tel);
@@ -216,7 +221,9 @@ public class RealTimeDataAdapter extends BaseAdapter {
                                     JSONObject Object = new JSONObject(data);
                                     String build_name = Object.getString("build_name");
                                     String device_name = Object.getString("device_name");
-                                    String electricalDetectorInfos = Object.getString("electricalDetectorInfos");
+                                    buildids = Object.getString("buildids");
+                                    floorids = Object.getString("floorids");
+                                   electricalDetectorInfos = Object.getString("electricalDetectorInfos");
                                     JSONArray array = new JSONArray(electricalDetectorInfos);
                                     JSONObject object;
                                     for (int i = 0; i < array.length(); i++) {

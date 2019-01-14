@@ -100,7 +100,6 @@ public class PendingActivity extends AppCompatActivity implements View.OnClickLi
                                 mylist.add(map);
                             }
                         }
-
                         pendinglistview.setEmptyView(findViewById(R.id.nodata));
                         pendingAdapter = new PendingAdapter(PendingActivity.this, mylist, mHandler);
                         pendinglistview.setAdapter(pendingAdapter);

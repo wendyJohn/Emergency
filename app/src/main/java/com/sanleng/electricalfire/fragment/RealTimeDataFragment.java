@@ -21,6 +21,7 @@ import android.widget.Toast;
 
 import com.loopj.android.http.RequestParams;
 import com.sanleng.electricalfire.R;
+import com.sanleng.electricalfire.activity.PatrolActivity;
 import com.sanleng.electricalfire.activity.PendingActivity;
 import com.sanleng.electricalfire.activity.TimePumpingActivity;
 import com.sanleng.electricalfire.adapter.RealTimeDataAdapter;
@@ -233,7 +234,14 @@ public class RealTimeDataFragment extends BaseFragment implements OnClickListene
                 // 拍照确认
                 case 66660:
                     int selIndex = data.getInt("selIndex");
-
+                    String buildids= data.getString("buildids");
+                    String floorids= data.getString("floorids");
+                    String electricalDetectorInfos= data.getString("electricalDetectorInfos");
+                    Intent intent_Patrol = new Intent(getActivity(), PatrolActivity.class);
+                    intent_Patrol.putExtra("buildids", buildids);
+                    intent_Patrol.putExtra("floorids", floorids);
+                    intent_Patrol.putExtra("electricalDetectorInfos", electricalDetectorInfos);
+                    startActivity(intent_Patrol);
                     break;
                 //待处理
                 case 66661:

@@ -33,7 +33,7 @@ public class WelcomeActivity extends AppCompatActivity {
                         startActivity(intent);
                         finish();
                     }
-                }, 1000);
+                }, 800);
             }
         });
         mPv.postDelayed(new Runnable() {
@@ -41,6 +41,6 @@ public class WelcomeActivity extends AppCompatActivity {
             public void run() {
                 mPv.startAnim();
             }
-        }, 1000);
+        }, 800);
     }
 }

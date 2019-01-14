@@ -55,6 +55,10 @@
         <activity
             android:name=".activity.PhotoActivity"
             android:screenOrientation="portrait" />
+        <!-- 巡查（拍照确认） -->
+        <activity
+            android:name=".activity.PatrolActivity"
+            android:screenOrientation="portrait" />
         <!-- 历史轨迹 -->
         <activity
             android:name=".activity.TimePumpingActivity"
