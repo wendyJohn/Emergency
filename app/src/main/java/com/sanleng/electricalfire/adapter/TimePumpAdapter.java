@@ -52,13 +52,12 @@ public class TimePumpAdapter extends BaseAdapter {
             viewHolder.tvContent = (TextView) convertView.findViewById(R.id.tv_content);
             viewHolder.tv_time = (TextView) convertView.findViewById(R.id.tv_time);
 
-            viewHolder.tvContent.setText(list.get(position).get("content").toString());
+            viewHolder.tvContent.setText(list.get(position).get("content").toString() + "异常");
             viewHolder.tv_time.setText(list.get(position).get("time").toString());
 
             convertView.setTag(viewHolder);
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
-
         }
         return convertView;
     }

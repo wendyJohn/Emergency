@@ -8,16 +8,15 @@
         android:id="@+id/top_line"
         android:layout_width="2dp"
         android:layout_height="35dp"
-        android:layout_marginLeft="50dp"
+        android:layout_centerHorizontal="true"
         android:background="@color/gray" />
 
     <ImageView
         android:id="@+id/img_icon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
         android:layout_below="@+id/top_line"
-        android:layout_marginLeft="40dp"
+        android:layout_centerHorizontal="true"
         android:src="@drawable/timeline_green" />
 
     <TextView
@@ -25,7 +24,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/top_line"
-        android:layout_marginLeft="10dp"
+        android:layout_toLeftOf="@+id/img_icon"
+        android:layout_marginRight="10dp"
         android:text="时间" />
 
     <View
@@ -34,20 +34,16 @@
         android:layout_height="50dp"
         android:layout_below="@id/img_icon"
         android:layout_marginLeft="50dp"
+        android:layout_centerHorizontal="true"
         android:background="@color/gray" />
 
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_below="@id/top_line"
-        android:layout_marginLeft="65dp"
-        android:background="@drawable/timeline_content"
+        android:layout_toRightOf="@+id/img_icon"
+        android:layout_marginLeft="10dp"
         android:orientation="horizontal" >
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_launcher" />
 
         <TextView
             android:id="@+id/tv_content"

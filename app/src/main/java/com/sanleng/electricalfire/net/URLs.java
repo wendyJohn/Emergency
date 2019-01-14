@@ -36,5 +36,8 @@ public class URLs {
     public static String ElectricalFire_URL = HOST + "/kspf/app/gsm/update";
     // 电气火灾时间轴数据
     public static String TIMEPUMP_URL = HOST + "/kspf/app/electricalfire/trajectory";
+    // 电气火灾隐患整改
+    public static String Rectification_URL = HOST + "/kspf/app/electricalfire/recordfinish";
+
 
 }

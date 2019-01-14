@@ -40,14 +40,14 @@
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
             android:gravity="center"
-            android:text="历史轨迹"
+            android:text="隐患处理"
             android:textColor="@android:color/white"
-            android:textSize="15sp" />
+            android:textSize="@dimen/text_size_15" />
     </RelativeLayout>
 
 
     <ListView
-        android:id="@+id/timepumplistview"
+        android:id="@+id/pendinglistview"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 

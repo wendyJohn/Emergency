@@ -35,21 +35,34 @@
             </intent-filter>
         </activity>
 
-
         <!-- 登录 -->
         <activity
             android:name=".activity.LoginActivity"
-            android:screenOrientation="portrait"
-           />
+            android:screenOrientation="portrait" />
         <!-- 首页 -->
         <activity
             android:name=".activity.MainActivity"
             android:screenOrientation="portrait" />
+        <!-- 隐患列表 -->
+        <activity
+            android:name=".activity.PendingActivity"
+            android:screenOrientation="portrait" />
+        <!-- 隐患处理 -->
+        <activity
+            android:name=".activity.RectificationitemActivity"
+            android:screenOrientation="portrait" />
+        <!-- 照片查看 -->
+        <activity
+            android:name=".activity.PhotoActivity"
+            android:screenOrientation="portrait" />
+        <!-- 历史轨迹 -->
+        <activity
+            android:name=".activity.TimePumpingActivity"
+            android:screenOrientation="portrait" />
         <!-- 密码修改 -->
         <activity
             android:name=".activity.PwdChangeActivity"
-            android:screenOrientation="portrait"
-            />
+            android:screenOrientation="portrait" />
         <!-- 替换原生极光推送接收器 -->
         <receiver
             android:name=".jpush.MyReceiver"

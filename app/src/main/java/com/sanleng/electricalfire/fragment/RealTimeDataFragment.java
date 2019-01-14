@@ -21,6 +21,8 @@ import android.widget.Toast;
 
 import com.loopj.android.http.RequestParams;
 import com.sanleng.electricalfire.R;
+import com.sanleng.electricalfire.activity.PendingActivity;
+import com.sanleng.electricalfire.activity.TimePumpingActivity;
 import com.sanleng.electricalfire.adapter.RealTimeDataAdapter;
 import com.sanleng.electricalfire.bean.ERealTimeDataBean;
 import com.sanleng.electricalfire.myview.MarqueeViews;
@@ -83,13 +85,14 @@ public class RealTimeDataFragment extends BaseFragment implements OnClickListene
         getActivity().registerReceiver(receivers, intentFilter, BROADCAST_PERMISSION_DISC, null);
         marqueeviews = (MarqueeViews) view.findViewById(R.id.marqueeviews);
         realtimedataAdapter = new RealTimeDataAdapter();
+
+        allList = new ArrayList<>();
+        pageNo = 1;
+        loadData(1);
     }
 
     @Override
     public void onResume() {
-        allList = new ArrayList<>();
-        pageNo = 1;
-        loadData(1);
         addPolice();
         super.onResume();
     }
@@ -183,7 +186,7 @@ public class RealTimeDataFragment extends BaseFragment implements OnClickListene
                                 } else if (pageNo > allpage && finish) {
                                     finish = false;
                                     // 如果pageNo>allpage则表示，服务端没有更多的数据可供加载了。
-                                    Toast.makeText(getActivity(), "加载完了！", Toast.LENGTH_SHORT).show();
+//                                    Toast.makeText(getActivity(), "加载完了！", Toast.LENGTH_SHORT).show();
                                 }
                             }
 
@@ -235,13 +238,18 @@ public class RealTimeDataFragment extends BaseFragment implements OnClickListene
                 //待处理
                 case 66661:
                     int selIndexs = data.getInt("selIndex");
-
+                    String deviceIds = allList.get(selIndexs).getId();
+                    Intent intents = new Intent(getActivity(), PendingActivity.class);
+                    intents.putExtra("deviceid", deviceIds);
+                    startActivity(intents);
                     break;
                 //历史轨迹
                 case 66662:
                     int selIndex_p = data.getInt("selIndex");
-
-
+                    String deviceId = allList.get(selIndex_p).getId();
+                    Intent intent = new Intent(getActivity(), TimePumpingActivity.class);
+                    intent.putExtra("deviceid", deviceId);
+                    startActivity(intent);
                     break;
                 default:
                     break;
