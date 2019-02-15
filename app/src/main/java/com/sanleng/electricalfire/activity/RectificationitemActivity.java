@@ -38,6 +38,7 @@ import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.bigkoo.svprogresshud.SVProgressHUD;
+import com.jaeger.library.StatusBarUtil;
 import com.sanleng.electricalfire.R;
 import com.sanleng.electricalfire.dialog.PromptDialog;
 import com.sanleng.electricalfire.util.Bimp;
@@ -71,10 +72,12 @@ public class RectificationitemActivity extends AppCompatActivity implements OnCl
     private String pointId;
     private EditText info_editText;
 
+    @SuppressLint("ResourceAsColor")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.rectificationactivity);
+        StatusBarUtil.setColor(RectificationitemActivity.this,R.color.translucency);
         initview();
     }
 

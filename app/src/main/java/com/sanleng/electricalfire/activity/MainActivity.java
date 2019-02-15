@@ -15,10 +15,14 @@ import android.support.design.widget.BottomNavigationView;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.LinearLayout;
 
+import com.jaeger.library.StatusBarUtil;
 import com.sanleng.electricalfire.R;
 import com.sanleng.electricalfire.adapter.BottomAdapter;
 import com.sanleng.electricalfire.fragment.AlarmRecordFragment;
+import com.sanleng.electricalfire.fragment.HomeFragment;
 import com.sanleng.electricalfire.fragment.NewMineFragment;
 import com.sanleng.electricalfire.fragment.RealTimeDataFragment;
 
@@ -28,16 +32,18 @@ import java.lang.reflect.Method;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements View.OnClickListener{
     private ViewPager mVp;
     private BottomNavigationView mBv;
+    static LinearLayout linearLayout;
 
+    @SuppressLint("ResourceAsColor")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        StatusBarUtil.setColor(MainActivity.this,R.color.translucency);
         initView();
-
         setupViewPager(mVp);
         // 消息通知栏是否打开
         if (isNotificationEnabled(MainActivity.this) == false) {
@@ -61,6 +67,9 @@ public class MainActivity extends AppCompatActivity {
     //初始化数据
     @SuppressLint("ClickableViewAccessibility")
     private void initView() {
+        linearLayout = (LinearLayout) findViewById(R.id.login_delete);
+        findViewById(R.id.home_close).setOnClickListener(this);
+        findViewById(R.id.home_delete).setOnClickListener(this);
         mBv = (BottomNavigationView) findViewById(R.id.bv);
         mBv.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
         mVp = (ViewPager) findViewById(R.id.vp);
@@ -102,6 +111,9 @@ public class MainActivity extends AppCompatActivity {
                 case R.id.item_tab3:
                     mVp.setCurrentItem(2);
                     return true;
+                case R.id.item_tab4:
+                    mVp.setCurrentItem(3);
+                    return true;
             }
             return false;
         }
@@ -109,6 +121,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void setupViewPager(ViewPager viewPager) {
         BottomAdapter adapter = new BottomAdapter(getSupportFragmentManager());
+        adapter.addFragment(new HomeFragment());
         adapter.addFragment(new RealTimeDataFragment());
         adapter.addFragment(new AlarmRecordFragment());
         adapter.addFragment(new NewMineFragment());
@@ -184,5 +197,32 @@ public class MainActivity extends AppCompatActivity {
         }
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         context.startActivity(intent);
+    }
+
+    @SuppressLint("HandlerLeak")
+    public static Handler handler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            linearLayout.setVisibility(View.VISIBLE);
+        }
+    };
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.home_close:
+                Message msg1 = new Message();
+                msg1.what = 1;// qux
+                new HomeFragment().handler.sendMessage(msg1);
+                linearLayout.setVisibility(View.GONE);
+                break;
+            case R.id.home_delete:
+                Message msg2 = new Message();
+                msg2.what = 2;// 删除
+                new HomeFragment().handler.sendMessage(msg2);
+                linearLayout.setVisibility(View.GONE);
+                break;
+        }
     }
 }

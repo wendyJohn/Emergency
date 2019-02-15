@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 
+import com.jaeger.library.StatusBarUtil;
 import com.loopj.android.http.RequestParams;
 import com.sanleng.electricalfire.R;
 import com.sanleng.electricalfire.adapter.PendingAdapter;
@@ -37,10 +38,12 @@ public class PendingActivity extends AppCompatActivity implements View.OnClickLi
     private List<HashMap<String, Object>> mylist;
     private PendingAdapter pendingAdapter;
 
+    @SuppressLint("ResourceAsColor")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.pendingactivity);
+        StatusBarUtil.setColor(PendingActivity.this,R.color.translucency);
         initView();
         addData();
     }

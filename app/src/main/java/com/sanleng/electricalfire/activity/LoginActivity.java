@@ -20,6 +20,7 @@ import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.jaeger.library.StatusBarUtil;
 import com.loopj.android.http.RequestParams;
 import com.sanleng.electricalfire.R;
 import com.sanleng.electricalfire.dialog.PromptDialog;
@@ -53,11 +54,13 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener,
     private CheckBox whether_contact;
     private PromptDialog promptDialog;
 
+    @SuppressLint("ResourceAsColor")
     @Override
     protected void onCreate(Bundle arg0) {
         super.onCreate(arg0);
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
         setContentView(R.layout.login_activity);
+        StatusBarUtil.setColor(LoginActivity.this,R.color.translucency);
         initView();
     }
 
@@ -100,7 +103,7 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener,
             if (!StringUtils.isEmpty(lastAccount) && !StringUtils.isEmpty(lastPwd)) {
                 login_number.setText(lastAccount);
                 login_password.setText(lastPwd);
-                Intent intent_pwdchange = new Intent(LoginActivity.this, MainActivity.class);
+                Intent intent_pwdchange = new Intent(LoginActivity.this, MainTabActivity.class);
                 startActivity(intent_pwdchange);
                 finish();
             }

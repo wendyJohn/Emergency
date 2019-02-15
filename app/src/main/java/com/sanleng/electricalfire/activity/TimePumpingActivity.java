@@ -1,5 +1,6 @@
 package com.sanleng.electricalfire.activity;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -7,6 +8,7 @@ import android.view.View;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 
+import com.jaeger.library.StatusBarUtil;
 import com.loopj.android.http.RequestParams;
 import com.sanleng.electricalfire.R;
 import com.sanleng.electricalfire.adapter.TimePumpAdapter;
@@ -35,10 +37,12 @@ public class TimePumpingActivity extends AppCompatActivity {
     private List<HashMap<String, Object>> mylist;
     private RelativeLayout task_ac_back;
 
+    @SuppressLint("ResourceAsColor")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.timepumpactivity);
+        StatusBarUtil.setColor(TimePumpingActivity.this,R.color.translucency);
         initView();
     }
 

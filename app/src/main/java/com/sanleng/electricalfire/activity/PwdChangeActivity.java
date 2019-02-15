@@ -1,5 +1,6 @@
 package com.sanleng.electricalfire.activity;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -11,6 +12,7 @@ import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
+import com.jaeger.library.StatusBarUtil;
 import com.loopj.android.http.RequestParams;
 import com.sanleng.electricalfire.R;
 import com.sanleng.electricalfire.net.NetCallBack;
@@ -32,10 +34,12 @@ public class PwdChangeActivity extends AppCompatActivity implements OnClickListe
     private RelativeLayout task_ac_back;
     private SweetAlertDialog sweetAlertDialog;
 
+    @SuppressLint("ResourceAsColor")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.passwordmodificationactivity);
+        StatusBarUtil.setColor(PwdChangeActivity.this,R.color.translucency);
         initView();
         initListener();
     }

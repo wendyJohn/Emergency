@@ -1,5 +1,6 @@
 package com.sanleng.electricalfire.activity;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -14,6 +15,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.jaeger.library.StatusBarUtil;
 import com.sanleng.electricalfire.R;
 import com.sanleng.electricalfire.util.Bimp;
 import com.sanleng.electricalfire.util.FileUtils;
@@ -38,9 +40,11 @@ public class PhotoActivity extends Activity {
 	private TextView tvDescription;
 	private ArrayList<String> list = new ArrayList<String>();
 
+	@SuppressLint("ResourceAsColor")
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_photo);
+		StatusBarUtil.setColor(PhotoActivity.this,R.color.translucency);
 		tvDescription = (TextView) findViewById(R.id.tv_image_description);
 		photo_relativeLayout = (RelativeLayout) findViewById(R.id.photo_relativeLayout);
 		photo_relativeLayout.setBackgroundColor(0x70000000);

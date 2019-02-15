@@ -3,13 +3,18 @@
     <item
         android:id="@+id/item_tab1"
         android:icon="@drawable/taba"
-        android:title="实时监控" />
+        android:title="首页" />
     <item
         android:id="@+id/item_tab2"
         android:icon="@drawable/tabb"
-        android:title="历史数据" />
+        android:title="远程监控" />
     <item
         android:id="@+id/item_tab3"
         android:icon="@drawable/tabc"
-        android:title="个人中心" />
+        android:title="事件" />
+
+    <item
+        android:id="@+id/item_tab4"
+        android:icon="@drawable/tabd"
+        android:title="个人" />
 </menu>

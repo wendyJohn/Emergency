@@ -43,6 +43,15 @@
         <activity
             android:name=".activity.MainActivity"
             android:screenOrientation="portrait" />
+        <!-- 首页 -->
+        <activity
+            android:name=".activity.MainTabActivity"
+            android:screenOrientation="portrait" />
+        <!-- 校园安全_更多 -->
+        <activity
+            android:name=".activity.SearchActivity"
+            android:screenOrientation="portrait" />
+
         <!-- 隐患列表 -->
         <activity
             android:name=".activity.PendingActivity"
