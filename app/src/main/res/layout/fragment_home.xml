@@ -102,9 +102,9 @@
                     android:text="应急宣传"
                     android:textSize="@dimen/text_size_16"
                     android:textColor="@color/black" />
-
-
             </LinearLayout>
+
+            <include layout="@layout/index_education_list" />
 
         </LinearLayout>
     </ScrollView>

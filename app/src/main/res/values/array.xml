@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- 消防安全 -->
+    <string-array name="myfunction_firsafetyname">
+        <item>主机监测</item>
+        <item>水系统</item>
+        <item>防排烟</item>
+        <item>防火门</item>
+        <item>视频应用</item>
+        <item>主机自检</item>
+    </string-array>
+
+    <string-array name="myfunction_firsafetyicon">
+        <item>@drawable/whole</item>
+        <item>@drawable/whole</item>
+        <item>@drawable/whole</item>
+        <item>@drawable/whole</item>
+        <item>@drawable/whole</item>
+        <item>@drawable/whole</item>
+    </string-array>
+
+    <!-- 安全巡查 -->
+    <string-array name="myfunction_safetypatrolname">
+        <item>巡查任务</item>
+        <item>巡查点扫描</item>
+        <item>隐患整改</item>
+        <item>巡查记录</item>
+        <item>巡查助手</item>
+    </string-array>
+
+    <string-array name="myfunction_safetypatrolicon">
+        <item>@drawable/whole</item>
+        <item>@drawable/whole</item>
+        <item>@drawable/whole</item>
+        <item>@drawable/whole</item>
+        <item>@drawable/whole</item>
+    </string-array>
+
+
+</resources>

@@ -14,7 +14,9 @@ import android.widget.AdapterView;
 import android.widget.TextView;
 
 import com.sanleng.electricalfire.R;
+import com.sanleng.electricalfire.activity.FirsafetyAtivity;
 import com.sanleng.electricalfire.activity.MainActivity;
+import com.sanleng.electricalfire.activity.SafetyPatrolAtivity;
 import com.sanleng.electricalfire.activity.SearchActivity;
 import com.sanleng.electricalfire.adapter.HomeAdapter;
 import com.sanleng.electricalfire.bean.UserBean;
@@ -163,7 +165,8 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
 
                 }
                 if (name.equals("消防安全")) {
-
+                Intent intent_Firsafety =new Intent(getActivity(),FirsafetyAtivity.class);
+                startActivity(intent_Firsafety);
                 }
                 if (name.equals("安防监控")) {
 
@@ -172,7 +175,8 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
 
                 }
                 if (name.equals("安全巡查")) {
-
+                    Intent intent_SafetyPatrol =new Intent(getActivity(),SafetyPatrolAtivity.class);
+                    startActivity(intent_SafetyPatrol);
                 }
                 if (name.equals("预警事件")) {
 

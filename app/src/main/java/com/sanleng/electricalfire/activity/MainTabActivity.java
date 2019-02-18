@@ -1,5 +1,6 @@
 package com.sanleng.electricalfire.activity;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -9,7 +10,9 @@ import android.view.View;
 import android.view.Window;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
+import com.jaeger.library.StatusBarUtil;
 import com.sanleng.electricalfire.R;
 import com.sanleng.electricalfire.fragment.AlarmRecordFragment;
 import com.sanleng.electricalfire.fragment.HomeFragment;
@@ -19,7 +22,7 @@ import com.sanleng.electricalfire.fragment.RealTimeDataFragment;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainTabActivity  extends FragmentActivity implements View.OnClickListener {
+public class MainTabActivity extends FragmentActivity implements View.OnClickListener {
     //声明ViewPager
     private ViewPager mViewPager;
     //适配器
@@ -38,12 +41,19 @@ public class MainTabActivity  extends FragmentActivity implements View.OnClickLi
     private ImageButton mImgFrd;
     private ImageButton mImgAddress;
     private ImageButton mImgSetting;
+    //四个Tab对应的TextView
+    private TextView texttab_a;
+    private TextView texttab_b;
+    private TextView texttab_c;
+    private TextView texttab_d;
 
+    @SuppressLint("ResourceAsColor")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_maintab);
+        StatusBarUtil.setColor(MainTabActivity.this,R.color.translucency);
         initViews();//初始化控件
         initEvents();//初始化事件
         initDatas();//初始化数据
@@ -108,18 +118,21 @@ public class MainTabActivity  extends FragmentActivity implements View.OnClickLi
 
     //初始化控件
     private void initViews() {
-        mViewPager = (ViewPager) findViewById(R.id.id_viewpager);
+        mViewPager = findViewById(R.id.id_viewpager);
 
-        mTabWeixin = (LinearLayout) findViewById(R.id.id_tab_weixin);
-        mTabFrd = (LinearLayout) findViewById(R.id.id_tab_frd);
-        mTabAddress = (LinearLayout) findViewById(R.id.id_tab_address);
-        mTabSetting = (LinearLayout) findViewById(R.id.id_tab_setting);
+        mTabWeixin = findViewById(R.id.id_tab_weixin);
+        mTabFrd = findViewById(R.id.id_tab_frd);
+        mTabAddress = findViewById(R.id.id_tab_address);
+        mTabSetting = findViewById(R.id.id_tab_setting);
 
-        mImgWeixin = (ImageButton) findViewById(R.id.id_tab_weixin_img);
-        mImgFrd = (ImageButton) findViewById(R.id.id_tab_frd_img);
-        mImgAddress = (ImageButton) findViewById(R.id.id_tab_address_img);
-        mImgSetting = (ImageButton) findViewById(R.id.id_tab_setting_img);
-
+        mImgWeixin = findViewById(R.id.id_tab_weixin_img);
+        mImgFrd = findViewById(R.id.id_tab_frd_img);
+        mImgAddress = findViewById(R.id.id_tab_address_img);
+        mImgSetting = findViewById(R.id.id_tab_setting_img);
+        texttab_a = findViewById(R.id.texttab_a);
+        texttab_b = findViewById(R.id.texttab_b);
+        texttab_c = findViewById(R.id.texttab_c);
+        texttab_d = findViewById(R.id.texttab_d);
     }
 
     @Override
@@ -144,20 +157,37 @@ public class MainTabActivity  extends FragmentActivity implements View.OnClickLi
         }
     }
 
+    @SuppressLint("ResourceAsColor")
     private void selectTab(int i) {
-        //根据点击的Tab设置对应的ImageButton为绿色
+        //根据点击的Tab设置对应的ImageButton为蓝色
         switch (i) {
             case 0:
                 mImgWeixin.setImageResource(R.drawable.emergencya_in);
+                texttab_a.setTextColor(MainTabActivity.this.getResources().getColor(R.color.text_blue));
+                texttab_b.setTextColor(MainTabActivity.this.getResources().getColor(R.color.gray));
+                texttab_c.setTextColor(MainTabActivity.this.getResources().getColor(R.color.gray));
+                texttab_d.setTextColor(MainTabActivity.this.getResources().getColor(R.color.gray));
                 break;
             case 1:
                 mImgFrd.setImageResource(R.drawable.emergencyb_in);
+                texttab_a.setTextColor(MainTabActivity.this.getResources().getColor(R.color.gray));
+                texttab_b.setTextColor(MainTabActivity.this.getResources().getColor(R.color.text_blue));
+                texttab_c.setTextColor(MainTabActivity.this.getResources().getColor(R.color.gray));
+                texttab_d.setTextColor(MainTabActivity.this.getResources().getColor(R.color.gray));
                 break;
             case 2:
                 mImgAddress.setImageResource(R.drawable.emergencyc_in);
+                texttab_a.setTextColor(MainTabActivity.this.getResources().getColor(R.color.gray));
+                texttab_b.setTextColor(MainTabActivity.this.getResources().getColor(R.color.gray));
+                texttab_c.setTextColor(MainTabActivity.this.getResources().getColor(R.color.text_blue));
+                texttab_d.setTextColor(MainTabActivity.this.getResources().getColor(R.color.gray));
                 break;
             case 3:
                 mImgSetting.setImageResource(R.drawable.emergencyd_in);
+                texttab_a.setTextColor(MainTabActivity.this.getResources().getColor(R.color.gray));
+                texttab_b.setTextColor(MainTabActivity.this.getResources().getColor(R.color.gray));
+                texttab_c.setTextColor(MainTabActivity.this.getResources().getColor(R.color.gray));
+                texttab_d.setTextColor(MainTabActivity.this.getResources().getColor(R.color.text_blue));
                 break;
         }
         //设置当前点击的Tab所对应的页面
@@ -165,6 +195,7 @@ public class MainTabActivity  extends FragmentActivity implements View.OnClickLi
     }
 
     //将四个ImageButton设置为灰色
+    @SuppressLint("ResourceAsColor")
     private void resetImgs() {
         mImgWeixin.setImageResource(R.drawable.emergencya_on);
         mImgFrd.setImageResource(R.drawable.emergencyb_on);

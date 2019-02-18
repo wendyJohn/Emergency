@@ -51,7 +51,14 @@
         <activity
             android:name=".activity.SearchActivity"
             android:screenOrientation="portrait" />
-
+        <!-- 校园安全_消防安全 -->
+        <activity
+            android:name=".activity.FirsafetyAtivity"
+            android:screenOrientation="portrait" />
+        <!-- 校园安全_安全巡查 -->
+        <activity
+            android:name=".activity.SafetyPatrolAtivity"
+            android:screenOrientation="portrait" />
         <!-- 隐患列表 -->
         <activity
             android:name=".activity.PendingActivity"

@@ -23,6 +23,7 @@
             android:src="@drawable/emergencya_in"
             android:background="#00000000"/>
         <TextView
+            android:id="@+id/texttab_a"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/text_blue"
@@ -44,8 +45,10 @@
             android:src="@drawable/emergencyb_on"
             android:background="#00000000"/>
         <TextView
+            android:id="@+id/texttab_b"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textColor="@color/gray"
             android:text="远程监控"/>
     </LinearLayout>
     <LinearLayout
@@ -64,8 +67,10 @@
             android:src="@drawable/emergencyc_on"
             android:background="#00000000"/>
         <TextView
+            android:id="@+id/texttab_c"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textColor="@color/gray"
             android:text="事件"/>
     </LinearLayout>
     <LinearLayout
@@ -84,8 +89,10 @@
             android:src="@drawable/emergencyd_on"
             android:background="@color/white"/>
         <TextView
+            android:id="@+id/texttab_d"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textColor="@color/gray"
             android:text="个人"/>
     </LinearLayout>
 
