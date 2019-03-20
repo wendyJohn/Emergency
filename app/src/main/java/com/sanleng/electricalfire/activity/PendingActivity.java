@@ -11,18 +11,8 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 
 import com.jaeger.library.StatusBarUtil;
-import com.loopj.android.http.RequestParams;
 import com.sanleng.electricalfire.R;
 import com.sanleng.electricalfire.adapter.PendingAdapter;
-import com.sanleng.electricalfire.adapter.TimePumpAdapter;
-import com.sanleng.electricalfire.net.NetCallBack;
-import com.sanleng.electricalfire.net.RequestUtils;
-import com.sanleng.electricalfire.net.URLs;
-import com.sanleng.electricalfire.util.PreferenceUtils;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -43,9 +33,9 @@ public class PendingActivity extends AppCompatActivity implements View.OnClickLi
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.pendingactivity);
-        StatusBarUtil.setColor(PendingActivity.this,R.color.translucency);
+        StatusBarUtil.setColor(PendingActivity.this, R.color.translucency);
         initView();
-        addData();
+//        addData();
     }
 
     //初始化数据
@@ -57,68 +47,68 @@ public class PendingActivity extends AppCompatActivity implements View.OnClickLi
     }
 
     //获取隐患事件
-    private void addData() {
-        Intent intent = getIntent();
-        deviceid = intent.getStringExtra("deviceid");
-        RequestParams params = new RequestParams();
-        params.put("deviceId", deviceid);
-        params.put("username", PreferenceUtils.getString(PendingActivity.this, "ElectriFire_username"));
-        params.put("platformkey", "app_firecontrol_owner");
-        RequestUtils.ClientPost(URLs.TIMEPUMP_URL, params, new NetCallBack() {
-            @Override
-            public void onStart() {
-                super.onStart();
-            }
-
-            @Override
-            public void onMySuccess(String result) {
-                if (result == null || result.length() == 0) {
-                    return;
-                }
-                System.out.println("数据请求成功" + result);
-                try {
-                    JSONObject jsonObject = new JSONObject(result);
-                    String msg = jsonObject.getString("msg");
-                    if (msg.equals("获取成功！")) {
-                        String data = jsonObject.getString("data");
-                        JSONArray array = new JSONArray(data);
-                        JSONObject object;
-                        for (int i = 0; i < array.length(); i++) {
-                            HashMap<String, Object> map = new HashMap<>();
-                            object = (JSONObject) array.get(i);
-                            String state = object.getString("state");
-                            if (state.equals("1")) {
-                                String point_id = object.getString("point_id");
-                                String build_name = object.getString("build_name");
-                                String device_name = object.getString("device_name");
-                                String receive_time = object.getString("receive_time");
-                                String detector_name = object.getString("detector_name");
-                                String ids = object.getString("ids");
-
-                                map.put("point_id", point_id);
-                                map.put("name", detector_name);
-                                map.put("postion", build_name + device_name);
-                                map.put("time", receive_time);
-                                map.put("ids", ids);
-                                mylist.add(map);
-                            }
-                        }
-                        pendinglistview.setEmptyView(findViewById(R.id.nodata));
-                        pendingAdapter = new PendingAdapter(PendingActivity.this, mylist, mHandler);
-                        pendinglistview.setAdapter(pendingAdapter);
-                    }
-
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-
-            }
-
-            @Override
-            public void onMyFailure(Throwable arg0) {
-            }
-        });
-    }
+//    private void addData() {
+//        Intent intent = getIntent();
+//        deviceid = intent.getStringExtra("deviceid");
+//        RequestParams params = new RequestParams();
+//        params.put("deviceId", deviceid);
+//        params.put("username", PreferenceUtils.getString(PendingActivity.this, "ElectriFire_username"));
+//        params.put("platformkey", "app_firecontrol_owner");
+//        RequestUtils.ClientPost(URLs.TIMEPUMP_URL, params, new NetCallBack() {
+//            @Override
+//            public void onStart() {
+//                super.onStart();
+//            }
+//
+//            @Override
+//            public void onMySuccess(String result) {
+//                if (result == null || result.length() == 0) {
+//                    return;
+//                }
+//                System.out.println("数据请求成功" + result);
+//                try {
+//                    JSONObject jsonObject = new JSONObject(result);
+//                    String msg = jsonObject.getString("msg");
+//                    if (msg.equals("获取成功！")) {
+//                        String data = jsonObject.getString("data");
+//                        JSONArray array = new JSONArray(data);
+//                        JSONObject object;
+//                        for (int i = 0; i < array.length(); i++) {
+//                            HashMap<String, Object> map = new HashMap<>();
+//                            object = (JSONObject) array.get(i);
+//                            String state = object.getString("state");
+//                            if (state.equals("1")) {
+//                                String point_id = object.getString("point_id");
+//                                String build_name = object.getString("build_name");
+//                                String device_name = object.getString("device_name");
+//                                String receive_time = object.getString("receive_time");
+//                                String detector_name = object.getString("detector_name");
+//                                String ids = object.getString("ids");
+//
+//                                map.put("point_id", point_id);
+//                                map.put("name", detector_name);
+//                                map.put("postion", build_name + device_name);
+//                                map.put("time", receive_time);
+//                                map.put("ids", ids);
+//                                mylist.add(map);
+//                            }
+//                        }
+//                        pendinglistview.setEmptyView(findViewById(R.id.nodata));
+//                        pendingAdapter = new PendingAdapter(PendingActivity.this, mylist, mHandler);
+//                        pendinglistview.setAdapter(pendingAdapter);
+//                    }
+//
+//                } catch (JSONException e) {
+//                    e.printStackTrace();
+//                }
+//
+//            }
+//
+//            @Override
+//            public void onMyFailure(Throwable arg0) {
+//            }
+//        });
+//    }
 
 
     @SuppressLint("HandlerLeak")

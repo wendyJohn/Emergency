@@ -11,12 +11,12 @@
     </string-array>
 
     <string-array name="myfunction_firsafetyicon">
-        <item>@drawable/whole</item>
-        <item>@drawable/whole</item>
-        <item>@drawable/whole</item>
-        <item>@drawable/whole</item>
-        <item>@drawable/whole</item>
-        <item>@drawable/whole</item>
+        <item>@drawable/hm_icon</item>
+        <item>@drawable/ws_icon</item>
+        <item>@drawable/s_icon</item>
+        <item>@drawable/fp_icon</item>
+        <item>@drawable/vp_icon</item>
+        <item>@drawable/hsc_icon</item>
     </string-array>
 
     <!-- 安全巡查 -->
@@ -29,11 +29,11 @@
     </string-array>
 
     <string-array name="myfunction_safetypatrolicon">
-        <item>@drawable/whole</item>
-        <item>@drawable/whole</item>
-        <item>@drawable/whole</item>
-        <item>@drawable/whole</item>
-        <item>@drawable/whole</item>
+        <item>@drawable/pt_ion</item>
+        <item>@drawable/ppc_icon</item>
+        <item>@drawable/hdr_icon</item>
+        <item>@drawable/pr_icon</item>
+        <item>@drawable/pa_icon</item>
     </string-array>
 
 

@@ -213,7 +213,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         switch (v.getId()) {
             case R.id.home_close:
                 Message msg1 = new Message();
-                msg1.what = 1;// qux
+                msg1.what = 1;// 取消
                 new HomeFragment().handler.sendMessage(msg1);
                 linearLayout.setVisibility(View.GONE);
                 break;

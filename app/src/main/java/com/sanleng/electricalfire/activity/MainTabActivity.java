@@ -2,6 +2,8 @@ package com.sanleng.electricalfire.activity;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -46,6 +48,7 @@ public class MainTabActivity extends FragmentActivity implements View.OnClickLis
     private TextView texttab_b;
     private TextView texttab_c;
     private TextView texttab_d;
+    static LinearLayout linearLayout;
 
     @SuppressLint("ResourceAsColor")
     @Override
@@ -118,6 +121,9 @@ public class MainTabActivity extends FragmentActivity implements View.OnClickLis
 
     //初始化控件
     private void initViews() {
+        linearLayout =  findViewById(R.id.login_delete);
+        findViewById(R.id.home_close).setOnClickListener(this);
+        findViewById(R.id.home_delete).setOnClickListener(this);
         mViewPager = findViewById(R.id.id_viewpager);
 
         mTabWeixin = findViewById(R.id.id_tab_weixin);
@@ -153,6 +159,18 @@ public class MainTabActivity extends FragmentActivity implements View.OnClickLis
                 break;
             case R.id.id_tab_setting:
                 selectTab(3);
+                break;
+            case R.id.home_close:
+                Message msg1 = new Message();
+                msg1.what = 1;// qux
+                new HomeFragment().handler.sendMessage(msg1);
+                linearLayout.setVisibility(View.GONE);
+                break;
+            case R.id.home_delete:
+                Message msg2 = new Message();
+                msg2.what = 2;// 删除
+                new HomeFragment().handler.sendMessage(msg2);
+                linearLayout.setVisibility(View.GONE);
                 break;
         }
     }
@@ -202,4 +220,14 @@ public class MainTabActivity extends FragmentActivity implements View.OnClickLis
         mImgAddress.setImageResource(R.drawable.emergencyc_on);
         mImgSetting.setImageResource(R.drawable.emergencyd_on);
     }
+
+    @SuppressLint("HandlerLeak")
+    public static Handler handler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            linearLayout.setVisibility(View.VISIBLE);
+        }
+    };
+
 }

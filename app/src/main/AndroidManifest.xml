@@ -11,7 +11,7 @@
     <uses-permission android:name="android.permission.CHANGE_WIFI_MULTICAST_STATE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-
+    <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />
     <uses-permission android:name="com.permissions.MY_BROADCAST" />
 
     <permission
@@ -59,6 +59,19 @@
         <activity
             android:name=".activity.SafetyPatrolAtivity"
             android:screenOrientation="portrait" />
+        <!-- 校园安全_电气安全 -->
+        <activity
+            android:name=".activity.RealTimeDataActivity"
+            android:screenOrientation="portrait" />
+        <!-- 校园安全_电气安全 -->
+        <activity
+            android:name=".activity.RealDataActivity"
+            android:screenOrientation="portrait" />
+        <!-- 校园安全_电气实时数据 -->
+        <activity
+            android:name=".activity.RealDataItemActivity"
+            android:screenOrientation="portrait" />
+
         <!-- 隐患列表 -->
         <activity
             android:name=".activity.PendingActivity"

@@ -16,6 +16,9 @@ import android.widget.TextView;
 import com.sanleng.electricalfire.R;
 import com.sanleng.electricalfire.activity.FirsafetyAtivity;
 import com.sanleng.electricalfire.activity.MainActivity;
+import com.sanleng.electricalfire.activity.MainTabActivity;
+import com.sanleng.electricalfire.activity.RealDataActivity;
+import com.sanleng.electricalfire.activity.RealTimeDataActivity;
 import com.sanleng.electricalfire.activity.SafetyPatrolAtivity;
 import com.sanleng.electricalfire.activity.SearchActivity;
 import com.sanleng.electricalfire.adapter.HomeAdapter;
@@ -162,7 +165,8 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                 UserBean bean = list.get(listPosition.get(position));
                 String name = bean.getTitle();
                 if (name.equals("电气安全")) {
-
+                    Intent intent_RealTimeData =new Intent(getActivity(),RealDataActivity.class);
+                    startActivity(intent_RealTimeData);
                 }
                 if (name.equals("消防安全")) {
                 Intent intent_Firsafety =new Intent(getActivity(),FirsafetyAtivity.class);
@@ -197,7 +201,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
             Message msg = new Message();
             msg.what = 1;// 删除
             msg.obj = 1;
-            MainActivity.handler.sendMessage(msg);
+            MainTabActivity.handler.sendMessage(msg);
             return false;
         }
     };

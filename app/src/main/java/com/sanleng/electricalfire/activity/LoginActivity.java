@@ -2,13 +2,10 @@ package com.sanleng.electricalfire.activity;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.graphics.Color;
 import android.graphics.Rect;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewTreeObserver.OnGlobalLayoutListener;
@@ -21,27 +18,24 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.jaeger.library.StatusBarUtil;
-import com.loopj.android.http.RequestParams;
+import com.sanleng.electricalfire.MyApplication;
 import com.sanleng.electricalfire.R;
 import com.sanleng.electricalfire.dialog.PromptDialog;
-import com.sanleng.electricalfire.net.NetCallBack;
-import com.sanleng.electricalfire.net.RequestUtils;
-import com.sanleng.electricalfire.net.URLs;
+import com.sanleng.electricalfire.model.LoginRequest;
+import com.sanleng.electricalfire.util.MessageEvent;
 import com.sanleng.electricalfire.util.PreferenceUtils;
 import com.sanleng.electricalfire.util.StringUtils;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import cn.jpush.android.api.JPushInterface;
-import cn.pedant.SweetAlert.SweetAlertDialog;
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 
 /**
  * 登陆界面
- *2019/1/9
+ * 2019/1/9
+ *
  * @author qiaoshi
  */
-public class LoginActivity extends AppCompatActivity implements OnClickListener, TextWatcher {
+public class LoginActivity extends AppCompatActivity implements OnClickListener {
     private EditText login_number;
     private EditText login_password;
     private Button login_btn;
@@ -60,7 +54,8 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener,
         super.onCreate(arg0);
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
         setContentView(R.layout.login_activity);
-        StatusBarUtil.setColor(LoginActivity.this,R.color.translucency);
+        StatusBarUtil.setColor(LoginActivity.this, R.color.translucency);
+        EventBus.getDefault().register(this);
         initView();
     }
 
@@ -69,16 +64,15 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener,
         promptDialog = new PromptDialog(this);
         // 设置自定义属性
         promptDialog.getDefaultBuilder().touchAble(true).round(3).loadingDuration(2000);
-        login_btn = (Button) findViewById(R.id.login_btn);
-        login_number = (EditText) findViewById(R.id.login_number);
-        login_password = (EditText) findViewById(R.id.login_password);
-        login_questions = (TextView) findViewById(R.id.login_questions);
+        login_btn = findViewById(R.id.login_btn);
+        login_number = findViewById(R.id.login_number);
+        login_password = findViewById(R.id.login_password);
+        login_questions = findViewById(R.id.login_questions);
+        scrollviewRootLayout = findViewById(R.id.scrollviewRootLayout);
         login_btn.setOnClickListener(this);
         login_password.setOnClickListener(this);
-        login_number.addTextChangedListener(this);
-        login_password.addTextChangedListener(this);
-
-        whether_contact = (CheckBox) findViewById(R.id.whether_contact);
+        controlKeyboardLayout(scrollviewRootLayout, login_btn);
+        whether_contact = findViewById(R.id.whether_contact);
         whether_contact.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -116,101 +110,41 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener,
             case R.id.login_btn:
                 userName = login_number.getText().toString().trim();
                 password = login_password.getText().toString().trim();
-                RequestParams params = new RequestParams();
-                params.put("username", userName);
-                params.put("password", password);
-                params.put("platformkey", "app_firecontrol_owner");
-                RequestUtils.ClientPost(URLs.BULOGIN_URL, params, new NetCallBack() {
-                    @Override
-                    public void onStart() {
-                        promptDialog.showLoading("正在登录...");
-                        super.onStart();
-                    }
-
-                    @Override
-                    public void onMySuccess(String result) {
-                        if (result == null || result.length() == 0) {
-                            return;
-                        }
-
-                        System.out.println("数据请求成功" + result);
-                        try {
-                            JSONObject jsonObject = new JSONObject(result);
-                            String msg = jsonObject.getString("msg");
-
-                            if (msg.equals("登录成功")) {
-                                promptDialog.showSuccess("登录成功");
-                                String data = jsonObject.getString("data");
-                                JSONObject object = new JSONObject(data);
-                                String unitcode = object.getString("unitcode");
-                                String agentName = object.getString("name");
-
-                                //绑定唯一标识
-                                JPushInterface.setAlias(LoginActivity.this, 1, unitcode);
-
-                                // 存入数据库中（登录名称和密码）
-                                PreferenceUtils.setString(LoginActivity.this, "ElectriFire_username", userName);
-                                PreferenceUtils.setString(LoginActivity.this, "ElectriFire_password", password);
-                                // 单位ID
-                                PreferenceUtils.setString(LoginActivity.this, "unitcode", unitcode);
-                                // 人员名称
-                                PreferenceUtils.setString(LoginActivity.this, "agentName", agentName);
-
-                                new Handler().postDelayed(new Runnable() {
-                                    public void run() {
-                                        // 等待2000毫秒后销毁此页面，并提示登陆成功
-                                        Intent intent_pwdchange = new Intent(LoginActivity.this, MainActivity.class);
-                                        startActivity(intent_pwdchange);
-                                        finish();
-                                    }
-                                }, 1000);
-                            } else {
-                                promptDialog.showError(msg);
-                            }
-
-                        } catch (JSONException e) {
-                            // TODO Auto-generated catch block
-                            e.printStackTrace();
-                        }
-                    }
-
-                    @Override
-                    public void onMyFailure(Throwable arg0) {
-                        promptDialog.showError("登录失败");
-                    }
-                });
-
+                promptDialog.showLoading("正在登录...");
+                new LoginRequest(this).getLogin(userName, password, "app_firecontrol_owner");
                 break;
             default:
                 break;
         }
     }
 
-    @Override
-    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-        // TODO Auto-generated method stub
-
-    }
-
-    @Override
-    public void onTextChanged(CharSequence s, int start, int before, int count) {
-        // TODO Auto-generated method stub
-
-    }
-
-    @SuppressLint("ResourceType")
-    @Override
-    public void afterTextChanged(Editable s) {
-        // TODO Auto-generated method stub
-        boolean Sign1 = login_number.getText().length() > 0;
-
-        if (Sign1) {
-            login_btn.setBackgroundDrawable(getResources().getDrawable(R.drawable.login_btn_color));
-            login_btn.setEnabled(true);
-        } else {
-            login_btn.setBackgroundDrawable(getResources().getDrawable(R.drawable.login_btn_color));
-            login_btn.setEnabled(false);
+    // 声明一个订阅方法，用于接收事件
+    @Subscribe
+    public void onEvent(MessageEvent messageEvent) {
+        switch (messageEvent.getTAG()) {
+            case MyApplication.MESSLOGIN:
+                String msg = messageEvent.getMessage();
+                if (msg.equals("登录成功")) {
+                    promptDialog.showSuccess("登录成功");
+                    new Handler().postDelayed(new Runnable() {
+                        public void run() {
+                            // 等待2000毫秒后销毁此页面，并提示登陆成功
+                            Intent intent_pwdchange = new Intent(LoginActivity.this, MainTabActivity.class);
+                            startActivity(intent_pwdchange);
+                            finish();
+                        }
+                    }, 1000);
+                } else {
+                    promptDialog.showError(msg);
+                }
+                break;
         }
+    }
+
+    @Override
+    protected void onStop() {
+        EventBus.getDefault().unregister(this); // 解绑
+        super.onStop();
     }
 
     /**

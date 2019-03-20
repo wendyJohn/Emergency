@@ -6,16 +6,14 @@ package com.sanleng.electricalfire.net;
 public class URLs {
 
     //云平台地址
-    public static String HOST_IP = "47.100.192.169";
-    public static String HOST_PORT = "8080";
+    public static String HOST = "https://slyj.slicity.com";
 
     //调试地址
-//    public static String HOST_IP = "10.101.80.113";
-//    public static String HOST_PORT = "8080";
+//    public static String HOST = "http://10.101.80.113:8080";
 
-    public static String HOST = "http://" + HOST_IP + ":" + HOST_PORT;
+
     // 登陆
-    public static String BULOGIN_URL = HOST + "/kspf/app/user/login";
+    public static String BULOGIN_URL = HOST + "";
     // 电气火灾建筑列表
     public static String Architecture_URL = HOST + "/kspf/app/electricalfire/buildList";
     // 电气火灾楼层列表
@@ -23,9 +21,9 @@ public class URLs {
     // 电气火灾设备名列表
     public static String Device_URL = HOST + "/kspf/app/electricalfire/deviceNames";
     // 电气火灾设备列表
-    public static String DeviceItem_URL = HOST + "/kspf/app/electricalfire/deviceList";
+    public static String DeviceItem_URL = HOST + "";
     // 电气火灾设备实时数据列表
-    public static String RealTimeData_URL = HOST + "/kspf/app/electricalfire/deviceRealTimeData";
+    public static String RealTimeData_URL = HOST + "";
     // 密码修改
     public static String PasswordModification = HOST + "/kspf/app/user/appPassChange";
     // 电气火灾点位列表

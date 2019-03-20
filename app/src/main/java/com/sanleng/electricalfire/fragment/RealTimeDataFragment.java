@@ -12,14 +12,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.AbsListView;
-import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.Toast;
 
-import com.loopj.android.http.RequestParams;
 import com.sanleng.electricalfire.R;
 import com.sanleng.electricalfire.activity.PatrolActivity;
 import com.sanleng.electricalfire.activity.PendingActivity;
@@ -27,14 +23,6 @@ import com.sanleng.electricalfire.activity.TimePumpingActivity;
 import com.sanleng.electricalfire.adapter.RealTimeDataAdapter;
 import com.sanleng.electricalfire.bean.ERealTimeDataBean;
 import com.sanleng.electricalfire.myview.MarqueeViews;
-import com.sanleng.electricalfire.net.NetCallBack;
-import com.sanleng.electricalfire.net.RequestUtils;
-import com.sanleng.electricalfire.net.URLs;
-import com.sanleng.electricalfire.util.PreferenceUtils;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -84,145 +72,145 @@ public class RealTimeDataFragment extends BaseFragment implements OnClickListene
         IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction(BROADCAST_ACTION_DISC); // 只有持有相同的action的接受者才能接收此广
         getActivity().registerReceiver(receivers, intentFilter, BROADCAST_PERMISSION_DISC, null);
-        marqueeviews = (MarqueeViews) view.findViewById(R.id.marqueeviews);
+        marqueeviews = view.findViewById(R.id.marqueeviews);
         realtimedataAdapter = new RealTimeDataAdapter();
 
         allList = new ArrayList<>();
         pageNo = 1;
-        loadData(1);
+//        loadData(1);
     }
 
     @Override
     public void onResume() {
-        addPolice();
+//        addPolice();
         super.onResume();
     }
 
     // 加载数据
-    private void loadData(int page) {
-        onelist = new ArrayList<>();
-        RequestParams params = new RequestParams();
-        params.put("pageNum", page + "");
-        params.put("pageSize", "10");
-        params.put("unit_id", PreferenceUtils.getString(getActivity(), "unitcode"));
-        params.put("username", PreferenceUtils.getString(getActivity(), "ElectriFire_username"));
-        params.put("platformkey", "app_firecontrol_owner");
-
-        params.put("state", "");
-        params.put("device_name", "");
-        params.put("buildids", "");
-        params.put("floorids", "");
-
-        RequestUtils.ClientPost(URLs.DeviceItem_URL, params, new NetCallBack() {
-            @Override
-            public void onStart() {
-                super.onStart();
-            }
-
-            @Override
-            public void onMySuccess(String result) {
-                if (result == null || result.length() == 0) {
-                    return;
-                }
-                System.out.println("数据请求成功" + result);
-                try {
-                    int length = 10;
-                    int SIZE = 0;
-                    JSONObject jsonObject = new JSONObject(result);
-                    String msg = jsonObject.getString("msg");
-                    if (msg.equals("获取成功")) {
-                        String data = jsonObject.getString("data");
-                        JSONObject objects = new JSONObject(data);
-                        String listsize = objects.getString("total");
-                        SIZE = Integer.parseInt(listsize);
-                        String list = objects.getString("list");
-
-                        JSONArray array = new JSONArray(list);
-                        JSONObject object;
-                        for (int i = 0; i < array.length(); i++) {
-                            ERealTimeDataBean bean = new ERealTimeDataBean();
-                            object = (JSONObject) array.get(i);
-                            String device_id = object.getString("device_id");
-                            String unit_name = object.getString("unit_name");
-                            String build_name = object.getString("build_name");
-                            String device_name = object.getString("device_name");
-                            String state = object.getString("state");
-                            String contact_name = object.getString("contact_name");
-                            String contact_tel = object.getString("contact_tel");
-
-                            bean.setId(device_id);
-                            bean.setAddress(unit_name + build_name + "\n" + device_name);
-                            bean.setContact_name(contact_name);
-                            bean.setContact_tel(contact_tel);
-                            bean.setState(state);
-                            onelist.add(bean);
-                        }
-
-                        if (SIZE % length == 0) {
-                            allpage = SIZE / length;
-                        } else {
-                            allpage = SIZE / length + 1;
-                        }
-                        realtimedatalslistview = view.findViewById(R.id.realtimedatalslistview);
-                        allList.addAll(onelist);
-                        realtimedataAdapter.bindData(getActivity(), allList, mHandler);
-                        if (pageNo == 1) {
-                            // 没有数据就提示暂无数据。
-                            realtimedatalslistview.setEmptyView(view.findViewById(R.id.nodata));
-                            realtimedatalslistview.setAdapter(realtimedataAdapter);
-                        }
-                        realtimedataAdapter.notifyDataSetChanged();
-                        pageNo++;
-                        finish = true;
-                        realtimedatalslistview.setOnScrollListener(new AbsListView.OnScrollListener() {
-                            @Override
-                            public void onScrollStateChanged(AbsListView view, int scrollState) {
-                                /**
-                                 * 当分页操作is_divPage为true时、滑动停止时、且pageNo<=allpage（ 这里因为服务端有allpage页数据）时，加载更多数据。
-                                 */
-                                if (is_divPage && scrollState == AbsListView.OnScrollListener.SCROLL_STATE_IDLE && pageNo <= allpage
-                                        && finish) {
-                                    finish = false;
-                                    loadData(pageNo);
-                                } else if (pageNo > allpage && finish) {
-                                    finish = false;
-                                    // 如果pageNo>allpage则表示，服务端没有更多的数据可供加载了。
-//                                    Toast.makeText(getActivity(), "加载完了！", Toast.LENGTH_SHORT).show();
-                                }
-                            }
-
-                            // 当：第一个可见的item（firstVisibleItem）+可见的item的个数（visibleItemCount）=
-                            // 所有的item总数的时候， is_divPage变为TRUE，这个时候才会加载数据。
-                            @Override
-                            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount,
-                                                 int totalItemCount) {
-                                is_divPage = (firstVisibleItem + visibleItemCount == totalItemCount);
-                            }
-                        });
-
-                        realtimedatalslistview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                            @Override
-                            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
-
-                            }
-                        });
-
-                    }
-
-                } catch (JSONException e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
-                }
-            }
-
-            @Override
-            public void onMyFailure(Throwable arg0) {
-
-            }
-        });
-
-    }
+//    private void loadData(int page) {
+//        onelist = new ArrayList<>();
+//        RequestParams params = new RequestParams();
+//        params.put("pageNum", page + "");
+//        params.put("pageSize", "10");
+//        params.put("unit_id", PreferenceUtils.getString(getActivity(), "unitcode"));
+//        params.put("username", PreferenceUtils.getString(getActivity(), "ElectriFire_username"));
+//        params.put("platformkey", "app_firecontrol_owner");
+//
+//        params.put("state", "");
+//        params.put("device_name", "");
+//        params.put("buildids", "");
+//        params.put("floorids", "");
+//
+//        RequestUtils.ClientPost(URLs.DeviceItem_URL, params, new NetCallBack() {
+//            @Override
+//            public void onStart() {
+//                super.onStart();
+//            }
+//
+//            @Override
+//            public void onMySuccess(String result) {
+//                if (result == null || result.length() == 0) {
+//                    return;
+//                }
+//                System.out.println("数据请求成功" + result);
+//                try {
+//                    int length = 10;
+//                    int SIZE = 0;
+//                    JSONObject jsonObject = new JSONObject(result);
+//                    String msg = jsonObject.getString("msg");
+//                    if (msg.equals("获取成功")) {
+//                        String data = jsonObject.getString("data");
+//                        JSONObject objects = new JSONObject(data);
+//                        String listsize = objects.getString("total");
+//                        SIZE = Integer.parseInt(listsize);
+//                        String list = objects.getString("list");
+//
+//                        JSONArray array = new JSONArray(list);
+//                        JSONObject object;
+//                        for (int i = 0; i < array.length(); i++) {
+//                            ERealTimeDataBean bean = new ERealTimeDataBean();
+//                            object = (JSONObject) array.get(i);
+//                            String device_id = object.getString("device_id");
+//                            String unit_name = object.getString("unit_name");
+//                            String build_name = object.getString("build_name");
+//                            String device_name = object.getString("device_name");
+//                            String state = object.getString("state");
+//                            String contact_name = object.getString("contact_name");
+//                            String contact_tel = object.getString("contact_tel");
+//
+//                            bean.setId(device_id);
+//                            bean.setAddress(unit_name + build_name + "\n" + device_name);
+//                            bean.setContact_name(contact_name);
+//                            bean.setContact_tel(contact_tel);
+//                            bean.setState(state);
+//                            onelist.add(bean);
+//                        }
+//
+//                        if (SIZE % length == 0) {
+//                            allpage = SIZE / length;
+//                        } else {
+//                            allpage = SIZE / length + 1;
+//                        }
+//                        realtimedatalslistview = view.findViewById(R.id.realtimedatalslistview);
+//                        allList.addAll(onelist);
+//                        realtimedataAdapter.bindData(getActivity(), allList, mHandler);
+//                        if (pageNo == 1) {
+//                            // 没有数据就提示暂无数据。
+//                            realtimedatalslistview.setEmptyView(view.findViewById(R.id.nodata));
+//                            realtimedatalslistview.setAdapter(realtimedataAdapter);
+//                        }
+//                        realtimedataAdapter.notifyDataSetChanged();
+//                        pageNo++;
+//                        finish = true;
+//                        realtimedatalslistview.setOnScrollListener(new AbsListView.OnScrollListener() {
+//                            @Override
+//                            public void onScrollStateChanged(AbsListView view, int scrollState) {
+//                                /**
+//                                 * 当分页操作is_divPage为true时、滑动停止时、且pageNo<=allpage（ 这里因为服务端有allpage页数据）时，加载更多数据。
+//                                 */
+//                                if (is_divPage && scrollState == AbsListView.OnScrollListener.SCROLL_STATE_IDLE && pageNo <= allpage
+//                                        && finish) {
+//                                    finish = false;
+//                                    loadData(pageNo);
+//                                } else if (pageNo > allpage && finish) {
+//                                    finish = false;
+//                                    // 如果pageNo>allpage则表示，服务端没有更多的数据可供加载了。
+////                                    Toast.makeText(getActivity(), "加载完了！", Toast.LENGTH_SHORT).show();
+//                                }
+//                            }
+//
+//                            // 当：第一个可见的item（firstVisibleItem）+可见的item的个数（visibleItemCount）=
+//                            // 所有的item总数的时候， is_divPage变为TRUE，这个时候才会加载数据。
+//                            @Override
+//                            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount,
+//                                                 int totalItemCount) {
+//                                is_divPage = (firstVisibleItem + visibleItemCount == totalItemCount);
+//                            }
+//                        });
+//
+//                        realtimedatalslistview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//                            @Override
+//                            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//
+//
+//                            }
+//                        });
+//
+//                    }
+//
+//                } catch (JSONException e) {
+//                    // TODO Auto-generated catch block
+//                    e.printStackTrace();
+//                }
+//            }
+//
+//            @Override
+//            public void onMyFailure(Throwable arg0) {
+//
+//            }
+//        });
+//
+//    }
 
 
     @SuppressLint("HandlerLeak")
@@ -274,8 +262,8 @@ public class RealTimeDataFragment extends BaseFragment implements OnClickListene
                 System.out.println("收到； 1111111111111111");
                 //刷新数据
                 pageNo = 1;
-                loadData(1);
-                addPolice();
+//                loadData(1);
+//                addPolice();
             }
 
         }
@@ -303,58 +291,58 @@ public class RealTimeDataFragment extends BaseFragment implements OnClickListene
 
 
     //获取报警信息
-    private void addPolice() {
-        info = new ArrayList<>();
-        RequestParams params = new RequestParams();
-        params.put("pageNum", "1");
-        params.put("pageSize", "100");
-        params.put("unit_code", PreferenceUtils.getString(getActivity(), "unitcode"));
-        params.put("username", PreferenceUtils.getString(getActivity(), "ElectriFire_username"));
-        params.put("platformkey", "app_firecontrol_owner");
-
-        RequestUtils.ClientPost(URLs.Police_URL, params, new NetCallBack() {
-            @Override
-            public void onStart() {
-                super.onStart();
-            }
-
-            @Override
-            public void onMySuccess(String result) {
-                if (result == null || result.length() == 0) {
-                    return;
-                }
-                try {
-                    JSONObject jsonObject = new JSONObject(result);
-                    String msg = jsonObject.getString("msg");
-                    if (msg.equals("获取成功")) {
-                        String data = jsonObject.getString("data");
-                        JSONObject objects = new JSONObject(data);
-                        String list = objects.getString("list");
-                        JSONArray array = new JSONArray(list);
-                        JSONObject object;
-                        for (int i = 0; i < array.length(); i++) {
-                            object = (JSONObject) array.get(i);
-                            String build_name = object.getString("build_name");
-                            String detector_name = object.getString("detector_name");
-                            String device_name = object.getString("device_name");
-                            String str = build_name + device_name + detector_name + "异常";
-                            info.add(str);
-                        }
-                        // 在代码里设置自己的动画
-                        marqueeviews.startWithList(info);
-                    }
-                } catch (JSONException e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
-                }
-            }
-
-            @Override
-            public void onMyFailure(Throwable arg0) {
-
-            }
-        });
-    }
+//    private void addPolice() {
+//        info = new ArrayList<>();
+//        RequestParams params = new RequestParams();
+//        params.put("pageNum", "1");
+//        params.put("pageSize", "100");
+//        params.put("unit_code", PreferenceUtils.getString(getActivity(), "unitcode"));
+//        params.put("username", PreferenceUtils.getString(getActivity(), "ElectriFire_username"));
+//        params.put("platformkey", "app_firecontrol_owner");
+//
+//        RequestUtils.ClientPost(URLs.Police_URL, params, new NetCallBack() {
+//            @Override
+//            public void onStart() {
+//                super.onStart();
+//            }
+//
+//            @Override
+//            public void onMySuccess(String result) {
+//                if (result == null || result.length() == 0) {
+//                    return;
+//                }
+//                try {
+//                    JSONObject jsonObject = new JSONObject(result);
+//                    String msg = jsonObject.getString("msg");
+//                    if (msg.equals("获取成功")) {
+//                        String data = jsonObject.getString("data");
+//                        JSONObject objects = new JSONObject(data);
+//                        String list = objects.getString("list");
+//                        JSONArray array = new JSONArray(list);
+//                        JSONObject object;
+//                        for (int i = 0; i < array.length(); i++) {
+//                            object = (JSONObject) array.get(i);
+//                            String build_name = object.getString("build_name");
+//                            String detector_name = object.getString("detector_name");
+//                            String device_name = object.getString("device_name");
+//                            String str = build_name + device_name + detector_name + "异常";
+//                            info.add(str);
+//                        }
+//                        // 在代码里设置自己的动画
+//                        marqueeviews.startWithList(info);
+//                    }
+//                } catch (JSONException e) {
+//                    // TODO Auto-generated catch block
+//                    e.printStackTrace();
+//                }
+//            }
+//
+//            @Override
+//            public void onMyFailure(Throwable arg0) {
+//
+//            }
+//        });
+//    }
 
 
 }

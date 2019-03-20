@@ -43,19 +43,23 @@ public class NewMineFragment extends BaseFragment implements OnClickListener {
     private RelativeLayout dataupdate;
     private RelativeLayout versionupdate;
     private RelativeLayout aboutus;
-
+    private File cameraFile;
     private TextView tv_user_headname;
     private ImageView iv_userhead;
-    private File cameraFile;
     private TextView item_search_addb;
     private SweetAlertDialog sweetAlertDialog;
+    private DataCleanManager dm;
 
     @SuppressLint("HandlerLeak")
     private Handler handler = new Handler() {
         public void handleMessage(Message msg) {
             switch (msg.what) {
                 case 0x01:
-                    item_search_addb.setText("0.0KB");
+                    try {
+                        item_search_addb.setText(dm.getTotalCacheSize(getActivity()));
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                     sweetAlertDialog.dismiss();
                     new SweetAlertDialog(getActivity(), SweetAlertDialog.SUCCESS_TYPE)
                             .setTitleText("清除成功")
@@ -84,11 +88,11 @@ public class NewMineFragment extends BaseFragment implements OnClickListener {
             e.printStackTrace();
         }
         initListener();
-        //获得应用内部缓存
-        File file = new File(getActivity().getCacheDir().getPath());
         try {
-            item_search_addb.setText(DataCleanManager.getCacheSize(file));
+            //缓存大小
+            item_search_addb.setText(dm.getTotalCacheSize(getActivity()));
         } catch (Exception e) {
+            // TODO Auto-generated catch block
             e.printStackTrace();
         }
 
@@ -117,8 +121,8 @@ public class NewMineFragment extends BaseFragment implements OnClickListener {
         tv_user_headname = (TextView) view.findViewById(R.id.tv_user_headname);
         item_search_addb = (TextView) view.findViewById(R.id.item_search_addb);
 
-        String uesrname = PreferenceUtils.getString(getActivity(), "ElectriFire_username");
-        tv_user_headname.setText(uesrname);
+        String agentName = PreferenceUtils.getString(getActivity(), "agentName");
+        tv_user_headname.setText(agentName);
 
         // 头像
         iv_userhead = (ImageView) view.findViewById(R.id.iv_userhead);
@@ -161,7 +165,8 @@ public class NewMineFragment extends BaseFragment implements OnClickListener {
                 sweetAlertDialog.show();
                 Message msg = new Message();
                 try {
-                    DataCleanManager.cleanInternalCache(getActivity().getApplicationContext());
+                    //清理缓存
+                    dm.clearAllCache(getActivity());
                     msg.what = 0x01;
                 } catch (Exception e) {
                     e.printStackTrace();

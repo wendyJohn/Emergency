@@ -1,15 +1,11 @@
 package com.sanleng.electricalfire.adapter;
 
 import android.content.Context;
-import android.os.Bundle;
 import android.os.Handler;
-import android.os.Message;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.view.animation.AnimationSet;
-import android.view.animation.AnimationUtils;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -19,20 +15,24 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
-import com.loopj.android.http.RequestParams;
+import com.sanleng.electricalfire.MyApplication;
 import com.sanleng.electricalfire.R;
 import com.sanleng.electricalfire.bean.ERealTimeDataBean;
-import com.sanleng.electricalfire.net.NetCallBack;
-import com.sanleng.electricalfire.net.RequestUtils;
+import com.sanleng.electricalfire.bean.ReadTimeItemData;
+import com.sanleng.electricalfire.net.Request_Interface;
 import com.sanleng.electricalfire.net.URLs;
+import com.sanleng.electricalfire.util.MessageEvent;
 import com.sanleng.electricalfire.util.PreferenceUtils;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
+import org.greenrobot.eventbus.EventBus;
 
-import java.util.ArrayList;
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
  * 智能电气火灾实时数据适配器
@@ -43,7 +43,6 @@ public class RealTimeDataAdapter extends BaseAdapter {
 
     private List<ERealTimeDataBean> mList;
     private Context mContext;
-    private Handler handler;
     private String t_data;
     private String t_limit;
 
@@ -55,15 +54,15 @@ public class RealTimeDataAdapter extends BaseAdapter {
     private String buildids;
     private String floorids;
     private String electricalDetectorInfos;
+
     /**
      * bindData用来传递数据给适配器。
      *
      * @list
      */
-    public void bindData(Context mContext, List<ERealTimeDataBean> mList, Handler handler) {
+    public void bindData(Context mContext, List<ERealTimeDataBean> mList) {
         this.mContext = mContext;
         this.mList = mList;
-        this.handler = handler;
     }
 
     @Override
@@ -90,28 +89,27 @@ public class RealTimeDataAdapter extends BaseAdapter {
         if (convertView == null) {
             convertView = LayoutInflater.from(mContext).inflate(R.layout.e_realtimedata_items, null);
             holder = new Holder();
-            holder.address = (TextView) convertView.findViewById(R.id.w_address);
-            holder.temperature = (TextView) convertView.findViewById(R.id.temperature);
-            holder.temperaturelimit = (TextView) convertView.findViewById(R.id.temperaturelimit);
-            holder.residualcurrent = (TextView) convertView.findViewById(R.id.residualcurrent);
-            holder.currentlimit = (TextView) convertView.findViewById(R.id.currentlimit);
-            holder.temperaturealarm = (ImageView) convertView.findViewById(R.id.temperaturealarm);
-            holder.temperaturealarms = (ImageView) convertView.findViewById(R.id.temperaturealarms);
-            holder.img_down = (ImageView) convertView.findViewById(R.id.img_down);
+            holder.address = convertView.findViewById(R.id.w_address);
+            holder.temperature = convertView.findViewById(R.id.temperature);
+            holder.temperaturelimit = convertView.findViewById(R.id.temperaturelimit);
+            holder.residualcurrent = convertView.findViewById(R.id.residualcurrent);
+            holder.currentlimit = convertView.findViewById(R.id.currentlimit);
+            holder.temperaturealarm = convertView.findViewById(R.id.temperaturealarm);
+            holder.temperaturealarms = convertView.findViewById(R.id.temperaturealarms);
+            holder.img_down = convertView.findViewById(R.id.img_down);
 
             holder.contactnumber = convertView.findViewById(R.id.contactnumber);
 
+            holder.current = convertView.findViewById(R.id.current);
+            holder.current_limits = convertView.findViewById(R.id.current_limits);
 
-            holder.current = (TextView) convertView.findViewById(R.id.current);
-            holder.current_limits = (TextView) convertView.findViewById(R.id.current_limits);
+            holder.electricalmaintenance = convertView.findViewById(R.id.electricalmaintenance);
+            holder.pendingdisposal = convertView.findViewById(R.id.pendingdisposal);
 
-            holder.electricalmaintenance = (TextView) convertView.findViewById(R.id.electricalmaintenance);
-            holder.pendingdisposal = (TextView) convertView.findViewById(R.id.pendingdisposal);
+            holder.confirmphoto = convertView.findViewById(R.id.confirmphoto);
 
-            holder.confirmphoto = (TextView) convertView.findViewById(R.id.confirmphoto);
-
-            holder.historicaltrack = (TextView) convertView.findViewById(R.id.historicaltrack);
-            holder.message_item_unread = (TextView) convertView.findViewById(R.id.message_item_unread);
+            holder.historicaltrack = convertView.findViewById(R.id.historicaltrack);
+            holder.message_item_unread = convertView.findViewById(R.id.message_item_unread);
 
             holder.dress_youtc = convertView.findViewById(R.id.dress_youtc);
             holder.dress_youtb = convertView.findViewById(R.id.dress_youtb);
@@ -146,15 +144,12 @@ public class RealTimeDataAdapter extends BaseAdapter {
             @Override
             public void onClick(View v) {
                 // TODO Auto-generated method stub
-                Message msg = new Message();
-                Bundle data = new Bundle();
-                data.putInt("selIndex", position);
-                data.putString("electricalDetectorInfos",electricalDetectorInfos);
-                data.putString("buildids",buildids);
-                data.putString("floorids",floorids);
-                msg.setData(data);
-                msg.what = 66660;
-                handler.sendMessage(msg);
+                MessageEvent messageEvent = new MessageEvent(MyApplication.MESSREALTIMEDATAA);
+                messageEvent.setPosition(position);
+                messageEvent.setBuildids(buildids);
+                messageEvent.setFloorids(floorids);
+                messageEvent.setElectricalDetectorInfos(electricalDetectorInfos);
+                EventBus.getDefault().post(messageEvent);
             }
         });
         //待处理
@@ -162,12 +157,9 @@ public class RealTimeDataAdapter extends BaseAdapter {
             @Override
             public void onClick(View v) {
                 // TODO Auto-generated method stub
-                Message msg = new Message();
-                Bundle data = new Bundle();
-                data.putInt("selIndex", position);
-                msg.setData(data);
-                msg.what = 66661;
-                handler.sendMessage(msg);
+                MessageEvent messageEvent = new MessageEvent(MyApplication.MESSREALTIMEDATAB);
+                messageEvent.setPosition(position);
+                EventBus.getDefault().post(messageEvent);
             }
         });
         //ITEM点击切换
@@ -197,74 +189,59 @@ public class RealTimeDataAdapter extends BaseAdapter {
                     holder.electricalmaintenance.setText("电气维修：" + contact_name);
                     holder.contactnumber.setText("电话：" + contact_tel);
 
-                    RequestParams params = new RequestParams();
-                    params.put("device_id", device_id);
-                    params.put("username", PreferenceUtils.getString(mContext, "ElectriFire_username"));
-                    params.put("platformkey", "app_firecontrol_owner");
-                    RequestUtils.ClientPost(URLs.RealTimeData_URL, params, new NetCallBack() {
+                    Retrofit retrofit = new Retrofit.Builder()
+                            .baseUrl(URLs.HOST) // 设置 网络请求 Url
+                            .addConverterFactory(GsonConverterFactory.create()) //设置使用Gson解析(记得加入依赖)
+                            .build();
+                    Request_Interface request_Interface = retrofit.create(Request_Interface.class);
+                    //对 发送请求 进行封装
+                    Call<ReadTimeItemData> call = request_Interface.getReadtimeItemDataCall(device_id, PreferenceUtils.getString(mContext, "ElectriFire_username"), "app_firecontrol_owner");
+                    call.enqueue(new Callback<ReadTimeItemData>() {
                         @Override
-                        public void onStart() {
-                            super.onStart();
-                        }
+                        public void onResponse(Call<ReadTimeItemData> call, Response<ReadTimeItemData> response) {
+                            buildids = response.body().getData().getBuildids();
+                            floorids = response.body().getData().getFloorids();
+                            electricalDetectorInfos = response.body().getData().getElectricalDetectorInfos().toString();
 
-                        @Override
-                        public void onMySuccess(String result) {
-                            if (result == null || result.length() == 0) {
-                                return;
-                            }
-                            System.out.println("数据请求成功" + result);
-                            try {
-                                JSONObject jsonObject = new JSONObject(result);
-                                String msg = jsonObject.getString("msg");
-                                if (msg.equals("获取数据成功")) {
-                                    String data = jsonObject.getString("data");
-                                    JSONObject Object = new JSONObject(data);
-                                    String build_name = Object.getString("build_name");
-                                    String device_name = Object.getString("device_name");
-                                    buildids = Object.getString("buildids");
-                                    floorids = Object.getString("floorids");
-                                   electricalDetectorInfos = Object.getString("electricalDetectorInfos");
-                                    JSONArray array = new JSONArray(electricalDetectorInfos);
-                                    JSONObject object;
-                                    for (int i = 0; i < array.length(); i++) {
-                                        object = (JSONObject) array.get(i);
-                                        String detector_name = object.getString("detector_name");
-                                        String realtime_data = object.getString("current_value");
-                                        String measurement_unit = object.getString("measurement_unit");
-                                        String lower_limit = object.getString("lower_limit");
-                                        String upper_limit = object.getString("upper_limit");
-                                        if (detector_name.equals("temperature_detector")) {
-                                            t_data = "温度：" + realtime_data + measurement_unit;
-                                            t_limit = "限值：" + lower_limit + "-" + upper_limit;
-                                            holder.temperature.setText(t_data);
-                                            holder.temperaturelimit.setText(t_limit);
-                                        }
-                                        if (detector_name.equals("electricity_detector")) {
-                                            e_data = "剩余电流：" + realtime_data + measurement_unit;
-                                            e_limit = "限值：" + lower_limit + "-" + upper_limit;
-                                            holder.residualcurrent.setText(e_data);
-                                            holder.currentlimit.setText(e_limit);
-                                        }
-                                        if (detector_name.equals("residualcurrent_detector")) {
-                                            c_data = "电流：" + realtime_data + measurement_unit;
-                                            c_limit = "限值：" + lower_limit + "-" + upper_limit;
-                                            holder.current.setText(c_data);
-                                            holder.current_limits.setText(c_limit);
+                            for (int i = 0; i < response.body().getData().getElectricalDetectorInfos().size(); i++) {
+                                String detector_name = response.body().getData().getElectricalDetectorInfos().get(i).getDetector_name();
+                                String realtime_data = response.body().getData().getElectricalDetectorInfos().get(i).getCurrent_value();
+                                String measurement_unit = response.body().getData().getElectricalDetectorInfos().get(i).getMeasurement_unit();
+                                String lower_limit = response.body().getData().getElectricalDetectorInfos().get(i).getLower_limit();
+                                String upper_limit = response.body().getData().getElectricalDetectorInfos().get(i).getUpper_limit();
+                                String detector_portVal = response.body().getData().getElectricalDetectorInfos().get(i).getDetector_portVal();
 
-                                        }
+
+                                if (detector_name.equals("temperature_detector")) {
+                                    if (detector_portVal.equals("D口")) {
+                                        t_data = "温度：" + realtime_data +" "+ measurement_unit;
+                                        t_limit = "限值：" + lower_limit + "-" + upper_limit+" "+measurement_unit;;
+                                        holder.temperature.setText(t_data);
+                                        holder.temperaturelimit.setText(t_limit);
                                     }
-
-
                                 }
-
-                            } catch (JSONException e) {
-                                // TODO Auto-generated catch block
-                                e.printStackTrace();
+                                if (detector_name.equals("residualcurrent_detector")) {
+                                    if (detector_portVal.equals("A口")) {
+                                        e_data = "剩余电流：" + realtime_data +" "+measurement_unit;
+                                        e_limit = "限值：" + lower_limit + "-" + upper_limit+" "+measurement_unit;;
+                                        holder.residualcurrent.setText(e_data);
+                                        holder.currentlimit.setText(e_limit);
+                                    }
+                                }
+                                if (detector_name.equals("electricity_detector")) {
+                                    if (detector_portVal.equals("A口")) {
+                                        c_data = "电流：" + realtime_data +" "+measurement_unit;
+                                        c_limit = "限值：" + lower_limit + "-" + upper_limit+" "+measurement_unit;;
+                                        holder.current.setText(c_data);
+                                        holder.current_limits.setText(c_limit);
+                                    }
+                                }
                             }
                         }
 
                         @Override
-                        public void onMyFailure(Throwable arg0) {
+                        public void onFailure(Call<ReadTimeItemData> call, Throwable t) {
+
                         }
                     });
                     mList.get(position).isopen = true;
@@ -276,12 +253,9 @@ public class RealTimeDataAdapter extends BaseAdapter {
             @Override
             public void onClick(View v) {
                 // TODO Auto-generated method stub
-                Message msg = new Message();
-                Bundle data = new Bundle();
-                data.putInt("selIndex", position);
-                msg.setData(data);
-                msg.what = 66662;
-                handler.sendMessage(msg);
+                MessageEvent messageEvent = new MessageEvent(MyApplication.MESSREALTIMEDATAC);
+                messageEvent.setPosition(position);
+                EventBus.getDefault().post(messageEvent);
             }
         });
 
