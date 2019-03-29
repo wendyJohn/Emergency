@@ -9,10 +9,21 @@ import android.os.Message;
 
 import com.bigkoo.svprogresshud.SVProgressHUD;
 import com.sanleng.electricalfire.dialog.MyProgressDialog;
+import com.sanleng.electricalfire.net.URLs;
 
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.mime.content.FileBody;
+import org.apache.http.entity.mime.content.StringBody;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.protocol.BasicHttpContext;
+import org.apache.http.protocol.HttpContext;
+import org.apache.http.util.EntityUtils;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -56,33 +67,33 @@ public class RectificationUplaod extends AsyncTask<String, Integer, String> {
     @Override
     protected String doInBackground(String... params) {
         serverResponse = null;
-//        HttpClient httpClient = new DefaultHttpClient();
-//        HttpContext httpContext = new BasicHttpContext();
-//        HttpPost httpPost = new HttpPost(URLs.Rectification_URL + "?ids=" + ids + "&pointId=" + pointId + "&finishDescribe=" + desc + "&username="
-//                + username + "&platformkey=app_firecontrol_owner");
-//        try {
-//            CustomMultipartEntity multipartContent = new CustomMultipartEntity(new ProgressListener() {
-//                @Override
-//                public void transferred(long num) {
-//                    publishProgress((int) ((num / (float) totalSize) * 100));
-//                }
-//            });
-//            // 把上传内容添加到MultipartEntity
-//            for (int i = 0; i < filePathList.size(); i++) {
-//                multipartContent.addPart("File", new FileBody(new File(filePathList.get(i))));
-//                multipartContent.addPart("data",
-//                        new StringBody(filePathList.get(i), Charset.forName(org.apache.http.protocol.HTTP.UTF_8)));
-//            }
-//            totalSize = multipartContent.getContentLength();
-//
-//            httpPost.setEntity(multipartContent);
-//
-//            HttpResponse response = httpClient.execute(httpPost, httpContext);
-//            serverResponse = EntityUtils.toString(response.getEntity());
-//
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
+        HttpClient httpClient = new DefaultHttpClient();
+        HttpContext httpContext = new BasicHttpContext();
+        HttpPost httpPost = new HttpPost(URLs.Rectification_URL + "?ids=" + ids + "&pointId=" + pointId + "&finishDescribe=" + desc + "&username="
+                + username + "&platformkey=app_firecontrol_owner");
+        try {
+            CustomMultipartEntity multipartContent = new CustomMultipartEntity(new CustomMultipartEntity.ProgressListener() {
+                @Override
+                public void transferred(long num) {
+                    publishProgress((int) ((num / (float) totalSize) * 100));
+                }
+            });
+            // 把上传内容添加到MultipartEntity
+            for (int i = 0; i < filePathList.size(); i++) {
+                multipartContent.addPart("File", new FileBody(new File(filePathList.get(i))));
+                multipartContent.addPart("data",
+                        new StringBody(filePathList.get(i), Charset.forName(org.apache.http.protocol.HTTP.UTF_8)));
+            }
+            totalSize = multipartContent.getContentLength();
+
+            httpPost.setEntity(multipartContent);
+
+            org.apache.http.HttpResponse response = httpClient.execute(httpPost, httpContext);
+            serverResponse = EntityUtils.toString(response.getEntity());
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return serverResponse;
     }
 

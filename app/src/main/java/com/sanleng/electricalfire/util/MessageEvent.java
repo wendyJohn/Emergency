@@ -1,26 +1,31 @@
 package com.sanleng.electricalfire.util;
 
-import com.sanleng.electricalfire.bean.ERealTimeDataBean;
-import com.sanleng.electricalfire.bean.ReadTimeItemData;
+import com.sanleng.electricalfire.ui.bean.ERealTimeDataBean;
+import com.sanleng.electricalfire.ui.bean.ReadTimeItemData;
+import com.sanleng.electricalfire.ui.bean.WaterSystem;
 
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class MessageEvent {
     private int TAG;
     private String message;
     private List<ERealTimeDataBean> list;
-
     private List<ReadTimeItemData.DataBean.ElectricalDetectorInfosBean> list_temperature;
     private List<ReadTimeItemData.DataBean.ElectricalDetectorInfosBean> list_current;
     private List<ReadTimeItemData.DataBean.ElectricalDetectorInfosBean> list_residualcurrent;
     private List<ReadTimeItemData.DataBean.ElectricalDetectorInfosBean> list_voltage;
-
+    private List<WaterSystem.DataBean.ListBean> list_watersystem;
+    private HashMap<String, Object> map;
+    private List<HashMap<String, Object>> hashMap_list;
     private int position;
     private int size;
     private String electricalDetectorInfos;
     private String buildids;
     private String floorids;
+    private int hyrant;
+    private int eqt;
+    private int water;
 
     public MessageEvent(int TAG) {
         this.TAG = TAG;
@@ -125,5 +130,53 @@ public class MessageEvent {
 
     public void setList_voltage(List<ReadTimeItemData.DataBean.ElectricalDetectorInfosBean> list_voltage) {
         this.list_voltage = list_voltage;
+    }
+
+    public HashMap<String, Object> getMap() {
+        return map;
+    }
+
+    public void setMap(HashMap<String, Object> map) {
+        this.map = map;
+    }
+
+    public List<HashMap<String, Object>> getHashMap_list() {
+        return hashMap_list;
+    }
+
+    public void setHashMap_list(List<HashMap<String, Object>> hashMap_list) {
+        this.hashMap_list = hashMap_list;
+    }
+
+    public int getHyrant() {
+        return hyrant;
+    }
+
+    public void setHyrant(int hyrant) {
+        this.hyrant = hyrant;
+    }
+
+    public int getEqt() {
+        return eqt;
+    }
+
+    public void setEqt(int eqt) {
+        this.eqt = eqt;
+    }
+
+    public int getWater() {
+        return water;
+    }
+
+    public void setWater(int water) {
+        this.water = water;
+    }
+
+    public List<WaterSystem.DataBean.ListBean> getList_watersystem() {
+        return list_watersystem;
+    }
+
+    public void setList_watersystem(List<WaterSystem.DataBean.ListBean> list_watersystem) {
+        this.list_watersystem = list_watersystem;
     }
 }

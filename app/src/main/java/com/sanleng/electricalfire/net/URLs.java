@@ -11,19 +11,12 @@ public class URLs {
     //调试地址
 //    public static String HOST = "http://10.101.80.113:8080";
 
-
-    // 登陆
-    public static String BULOGIN_URL = HOST + "";
     // 电气火灾建筑列表
     public static String Architecture_URL = HOST + "/kspf/app/electricalfire/buildList";
     // 电气火灾楼层列表
     public static String Floor_URL = HOST + "/kspf/app/electricalfire/floorList";
     // 电气火灾设备名列表
     public static String Device_URL = HOST + "/kspf/app/electricalfire/deviceNames";
-    // 电气火灾设备列表
-    public static String DeviceItem_URL = HOST + "";
-    // 电气火灾设备实时数据列表
-    public static String RealTimeData_URL = HOST + "";
     // 密码修改
     public static String PasswordModification = HOST + "/kspf/app/user/appPassChange";
     // 电气火灾点位列表
@@ -32,8 +25,6 @@ public class URLs {
     public static String Police_URL = HOST + "/kspf/app/electricalfire/recordlist";
     // 电气火灾状态修改
     public static String ElectricalFire_URL = HOST + "/kspf/app/gsm/update";
-    // 电气火灾时间轴数据
-    public static String TIMEPUMP_URL = HOST + "/kspf/app/electricalfire/trajectory";
     // 电气火灾隐患整改
     public static String Rectification_URL = HOST + "/kspf/app/electricalfire/recordfinish";
 

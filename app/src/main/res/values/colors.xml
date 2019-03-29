@@ -3,7 +3,8 @@
 
     <!-- 白色 -->
     <color name="white" tools:ignore="MissingDefaultResource">#ffffff</color>
-    <color name="text_blue">#3CBAFF</color>
+    <!--<color name="text_blue">#3CBAFF</color>-->
+    <color name="text_blue">#288ce2</color>
     <color name="text_normal">#8D8D8D</color>
     <color name="view_bg">#F0EEEF</color>
     <color name="black">#000000</color>

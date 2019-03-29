@@ -12,23 +12,22 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />
-    <uses-permission android:name="com.permissions.MY_BROADCAST" />
-
+    <uses-permission android:name="com.permission.BROADCASTS" />
     <permission
-        android:name="com.permissions.MY_BROADCAST"
+        android:name="com.permission.BROADCASTS"
         android:protectionLevel="signature" />
 
     <application
         android:name="com.sanleng.electricalfire.MyApplication"
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@drawable/logo"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:roundIcon="@drawable/logo"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning"
         tools:replace="android:icon,android:theme,android:allowBackup">
-        <activity android:name=".activity.WelcomeActivity">
+        <activity android:name=".ui.activity.WelcomeActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -37,64 +36,68 @@
 
         <!-- 登录 -->
         <activity
-            android:name=".activity.LoginActivity"
+            android:name=".ui.activity.LoginActivity"
             android:screenOrientation="portrait" />
         <!-- 首页 -->
         <activity
-            android:name=".activity.MainActivity"
+            android:name=".ui.activity.MainActivity"
             android:screenOrientation="portrait" />
         <!-- 首页 -->
         <activity
-            android:name=".activity.MainTabActivity"
+            android:name=".ui.activity.MainTabActivity"
             android:screenOrientation="portrait" />
         <!-- 校园安全_更多 -->
         <activity
-            android:name=".activity.SearchActivity"
+            android:name=".ui.activity.SearchActivity"
             android:screenOrientation="portrait" />
         <!-- 校园安全_消防安全 -->
         <activity
-            android:name=".activity.FirsafetyAtivity"
+            android:name=".ui.activity.FirsafetyAtivity"
+            android:screenOrientation="portrait" />
+        <!-- 校园安全_消防安全_水系统 -->
+        <activity
+            android:name=".ui.activity.WaterSystemActivity"
             android:screenOrientation="portrait" />
         <!-- 校园安全_安全巡查 -->
         <activity
-            android:name=".activity.SafetyPatrolAtivity"
+            android:name=".ui.activity.SafetyPatrolAtivity"
             android:screenOrientation="portrait" />
         <!-- 校园安全_电气安全 -->
         <activity
-            android:name=".activity.RealTimeDataActivity"
+            android:name=".ui.activity.RealTimeDataActivity"
             android:screenOrientation="portrait" />
         <!-- 校园安全_电气安全 -->
         <activity
-            android:name=".activity.RealDataActivity"
+            android:name=".ui.activity.RealDataActivity"
             android:screenOrientation="portrait" />
         <!-- 校园安全_电气实时数据 -->
         <activity
-            android:name=".activity.RealDataItemActivity"
+            android:name=".ui.activity.RealDataItemActivity"
             android:screenOrientation="portrait" />
 
         <!-- 隐患列表 -->
         <activity
-            android:name=".activity.PendingActivity"
+            android:name=".ui.activity.PendingActivity"
             android:screenOrientation="portrait" />
         <!-- 隐患处理 -->
         <activity
-            android:name=".activity.RectificationitemActivity"
+            android:name=".ui.activity.RectificationitemActivity"
             android:screenOrientation="portrait" />
         <!-- 照片查看 -->
         <activity
-            android:name=".activity.PhotoActivity"
+            android:name=".ui.activity.PhotoActivity"
             android:screenOrientation="portrait" />
         <!-- 巡查（拍照确认） -->
         <activity
-            android:name=".activity.PatrolActivity"
+            android:name=".ui.activity.PatrolActivity"
             android:screenOrientation="portrait" />
         <!-- 历史轨迹 -->
         <activity
-            android:name=".activity.TimePumpingActivity"
+            android:name=".ui.activity.TimePumpingActivity"
             android:screenOrientation="portrait" />
         <!-- 密码修改 -->
         <activity
-            android:name=".activity.PwdChangeActivity"
+            android:name=".ui.activity.PwdChangeActivity"
             android:screenOrientation="portrait" />
         <!-- 替换原生极光推送接收器 -->
         <receiver

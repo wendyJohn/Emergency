@@ -5,6 +5,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
+import android.view.Window;
+import android.view.WindowManager;
+
+import com.sanleng.electricalfire.MyApplication;
+import com.sanleng.electricalfire.dialog.FireTipsDialog;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -22,8 +28,7 @@ public class MyReceiver extends BroadcastReceiver {
     // 应用程序可以把此 RegistrationID 保存以自己的应用服务器上，
     // 然后就可以根据 RegistrationID 来向设备推送消息或者通知。
     public static String regId;
-    private static final String BROADCAST_PERMISSION_DISC = "com.permissions.MY_BROADCAST";
-    private static final String BROADCAST_ACTION_DISC = "com.permissions.my_broadcast";
+
     @Override
     public void onReceive(Context context, Intent intent) {
         try {
@@ -44,10 +49,11 @@ public class MyReceiver extends BroadcastReceiver {
                 Log.d(TAG, "[MyReceiver] 接收到推送下来的通知");
                 int notifactionId = bundle.getInt(JPushInterface.EXTRA_NOTIFICATION_ID);
                 String str_test = bundle.getString(JPushInterface.EXTRA_ALERT);
-
-                Intent myintent = new Intent(BROADCAST_ACTION_DISC);
+                Intent myintent = new Intent(MyApplication.BROADCAST_ACTIONS_DISC);
                 myintent.putExtra("str_test", str_test);
-                context.sendBroadcast(myintent, BROADCAST_PERMISSION_DISC);
+                context.sendBroadcast(myintent, MyApplication.BROADCAST_PERMISSIONS_DISC);
+
+                System.out.println("=========收到了========"+str_test);
 
                 Log.d(TAG, "[MyReceiver] 接收到推送下来的通知的ID: " + notifactionId);
             } else if (JPushInterface.ACTION_NOTIFICATION_OPENED.equals(intent.getAction())) {

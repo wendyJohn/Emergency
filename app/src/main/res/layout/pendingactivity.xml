@@ -1,19 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/text_blue"
+    android:clipToPadding="false"
+    android:fitsSystemWindows="true"
     android:orientation="vertical">
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/title_margin"
-        android:background="@color/text_blue" >
+        android:background="@color/text_blue">
 
         <RelativeLayout
             android:id="@+id/task_ac_back"
-            android:layout_width="wrap_content"
+            android:layout_width="45dp"
             android:layout_height="@dimen/title_margin"
-            android:background="@color/text_blue" >
+            android:background="@color/text_blue">
 
             <ImageView
                 android:id="@+id/ac_back"
@@ -30,10 +34,11 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_toRightOf="@+id/ac_back"
-                android:text="返回"
+                android:text=""
                 android:textColor="@color/white"
                 android:textSize="14sp" />
         </RelativeLayout>
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -45,20 +50,25 @@
             android:textSize="@dimen/text_size_15" />
     </RelativeLayout>
 
-
-    <ListView
-        android:id="@+id/pendinglistview"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/nodata"
-        android:layout_width="wrap_content"
-        android:layout_height="60dp"
-        android:layout_gravity="center"
-        android:gravity="center"
-        android:text="没有更多数据了哦~"
-        android:textColor="@color/text_gray"
-        android:textSize="@dimen/text_size_16" />
+        <ListView
+            android:id="@+id/pendinglistview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
 
+        <TextView
+            android:id="@+id/nodata"
+            android:layout_width="wrap_content"
+            android:layout_height="60dp"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:text="没有更多数据了哦~"
+            android:textColor="@color/text_gray"
+            android:textSize="@dimen/text_size_16" />
+    </LinearLayout>
 </LinearLayout>

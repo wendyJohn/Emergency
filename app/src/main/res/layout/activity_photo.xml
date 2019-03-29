@@ -2,13 +2,16 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/text_blue"
+    android:clipToPadding="false"
+    android:fitsSystemWindows="true"
     android:orientation="vertical" >
 
     <LinearLayout
         android:id="@+id/youta"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/black"
+        android:layout_height="45dp"
+        android:background="@color/text_blue"
         android:orientation="vertical"
         android:padding="6dp" >
 
@@ -25,6 +28,7 @@
         android:id="@+id/viewpager"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/white"
         android:layout_above="@+id/photo_relativeLayout"
         android:layout_below="@id/youta" >
 
@@ -34,6 +38,7 @@
         android:id="@+id/photo_relativeLayout"
         android:layout_width="match_parent"
         android:layout_height="60dp"
+        android:background="@color/white"
         android:layout_alignParentBottom="true" >
 
         <Button

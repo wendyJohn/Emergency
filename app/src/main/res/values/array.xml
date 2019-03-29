@@ -11,12 +11,12 @@
     </string-array>
 
     <string-array name="myfunction_firsafetyicon">
-        <item>@drawable/hm_icon</item>
-        <item>@drawable/ws_icon</item>
-        <item>@drawable/s_icon</item>
-        <item>@drawable/fp_icon</item>
-        <item>@drawable/vp_icon</item>
-        <item>@drawable/hsc_icon</item>
+        <item>@drawable/hm_icons</item>
+        <item>@drawable/ws_icons</item>
+        <item>@drawable/s_icons</item>
+        <item>@drawable/fp_icons</item>
+        <item>@drawable/vp_icons</item>
+        <item>@drawable/hsc_icons</item>
     </string-array>
 
     <!-- 安全巡查 -->
