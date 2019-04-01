@@ -20,9 +20,9 @@
     <application
         android:name="com.sanleng.electricalfire.MyApplication"
         android:allowBackup="true"
-        android:icon="@drawable/logo"
+        android:icon="@drawable/app_logo"
         android:label="@string/app_name"
-        android:roundIcon="@drawable/logo"
+        android:roundIcon="@drawable/app_logo"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning"
@@ -99,6 +99,8 @@
         <activity
             android:name=".ui.activity.PwdChangeActivity"
             android:screenOrientation="portrait" />
+
+        <service android:name=".service.UpdateService" />
         <!-- 替换原生极光推送接收器 -->
         <receiver
             android:name=".jpush.MyReceiver"

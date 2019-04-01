@@ -3,8 +3,11 @@ package com.sanleng.electricalfire.ui.fragment;
 import android.annotation.SuppressLint;
 import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
@@ -20,7 +23,13 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.bigkoo.svprogresshud.SVProgressHUD;
+import com.sanleng.electricalfire.Presenter.UpdatePresenter;
 import com.sanleng.electricalfire.R;
+import com.sanleng.electricalfire.data.Version_mag;
+import com.sanleng.electricalfire.dialog.CustomDialog;
+import com.sanleng.electricalfire.model.UpdateRequest;
+import com.sanleng.electricalfire.service.UpdateService;
 import com.sanleng.electricalfire.ui.activity.LoginActivity;
 import com.sanleng.electricalfire.ui.activity.PwdChangeActivity;
 import com.sanleng.electricalfire.util.DataCleanManager;
@@ -33,7 +42,7 @@ import cn.pedant.SweetAlert.SweetAlertDialog;
 /**
  * @author qiaoshi
  */
-public class NewMineFragment extends BaseFragment implements OnClickListener {
+public class MineFragment extends BaseFragment implements OnClickListener, UpdatePresenter {
     private View view;
     private TextView login_out;
     public static final String ACTION_IMGHEAD_PORTRAIT = "image_head";
@@ -111,16 +120,13 @@ public class NewMineFragment extends BaseFragment implements OnClickListener {
         }
 
         login_out = (TextView) view.findViewById(R.id.login_out);
-
         changepassword = (RelativeLayout) view.findViewById(R.id.changepassword);
         scavengingcaching = (RelativeLayout) view.findViewById(R.id.scavengingcaching);
         dataupdate = (RelativeLayout) view.findViewById(R.id.dataupdate);
         versionupdate = (RelativeLayout) view.findViewById(R.id.versionupdate);
         aboutus = (RelativeLayout) view.findViewById(R.id.aboutus);
-
         tv_user_headname = (TextView) view.findViewById(R.id.tv_user_headname);
         item_search_addb = (TextView) view.findViewById(R.id.item_search_addb);
-
         String agentName = PreferenceUtils.getString(getActivity(), "agentName");
         tv_user_headname.setText(agentName);
 
@@ -177,27 +183,23 @@ public class NewMineFragment extends BaseFragment implements OnClickListener {
 
             // 数据更新
             case R.id.dataupdate:
-
+                new SVProgressHUD(getActivity()).showInfoWithStatus("暂无数据更新");
                 break;
 
             // 版本更新
             case R.id.versionupdate:
-//			Intent versionIntent = new Intent(getActivity().getApplicationContext(), VersionActivity.class);
-//			startActivity(versionIntent);
-                new SweetAlertDialog(getActivity())
-                        .setTitleText("已是最新版本！")
-                        .show();
+                UpdateRequest.GetUpdate(MineFragment.this, getActivity(), "os_android", Version_mag.platformkey);
                 break;
 
             // 关于我们
             case R.id.aboutus:
-
+                new SVProgressHUD(getActivity()).showInfoWithStatus("江苏三棱智慧物联发展有限公司\nCopyright©2018-2019 江苏三棱智慧物联发展股份有限公司版权所有");
                 break;
 
             case R.id.login_out:
                 // 清空sharepre中的用户名和密码
-                PreferenceUtils.setString(getActivity(), "ElectriFire_username", "");
-                PreferenceUtils.setString(getActivity(), "ElectriFire_password", "");
+                PreferenceUtils.setString(getActivity(), "ElectriFire_usernames", "");
+                PreferenceUtils.setString(getActivity(), "ElectriFire_passwords", "");
                 Intent loginOutIntent = new Intent(getActivity(), LoginActivity.class);
                 loginOutIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(loginOutIntent);
@@ -234,5 +236,66 @@ public class NewMineFragment extends BaseFragment implements OnClickListener {
             getActivity().unregisterReceiver(imgHeadportrait);
         }
         super.onDestroyView();
+    }
+
+    @Override
+    public void UpdateSuccess(String version, String path) {
+//        int versions=Integer.parseInt(version);
+        int versions=3;
+        if(versions > getLocalVersion(getActivity())){
+            // 是否更新
+            CustomDialog.Builder builder = new CustomDialog.Builder(getActivity());
+            String msg = Version_mag.update_mag;
+            String messageitems = "发现新的版本,更新内容如下：" + msg;
+            builder.setMessage(messageitems);
+            builder.setTitle("检测到新的版本信息");
+            builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.dismiss();
+                    getActivity().startService(new Intent(getActivity(), UpdateService.class));
+                    new SVProgressHUD(getActivity()).showWithStatus("版本正在更新...");
+                }
+            });
+            builder.setNegativeButton("取消", new android.content.DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.dismiss();
+                }
+            });
+            builder.create().show();
+        }else{
+            new SVProgressHUD(getActivity()).showInfoWithStatus("当前版本：" + getLocalVersionName(getActivity()) + "\n已是最新版本");
+        }
+    }
+
+    @Override
+    public void UpdateFailed() {
+        new SVProgressHUD(getActivity()).showErrorWithStatus("更新失败");
+    }
+
+    public static int getLocalVersion(Context ctx) {
+        int localVersion = 0;
+        try {
+            PackageInfo packageInfo = ctx.getApplicationContext()
+                    .getPackageManager()
+                    .getPackageInfo(ctx.getPackageName(), 0);
+            localVersion = packageInfo.versionCode;
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+        return localVersion;
+    }
+
+    /**
+     * 获取本地软件版本号名称
+     */
+    public static String getLocalVersionName(Context ctx) {
+        String localVersion = "";
+        try {
+            PackageInfo packageInfo = ctx.getApplicationContext().getPackageManager().getPackageInfo(ctx.getPackageName(), 0);
+            localVersion = packageInfo.versionName;
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+        return localVersion;
     }
 }

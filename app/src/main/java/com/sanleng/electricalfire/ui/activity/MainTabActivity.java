@@ -3,8 +3,11 @@ package com.sanleng.electricalfire.ui.activity;
 import android.annotation.SuppressLint;
 import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -20,18 +23,24 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.bigkoo.svprogresshud.SVProgressHUD;
 import com.sanleng.electricalfire.MyApplication;
+import com.sanleng.electricalfire.Presenter.UpdatePresenter;
 import com.sanleng.electricalfire.R;
+import com.sanleng.electricalfire.data.Version_mag;
+import com.sanleng.electricalfire.dialog.CustomDialog;
 import com.sanleng.electricalfire.dialog.FireTipsDialog;
+import com.sanleng.electricalfire.model.UpdateRequest;
+import com.sanleng.electricalfire.service.UpdateService;
 import com.sanleng.electricalfire.ui.fragment.AlarmRecordFragment;
 import com.sanleng.electricalfire.ui.fragment.HomeFragment;
-import com.sanleng.electricalfire.ui.fragment.NewMineFragment;
+import com.sanleng.electricalfire.ui.fragment.MineFragment;
 import com.sanleng.electricalfire.ui.fragment.RealTimeDataFragment;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainTabActivity extends FragmentActivity implements View.OnClickListener {
+public class MainTabActivity extends FragmentActivity implements View.OnClickListener, UpdatePresenter {
     //声明ViewPager
     private ViewPager mViewPager;
     //适配器
@@ -67,6 +76,8 @@ public class MainTabActivity extends FragmentActivity implements View.OnClickLis
         initViews();//初始化控件
         initEvents();//初始化事件
         initDatas();//初始化数据
+
+        UpdateRequest.GetUpdate(MainTabActivity.this, getApplicationContext(), "os_android", Version_mag.platformkey);
     }
 
     private void initDatas() {
@@ -75,7 +86,7 @@ public class MainTabActivity extends FragmentActivity implements View.OnClickLis
         mFragments.add(new HomeFragment());
         mFragments.add(new RealTimeDataFragment());
         mFragments.add(new AlarmRecordFragment());
-        mFragments.add(new NewMineFragment());
+        mFragments.add(new MineFragment());
 
         //初始化适配器
         mAdapter = new FragmentPagerAdapter(getSupportFragmentManager()) {
@@ -128,7 +139,7 @@ public class MainTabActivity extends FragmentActivity implements View.OnClickLis
 
     //初始化控件
     private void initViews() {
-        linearLayout =  findViewById(R.id.login_delete);
+        linearLayout = findViewById(R.id.login_delete);
         findViewById(R.id.home_close).setOnClickListener(this);
         findViewById(R.id.home_delete).setOnClickListener(this);
         mViewPager = findViewById(R.id.id_viewpager);
@@ -242,6 +253,41 @@ public class MainTabActivity extends FragmentActivity implements View.OnClickLis
         }
     };
 
+    @Override
+    public void UpdateSuccess(String version, final String path) {
+//        int versions = Integer.parseInt(version);
+        int versions = 3;
+        if (versions > getLocalVersion(MainTabActivity.this)) {
+            // 是否更新
+            CustomDialog.Builder builder = new CustomDialog.Builder(this);
+            String msg = Version_mag.update_mag;
+            String messageitems = "发现新的版本,更新内容如下：" + msg;
+            builder.setMessage(messageitems);
+            builder.setTitle("检测到新的版本信息");
+            builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.dismiss();
+                    Intent i = new Intent(MainTabActivity.this, UpdateService.class);
+                    i.putExtra("apkurl", "https://slyj.slicity.com" + path);
+                    startService(i);
+                    new SVProgressHUD(MainTabActivity.this).showWithStatus("版本正在更新...");
+                }
+            });
+            builder.setNegativeButton("取消", new android.content.DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.dismiss();
+                }
+            });
+            builder.create().show();
+        }
+
+    }
+
+    @Override
+    public void UpdateFailed() {
+        new SVProgressHUD(MainTabActivity.this).showErrorWithStatus("更新失败");
+    }
+
     // 收到报警广播处理，刷新界面
     public class Receivers extends BroadcastReceiver {
         public void onReceive(Context context, Intent intent) {
@@ -255,17 +301,28 @@ public class MainTabActivity extends FragmentActivity implements View.OnClickLis
                 layoutParams.width = WindowManager.LayoutParams.MATCH_PARENT;
                 window.setAttributes(layoutParams);
                 fireTipsDialog.show();
-
-
             }
 
         }
     }
-
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
         unregisterReceiver(receivers);
     }
+
+    public static int getLocalVersion(Context ctx) {
+        int localVersion = 0;
+        try {
+            PackageInfo packageInfo = ctx.getApplicationContext()
+                    .getPackageManager()
+                    .getPackageInfo(ctx.getPackageName(), 0);
+            localVersion = packageInfo.versionCode;
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+        return localVersion;
+    }
+
 }

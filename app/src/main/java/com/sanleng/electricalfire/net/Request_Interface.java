@@ -4,6 +4,7 @@ import com.sanleng.electricalfire.ui.bean.HistoricalTrack;
 import com.sanleng.electricalfire.ui.bean.Login;
 import com.sanleng.electricalfire.ui.bean.ReadTimeItemData;
 import com.sanleng.electricalfire.ui.bean.RealtimeData;
+import com.sanleng.electricalfire.ui.bean.Version;
 import com.sanleng.electricalfire.ui.bean.WaterSystem;
 import com.sanleng.electricalfire.ui.bean.WaterSystemStatistics;
 
@@ -40,4 +41,8 @@ public interface Request_Interface {
     //获取水系统数据
     @POST("/kspf/app/water/list?")
     Call<WaterSystem> getWaterSystemCall(@Query("page") String page, @Query("pageSize") String pageSize, @Query("unitcode") String unitcode, @Query("username") String username, @Query("platformkey") String platformkey, @Query("fireSysName") String fireSysName);
+
+    //获取版本号与下载链接
+    @POST("/kspf/app/version/getApk?")
+    Call<Version> getVersionCall(@Query("osType") String osType, @Query("platformkey") String platformkey);
 }

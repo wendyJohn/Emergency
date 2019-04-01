@@ -85,11 +85,13 @@ public class LoginActivity extends BaseActivity implements OnClickListener, Logi
     @Override
     protected void onResume() {
         super.onResume();
+        login_number.setText( PreferenceUtils.getString(this, "ElectriFire_username"));
+        login_password.setText(PreferenceUtils.getString(this, "ElectriFire_password"));
         int state = PreferenceUtils.getInt(LoginActivity.this, "state");
         if (state == 1) {
             // 记住上次登录的信息
-            lastAccount = PreferenceUtils.getString(this, "ElectriFire_username");
-            lastPwd = PreferenceUtils.getString(this, "ElectriFire_password");
+            lastAccount = PreferenceUtils.getString(this, "ElectriFire_usernames");
+            lastPwd = PreferenceUtils.getString(this, "ElectriFire_passwords");
             if (!StringUtils.isEmpty(lastAccount) && !StringUtils.isEmpty(lastPwd)) {
                 login_number.setText(lastAccount);
                 login_password.setText(lastPwd);

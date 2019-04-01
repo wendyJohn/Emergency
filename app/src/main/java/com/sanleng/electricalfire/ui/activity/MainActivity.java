@@ -21,7 +21,7 @@ import com.sanleng.electricalfire.R;
 import com.sanleng.electricalfire.ui.adapter.BottomAdapter;
 import com.sanleng.electricalfire.ui.fragment.AlarmRecordFragment;
 import com.sanleng.electricalfire.ui.fragment.HomeFragment;
-import com.sanleng.electricalfire.ui.fragment.NewMineFragment;
+import com.sanleng.electricalfire.ui.fragment.MineFragment;
 import com.sanleng.electricalfire.ui.fragment.RealTimeDataFragment;
 
 import java.lang.reflect.Field;
@@ -124,7 +124,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
         adapter.addFragment(new HomeFragment());
         adapter.addFragment(new RealTimeDataFragment());
         adapter.addFragment(new AlarmRecordFragment());
-        adapter.addFragment(new NewMineFragment());
+        adapter.addFragment(new MineFragment());
         viewPager.setAdapter(adapter);
     }
     //判断消息通知栏是否打开

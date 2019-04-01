@@ -22,14 +22,14 @@ public class LoginRequest {
                 .baseUrl(URLs.HOST) // 设置 网络请求 Url
                 .addConverterFactory(GsonConverterFactory.create()) //设置使用Gson解析
                 .build();
-        Request_Interface request_Interface=retrofit.create(Request_Interface.class);
+        Request_Interface request_Interface = retrofit.create(Request_Interface.class);
         //对 发送请求 进行封装
-        Call<Login> call = request_Interface.getloginCall(username,password,platformkey);
+        Call<Login> call = request_Interface.getloginCall(username, password, platformkey);
         call.enqueue(new Callback<Login>() {
             @Override
             public void onResponse(Call<Login> call, Response<Login> response) {
-                String msg=response.body().getMsg();
-                if(msg.equals("登录成功")) {
+                String msg = response.body().getMsg();
+                if (msg.equals("登录成功")) {
                     loginPresenter.LoginSuccess(msg);
                     String unitcode = response.body().getData().getUnitcode();
                     String agentName = response.body().getData().getName();
@@ -38,11 +38,16 @@ public class LoginRequest {
                     // 存入数据库中（登录名称和密码）
                     PreferenceUtils.setString(context, "ElectriFire_username", username);
                     PreferenceUtils.setString(context, "ElectriFire_password", password);
+
+                    //存入数据库中（登录名称和密码用来判断是否需要重新登录问题）
+                    PreferenceUtils.setString(context, "ElectriFire_usernames", username);
+                    PreferenceUtils.setString(context, "ElectriFire_passwords", password);
+
                     // 单位ID
                     PreferenceUtils.setString(context, "unitcode", unitcode);
                     // 人员名称
                     PreferenceUtils.setString(context, "agentName", agentName);
-                }else{
+                } else {
                     loginPresenter.LoginSuccess(msg);
                 }
             }
