@@ -5,25 +5,24 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.WindowManager;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
 import com.sanleng.electricalfire.R;
-import com.sanleng.electricalfire.ui.adapter.FunctionAdapter;
-import com.sanleng.electricalfire.myview.MyGridView;
 
 /**
  * 消防安全
  *
  * @author Qiaoshi
  */
-public class FirsafetyAtivity extends BaseActivity implements OnItemClickListener, View.OnClickListener {
-
-    private MyGridView itemGrid;
-    private FunctionAdapter adapter;
+public class FirsafetyAtivity extends BaseActivity implements View.OnClickListener {
+    private LinearLayout firsLineara;
+    private LinearLayout firsLinearb;
+    private LinearLayout firsLinearc;
+    private LinearLayout firsLineard;
+    private LinearLayout firsLineare;
+    private LinearLayout firsLinearf;
     private RelativeLayout back;
-
 
     @SuppressLint("ResourceAsColor")
     @Override
@@ -39,50 +38,22 @@ public class FirsafetyAtivity extends BaseActivity implements OnItemClickListene
         return R.layout.activity_firsafety;
     }
 
-
     private void initView() {
-        itemGrid = findViewById(R.id.item_grid);
         back = findViewById(R.id.back);
-        adapter = new FunctionAdapter(FirsafetyAtivity.this, R.array.myfunction_firsafetyname,
-                R.array.myfunction_firsafetyicon);
-        itemGrid.setAdapter(adapter);
-        itemGrid.setOnItemClickListener(this);
+        firsLineara = findViewById(R.id.firs_lineara);
+        firsLinearb = findViewById(R.id.firs_linearb);
+        firsLinearc = findViewById(R.id.firs_linearc);
+        firsLineard = findViewById(R.id.firs_lineard);
+        firsLineare = findViewById(R.id.firs_lineare);
+        firsLinearf = findViewById(R.id.firs_linearf);
+
         back.setOnClickListener(this);
-    }
-
-    @Override
-    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        switch (position) {
-            // 火灾包报警
-            case 0:
-
-                break;
-            // 水系统
-            case 1:
-                Intent WaterSystemintent=new Intent(FirsafetyAtivity.this,WaterSystemActivity.class);
-                startActivity(WaterSystemintent);
-                break;
-            // 防排烟
-            case 2:
-
-                break;
-            // 防火门
-            case 3:
-
-                break;
-            // 视频应用
-            case 4:
-
-
-                break;
-            // 主机自检
-            case 5:
-
-                break;
-            default:
-                break;
-        }
-
+        firsLineara.setOnClickListener(this);
+        firsLinearb.setOnClickListener(this);
+        firsLinearc.setOnClickListener(this);
+        firsLineard.setOnClickListener(this);
+        firsLineare.setOnClickListener(this);
+        firsLinearf.setOnClickListener(this);
 
     }
 
@@ -92,6 +63,33 @@ public class FirsafetyAtivity extends BaseActivity implements OnItemClickListene
             // 返回
             case R.id.back:
                 finish();
+                break;
+            // 火灾报警
+            case R.id.firs_lineara:
+                Intent HostMonitoring=new Intent(FirsafetyAtivity.this,HostMonitoringActivity.class);
+                startActivity(HostMonitoring);
+                break;
+            // 水系统
+            case R.id.firs_linearb:
+                Intent WaterSystemintent=new Intent(FirsafetyAtivity.this,WaterSystemActivity.class);
+                startActivity(WaterSystemintent);
+                break;
+            // 防排烟
+            case R.id.firs_linearc:
+
+                break;
+            // 防火门
+            case R.id.firs_lineard:
+
+                break;
+            // 视频应用
+            case R.id.firs_lineare:
+
+
+                break;
+            // 主机自检
+            case R.id.firs_linearf:
+
                 break;
             default:
                 break;

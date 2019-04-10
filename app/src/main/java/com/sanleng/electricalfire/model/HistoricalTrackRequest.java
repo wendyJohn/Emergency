@@ -19,7 +19,6 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class HistoricalTrackRequest {
-
     public static void getHistoricalTrack(final HistoricalTrackPresenter historicalTrackPresenter, final Context context, final String device_id) {
         final List<HashMap<String, Object>> c_list = new ArrayList<>();
         final List<HashMap<String, Object>> h_list = new ArrayList<>();

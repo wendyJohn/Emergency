@@ -54,11 +54,11 @@ public class RealDataItemAdapter extends BaseAdapter {
         String detector_name=list.get(position).getDetector_name();
         if(detector_name.equals("temperature_detector")){
 
-            String strs=list.get(position).getRealtime_data().toString();
-            int str=Double.valueOf(strs).intValue();//转换为Int类型
-            if(str >= 80){
-                holder.name.setTextColor(context.getResources().getColor(R.color.red));
-            }
+//            String strs=list.get(position).getRealtime_data().toString();
+//            int str=Double.valueOf(strs).intValue();//转换为Int类型
+//            if(str >= 80){
+//                holder.name.setTextColor(context.getResources().getColor(R.color.red));
+//            }
             holder.name.setText(list.get(position).getDetector_portVal()+" | "+"温度: "+list.get(position).getRealtime_data()+" "+list.get(position).getMeasurement_unit()+"  限值:"+list.get(position).getLower_limit()+"～"+list.get(position).getUpper_limit()+" "+list.get(position).getMeasurement_unit());
         }
         if(detector_name.equals("electricity_detector")){

@@ -1,8 +1,5 @@
 package com.sanleng.electricalfire.Presenter;
 
-import com.sanleng.electricalfire.ui.bean.ERealTimeDataBean;
-import com.sanleng.electricalfire.ui.bean.ReadTimeItemData;
-
 import java.util.HashMap;
 import java.util.List;
 

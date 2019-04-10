@@ -1,11 +1,13 @@
 package com.sanleng.electricalfire;
 
-import android.app.Application;
 import android.content.Context;
 import android.support.multidex.MultiDex;
 import android.support.multidex.MultiDexApplication;
 
+import com.baidu.mapapi.SDKInitializer;
+
 import cn.jpush.android.api.JPushInterface;
+
 
 public class MyApplication extends MultiDexApplication {
     private static MyApplication instance;
@@ -23,6 +25,13 @@ public class MyApplication extends MultiDexApplication {
     public static final String BROADCAST_ACTIONS_DISC = "com.permission.broadcasts";
     public static final int REQUEST_CODE_ASK_PERMISSIONS = 0x1231232;
 
+    public static final int MSGHANDLE = 0x121111;
+    public static final int MSGViewMonitoring = 0x121112;
+    public static final int MSGViewlocation = 0x121113;
+    public static final int MSGConfirmSuccess = 0x121114;
+    public static final int MSGConfirmFailure = 0x121115;
+
+
     @Override
     protected void attachBaseContext(Context base) {
         super.attachBaseContext(base);
@@ -36,6 +45,11 @@ public class MyApplication extends MultiDexApplication {
         instance = this;
         JPushInterface.setDebugMode(true); // 设置开启日志,发布时请关闭日志
         JPushInterface.init(this); // 初始化 JPush
+        SDKInitializer.initialize(this);
+    }
+
+    public static Context getAppContext() {
+        return instance;
     }
 }
 

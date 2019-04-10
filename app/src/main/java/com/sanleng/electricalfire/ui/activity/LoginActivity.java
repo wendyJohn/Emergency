@@ -122,7 +122,7 @@ public class LoginActivity extends BaseActivity implements OnClickListener, Logi
             promptDialog.showSuccess("登录成功");
             new Handler().postDelayed(new Runnable() {
                 public void run() {
-                    // 等待2000毫秒后销毁此页面，并提示登陆成功
+                    // 等待1000毫秒后销毁此页面，并提示登陆成功
                     Intent intent_pwdchange = new Intent(LoginActivity.this, MainTabActivity.class);
                     startActivity(intent_pwdchange);
                     finish();

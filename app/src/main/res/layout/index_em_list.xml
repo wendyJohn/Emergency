@@ -29,7 +29,7 @@
             android:background="@drawable/select_center"
             android:drawableTop="@drawable/em_b"
             android:gravity="center"
-            android:text="救援力量"
+            android:text="志愿者"
             />
 
         <TextView
@@ -88,6 +88,7 @@
             android:layout_weight="1"
             android:background="@drawable/select_center"
             android:drawableTop="@drawable/em_g"
+            android:visibility="gone"
             android:gravity="center"
             android:text="处置报告" />
 

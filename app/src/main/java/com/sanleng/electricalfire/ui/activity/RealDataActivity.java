@@ -18,7 +18,10 @@ import com.bigkoo.svprogresshud.SVProgressHUD;
 import com.sanleng.electricalfire.MyApplication;
 import com.sanleng.electricalfire.Presenter.RealTimeDataPresenter;
 import com.sanleng.electricalfire.R;
+import com.sanleng.electricalfire.model.AlarmUpdateRequest;
+import com.sanleng.electricalfire.model.RealTimeDatasRequest;
 import com.sanleng.electricalfire.ui.adapter.RealDataAdapter;
+import com.sanleng.electricalfire.ui.adapter.RealDatasAdapter;
 import com.sanleng.electricalfire.ui.bean.ERealTimeDataBean;
 import com.sanleng.electricalfire.model.RealTimeDataRequest;
 import com.sanleng.electricalfire.myview.MarqueeViews;
@@ -76,6 +79,7 @@ public class RealDataActivity extends BaseActivity implements OnClickListener, R
     TextView nodata;
     RelativeLayout back;
     private RealDataAdapter realDataAdapter;//(有数据版)
+    private RealDatasAdapter realDatasAdapter;//(无数据版)
     private boolean state = true;
     private List<ERealTimeDataBean> allList;
     private int pageNo = 1;// 设置pageNo的初始化值为1，即默认获取的是第一页的数据。
@@ -84,6 +88,9 @@ public class RealDataActivity extends BaseActivity implements OnClickListener, R
     private boolean finish = true;// 是否加载完成;
     private List<String> info;
     ListView realtimedatalslistview;
+    private LinearLayout l_realdata, l_realdatas;// 选项名称
+    private TextView tab_a, tab_b;// 选项名称
+
 
     @SuppressLint("ResourceAsColor")
     @Override
@@ -103,10 +110,17 @@ public class RealDataActivity extends BaseActivity implements OnClickListener, R
     //初始化
     private void initView() {
         ButterKnife.bind(this);
-        allList = new ArrayList<>();
         realDataAdapter = new RealDataAdapter();
+        realDatasAdapter = new RealDatasAdapter();
         back = findViewById(R.id.back);
+        l_realdata = findViewById(R.id.l_realdata);
+        l_realdatas = findViewById(R.id.l_realdatas);
+        tab_a = findViewById(R.id.tab_a);
+        tab_b = findViewById(R.id.tab_b);
         back.setOnClickListener(this);
+        l_realdata.setOnClickListener(this);
+        l_realdatas.setOnClickListener(this);
+        allList = new ArrayList<>();
     }
 
     @Override
@@ -114,7 +128,7 @@ public class RealDataActivity extends BaseActivity implements OnClickListener, R
         super.onResume();
     }
 
-    // 加载数据
+    // 加载有数据的
     private void addData(int size, List<ERealTimeDataBean> list) {
         int length = 10;
         if (size % length == 0) {
@@ -172,6 +186,62 @@ public class RealDataActivity extends BaseActivity implements OnClickListener, R
         });
     }
 
+
+    // 加载无数据的（迅鹰设备）
+    private void addDatas(int size, List<ERealTimeDataBean> list) {
+        int length = 10;
+        if (size % length == 0) {
+            allpage = size / length;
+        } else {
+            allpage = size / length + 1;
+        }
+        allList.addAll(list);
+        realtimedatalslistview = findViewById(R.id.realtimedatalslistview);
+        realDatasAdapter.bindData(RealDataActivity.this, allList);
+        if (pageNo == 1) {
+            // 没有数据就提示暂无数据。
+            realtimedatalslistview.setEmptyView(findViewById(R.id.nodata));
+            realtimedatalslistview.setAdapter(realDatasAdapter);
+        }
+        realDatasAdapter.notifyDataSetChanged();
+        pageNo++;
+        finish = true;
+        realtimedatalslistview.setOnScrollListener(new AbsListView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(AbsListView view, int scrollState) {
+                /**
+                 * 当分页操作is_divPage为true时、滑动停止时、且pageNo<=allpage（ 这里因为服务端有allpage页数据）时，加载更多数据。
+                 */
+                if (is_divPage && scrollState == AbsListView.OnScrollListener.SCROLL_STATE_IDLE && pageNo <= allpage
+                        && finish) {
+                    finish = false;
+                    RealTimeDatasRequest.getRealTimeDatas(RealDataActivity.this,getApplicationContext(),pageNo+"");
+                } else if (pageNo > allpage && finish) {
+                    finish = false;
+                    // 如果pageNo>allpage则表示，服务端没有更多的数据可供加载了。
+                }
+            }
+
+            // 当：第一个可见的item（firstVisibleItem）+可见的item的个数（visibleItemCount）=
+            // 所有的item总数的时候， is_divPage变为TRUE，这个时候才会加载数据。
+            @Override
+            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount,
+                                 int totalItemCount) {
+                is_divPage = (firstVisibleItem + visibleItemCount == totalItemCount);
+            }
+        });
+
+        realtimedatalslistview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                ERealTimeDataBean bean = allList.get(position);
+                String device_id = bean.getId();
+                AlarmUpdateRequest.getAlarmUpdate(RealDataActivity.this,device_id);
+                Intent intent = new Intent(RealDataActivity.this, AlarmRecordActivity.class);
+                startActivity(intent);
+            }
+        });
+    }
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -189,6 +259,21 @@ public class RealDataActivity extends BaseActivity implements OnClickListener, R
             case R.id.back:
                 finish();
                 break;
+            case R.id.l_realdata:
+                tab_a.setTextColor(RealDataActivity.this.getResources().getColor(R.color.text_blue));
+                tab_b.setTextColor(RealDataActivity.this.getResources().getColor(R.color.black));
+                allList = new ArrayList<>();
+                pageNo=1;
+                RealTimeDataRequest.getRealTimeData(RealDataActivity.this,getApplicationContext(),pageNo+"");
+                break;
+            case R.id.l_realdatas:
+                tab_a.setTextColor(RealDataActivity.this.getResources().getColor(R.color.black));
+                tab_b.setTextColor(RealDataActivity.this.getResources().getColor(R.color.text_blue));
+                allList = new ArrayList<>();
+                pageNo=1;
+                RealTimeDatasRequest.getRealTimeDatas(RealDataActivity.this,getApplicationContext(),pageNo+"");
+                break;
+
             default:
                 break;
         }
@@ -202,6 +287,11 @@ public class RealDataActivity extends BaseActivity implements OnClickListener, R
     @Override
     public void RealTimeDataSuccess(List<ERealTimeDataBean> list, int size) {
         addData(size, list);
+    }
+
+    @Override
+    public void RealTimeDatasSuccess(List<ERealTimeDataBean> list, int size) {
+        addDatas(size, list);
     }
 
     @Override

@@ -188,7 +188,7 @@ public class MineFragment extends BaseFragment implements OnClickListener, Updat
 
             // 版本更新
             case R.id.versionupdate:
-                UpdateRequest.GetUpdate(MineFragment.this, getActivity(), "os_android", Version_mag.platformkey);
+                UpdateRequest.GetUpdate(MineFragment.this, getActivity(), Version_mag.ostype, Version_mag.platformkey);
                 break;
 
             // 关于我们
@@ -241,8 +241,8 @@ public class MineFragment extends BaseFragment implements OnClickListener, Updat
     @Override
     public void UpdateSuccess(String version, String path) {
 //        int versions=Integer.parseInt(version);
-        int versions=3;
-        if(versions > getLocalVersion(getActivity())){
+        int versions = 3;
+        if (versions > getLocalVersion(getActivity())) {
             // 是否更新
             CustomDialog.Builder builder = new CustomDialog.Builder(getActivity());
             String msg = Version_mag.update_mag;
@@ -262,7 +262,7 @@ public class MineFragment extends BaseFragment implements OnClickListener, Updat
                 }
             });
             builder.create().show();
-        }else{
+        } else {
             new SVProgressHUD(getActivity()).showInfoWithStatus("当前版本：" + getLocalVersionName(getActivity()) + "\n已是最新版本");
         }
     }

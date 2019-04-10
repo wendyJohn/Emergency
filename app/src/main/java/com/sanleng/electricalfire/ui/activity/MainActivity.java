@@ -19,10 +19,10 @@ import android.widget.LinearLayout;
 
 import com.sanleng.electricalfire.R;
 import com.sanleng.electricalfire.ui.adapter.BottomAdapter;
-import com.sanleng.electricalfire.ui.fragment.AlarmRecordFragment;
+import com.sanleng.electricalfire.ui.fragment.EventFragment;
 import com.sanleng.electricalfire.ui.fragment.HomeFragment;
 import com.sanleng.electricalfire.ui.fragment.MineFragment;
-import com.sanleng.electricalfire.ui.fragment.RealTimeDataFragment;
+import com.sanleng.electricalfire.ui.fragment.RemoteMonitoringFragment;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
@@ -122,8 +122,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
     private void setupViewPager(ViewPager viewPager) {
         BottomAdapter adapter = new BottomAdapter(getSupportFragmentManager());
         adapter.addFragment(new HomeFragment());
-        adapter.addFragment(new RealTimeDataFragment());
-        adapter.addFragment(new AlarmRecordFragment());
+        adapter.addFragment(new RemoteMonitoringFragment());
+        adapter.addFragment(new EventFragment());
         adapter.addFragment(new MineFragment());
         viewPager.setAdapter(adapter);
     }

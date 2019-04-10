@@ -13,6 +13,64 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />
     <uses-permission android:name="com.permission.BROADCASTS" />
+    <!-- 二维码权限 -->
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
+    <uses-feature android:name="android.hardware.camera" />
+    <uses-feature android:name="android.hardware.camera.autofocus" />
+
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.FLASHLIGHT" />
+    <uses-permission android:name="android.permission.BLUETOOTH" />
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="com.android.launcher.permission.READ_SETTINGS" />
+    <uses-permission android:name="android.permission.GET_TASKS" />
+    <!-- 这个权限用于进行网络定位 -->
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <!-- 这个权限用于访问GPS定位 -->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <!-- 用于访问wifi网络信息，wifi信息会用于进行网络定位 -->
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <!-- 获取运营商信息，用于支持提供运营商信息相关的接口 -->
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <!-- 这个权限用于获取wifi的获取权限，wifi信息会用来进行网络定位 -->
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+    <!-- 用于读取手机当前的状态 -->
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <!-- 访问网络，网络定位需要上网 -->
+    <uses-permission android:name="android.permission.INTERNET" />
+    <!-- SD卡读取权限，用户写入离线定位数据 -->
+    <uses-permission
+        android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS"
+        tools:ignore="ProtectedPermissions" />
+    <uses-permission android:name="com.android.launcher.permission.READ_SETTINGS" />
+    <uses-permission android:name="android.permission.GET_TASKS" />
+    <uses-permission
+        android:name="android.permission.WRITE_SETTINGS"
+        tools:ignore="ProtectedPermissions" />
+    <!-- 这个权限用于获取wifi的获取权限，wifi信息会用来进行网络定位 -->
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+    <uses-permission android:name="android.permission.BLUETOOTH" />
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+    <!--获取手机录音机使用权限，听写、识别、语义理解需要用到此权限 -->
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <!--允许程序改变网络连接状态 -->
+    <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
+    <!--读取联系人权限，上传联系人需要用到此权限 -->
+    <uses-permission android:name="android.permission.READ_CONTACTS" />
+
+    <uses-permission android:name="android.permission.BAIDU_LOCATION_SERVICE" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <permission
         android:name="com.permission.BROADCASTS"
         android:protectionLevel="signature" />
@@ -34,6 +92,10 @@
             </intent-filter>
         </activity>
 
+        <meta-data
+            android:name="com.baidu.lbsapi.API_KEY"
+            android:value="LoeIeK436pV8owdx0prxMxcZC77ER8Eb" />
+
         <!-- 登录 -->
         <activity
             android:name=".ui.activity.LoginActivity"
@@ -53,6 +115,14 @@
         <!-- 校园安全_消防安全 -->
         <activity
             android:name=".ui.activity.FirsafetyAtivity"
+            android:screenOrientation="portrait" />
+        <!-- 校园安全_危化品柜 -->
+        <activity
+            android:name=".ui.activity.HazardousChemicalsActivity"
+            android:screenOrientation="portrait" />
+        <!-- 校园安全_消防安全（报警记录） -->
+        <activity
+            android:name=".ui.activity.AlarmRecordActivity"
             android:screenOrientation="portrait" />
         <!-- 校园安全_消防安全_水系统 -->
         <activity
@@ -74,33 +144,80 @@
         <activity
             android:name=".ui.activity.RealDataItemActivity"
             android:screenOrientation="portrait" />
-
-        <!-- 隐患列表 -->
+        <!-- 校园安全_火灾报警 -->
+        <activity
+            android:name=".ui.activity.HostMonitoringActivity"
+            android:screenOrientation="portrait" />
+        <!-- 校园安全_安防监控 -->
+        <activity
+            android:name=".ui.activity.MonitorsActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden"
+            android:screenOrientation="portrait" />
+        <!-- 应急导航 -->
+        <activity
+            android:name=".baidumap.WNaviGuideActivity"
+            android:screenOrientation="portrait" />
+        <!-- 应急导航 -->
+        <activity
+            android:name=".baidumap.DemoGuideActivity"
+            android:screenOrientation="portrait" />
+        <!-- 校园安全_火灾报警处理 -->
+        <activity
+            android:name=".ui.activity.FireAlarmActivity"
+            android:screenOrientation="portrait" />
+        <!-- 校园宣传_文章 -->
+        <activity
+            android:name=".ui.activity.ArticleActivity"
+            android:screenOrientation="portrait" />
+        <!-- 校园宣传_视频 -->
+        <activity
+            android:name=".ui.activity.VideoPlayerActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden"
+            android:screenOrientation="portrait" />
+        <!-- 校园宣传_文章详情 -->
+        <activity
+            android:name=".ui.activity.ArticleItemActivity"
+            android:screenOrientation="portrait" />
+        <!-- 安全巡查_隐患列表 -->
         <activity
             android:name=".ui.activity.PendingActivity"
             android:screenOrientation="portrait" />
-        <!-- 隐患处理 -->
+        <!-- 安全巡查_隐患处理 -->
         <activity
             android:name=".ui.activity.RectificationitemActivity"
             android:screenOrientation="portrait" />
-        <!-- 照片查看 -->
+        <!-- 安全巡查_照片查看 -->
         <activity
             android:name=".ui.activity.PhotoActivity"
             android:screenOrientation="portrait" />
-        <!-- 巡查（拍照确认） -->
+        <!-- 安全巡查_巡查（拍照确认） -->
         <activity
             android:name=".ui.activity.PatrolActivity"
             android:screenOrientation="portrait" />
-        <!-- 历史轨迹 -->
+        <!-- 校园应急_应急救援 -->
+        <activity
+            android:name=".ui.activity.EmergencyRescueActivity"
+            android:screenOrientation="portrait" />
+        <!-- 安全巡查_历史轨迹 -->
         <activity
             android:name=".ui.activity.TimePumpingActivity"
             android:screenOrientation="portrait" />
-        <!-- 密码修改 -->
+        <!-- 个人中心_密码修改 -->
         <activity
             android:name=".ui.activity.PwdChangeActivity"
             android:screenOrientation="portrait" />
 
         <service android:name=".service.UpdateService" />
+
+        <service
+            android:name="com.baidu.location.f"
+            android:enabled="true"
+            android:permission="android.permission.BAIDU_LOCATION_SERVICE"
+            android:process=":remote">
+            <intent-filter>
+                <action android:name="com.baidu.location.service_v5.2.1" />
+            </intent-filter>
+        </service>
         <!-- 替换原生极光推送接收器 -->
         <receiver
             android:name=".jpush.MyReceiver"

@@ -11,18 +11,25 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.sanleng.electricalfire.R;
+import com.sanleng.electricalfire.data.HomeData;
+import com.sanleng.electricalfire.dialog.SosDialog;
+import com.sanleng.electricalfire.myview.ZQScrollGridView;
+import com.sanleng.electricalfire.ui.activity.ArticleActivity;
+import com.sanleng.electricalfire.ui.activity.EmergencyRescueActivity;
 import com.sanleng.electricalfire.ui.activity.FirsafetyAtivity;
+import com.sanleng.electricalfire.ui.activity.HazardousChemicalsActivity;
 import com.sanleng.electricalfire.ui.activity.MainTabActivity;
+import com.sanleng.electricalfire.ui.activity.MonitorsActivity;
 import com.sanleng.electricalfire.ui.activity.RealDataActivity;
 import com.sanleng.electricalfire.ui.activity.SafetyPatrolAtivity;
 import com.sanleng.electricalfire.ui.activity.SearchActivity;
+import com.sanleng.electricalfire.ui.activity.VideoPlayerActivity;
 import com.sanleng.electricalfire.ui.adapter.HomeAdapter;
 import com.sanleng.electricalfire.ui.bean.UserBean;
-import com.sanleng.electricalfire.data.HomeData;
-import com.sanleng.electricalfire.myview.ZQScrollGridView;
 import com.sanleng.electricalfire.util.ACache;
 import com.sanleng.electricalfire.util.UtilFileDB;
 
@@ -44,6 +51,8 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     public static List<UserBean> list;
     private static ACache aCache;
     private TextView emtext_a, emtext_b, emtext_c, emtext_d, emtext_e, emtext_f, emtext_g, emtext_h;
+    private LinearLayout article;
+    private LinearLayout video;
 
     @Nullable
     @Override
@@ -70,6 +79,8 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         emtext_f = view.findViewById(R.id.emtext_f);
         emtext_g = view.findViewById(R.id.emtext_g);
         emtext_h = view.findViewById(R.id.emtext_h);
+        article = view.findViewById(R.id.article);
+        video = view.findViewById(R.id.video);
         emtext_a.setOnClickListener(this);
         emtext_b.setOnClickListener(this);
         emtext_c.setOnClickListener(this);
@@ -78,6 +89,8 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         emtext_f.setOnClickListener(this);
         emtext_g.setOnClickListener(this);
         emtext_h.setOnClickListener(this);
+        article.setOnClickListener(this);
+        video.setOnClickListener(this);
         onLoad();
     }
 
@@ -109,17 +122,22 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
             case R.id.emtext_a:
 
                 break;
-            //救援力量
+            //志愿者
             case R.id.emtext_b:
-
+                Intent intent_HazardousChemicals = new Intent(getActivity(), HazardousChemicalsActivity.class);
+                intent_HazardousChemicals.putExtra("name","志愿者");
+                startActivity(intent_HazardousChemicals);
                 break;
             //应急救援
             case R.id.emtext_c:
-
+                Intent intent_EmergencyRescue = new Intent(getActivity(), EmergencyRescueActivity.class);
+                startActivity(intent_EmergencyRescue);
                 break;
             //应急调度
             case R.id.emtext_d:
-
+                Intent intent_HazardousChemicalss = new Intent(getActivity(), HazardousChemicalsActivity.class);
+                intent_HazardousChemicalss.putExtra("name","应急调度");
+                startActivity(intent_HazardousChemicalss);
                 break;
             //应急预案
             case R.id.emtext_e:
@@ -127,7 +145,8 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                 break;
             //一键救援
             case R.id.emtext_f:
-
+                SosDialog sosDialog = new SosDialog(getActivity());
+                sosDialog.show();
                 break;
             //处置报告
             case R.id.emtext_g:
@@ -136,6 +155,16 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
             //应急小程序
             case R.id.emtext_h:
 
+                break;
+            //文章
+            case R.id.article:
+                Intent intent_Article = new Intent(getActivity(), ArticleActivity.class);
+                startActivity(intent_Article);
+                break;
+            //视频
+            case R.id.video:
+                Intent intent_VideoPlayer = new Intent(getActivity(), VideoPlayerActivity.class);
+                startActivity(intent_VideoPlayer);
                 break;
         }
     }
@@ -163,25 +192,30 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                 UserBean bean = list.get(listPosition.get(position));
                 String name = bean.getTitle();
                 if (name.equals("电气安全")) {
-                    Intent intent_RealTimeData =new Intent(getActivity(),RealDataActivity.class);
+                    Intent intent_RealTimeData = new Intent(getActivity(), RealDataActivity.class);
                     startActivity(intent_RealTimeData);
                 }
                 if (name.equals("消防安全")) {
-                Intent intent_Firsafety =new Intent(getActivity(),FirsafetyAtivity.class);
-                startActivity(intent_Firsafety);
+                    Intent intent_Firsafety = new Intent(getActivity(), FirsafetyAtivity.class);
+                    startActivity(intent_Firsafety);
                 }
                 if (name.equals("安防监控")) {
-
+                    Intent intent_Monitor = new Intent(getActivity(), MonitorsActivity.class);
+                    startActivity(intent_Monitor);
                 }
-                if (name.equals("实验室安全")) {
-
+                if (name.equals("危化品柜")) {
+                    Intent intent_HazardousChemicals = new Intent(getActivity(), HazardousChemicalsActivity.class);
+                    intent_HazardousChemicals.putExtra("name","危化品柜");
+                    startActivity(intent_HazardousChemicals);
                 }
                 if (name.equals("安全巡查")) {
-                    Intent intent_SafetyPatrol =new Intent(getActivity(),SafetyPatrolAtivity.class);
+                    Intent intent_SafetyPatrol = new Intent(getActivity(), SafetyPatrolAtivity.class);
                     startActivity(intent_SafetyPatrol);
                 }
                 if (name.equals("预警事件")) {
-
+                    Intent intent_HazardousChemicals = new Intent(getActivity(), HazardousChemicalsActivity.class);
+                    intent_HazardousChemicals.putExtra("name","预警事件");
+                    startActivity(intent_HazardousChemicals);
                 }
                 if (name.equals("地图监控")) {
 
@@ -220,7 +254,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
 
     private void showData() {
         listPosition = HomeData.POSITION(aCache);
-        list = new ArrayList<UserBean>();
+        list = new ArrayList<>();
         for (int i = 0; i < 8; i++) {
             UserBean user = new UserBean(HomeData.IMG[i], HomeData.TITLE[i], false, false);
             list.add(user);

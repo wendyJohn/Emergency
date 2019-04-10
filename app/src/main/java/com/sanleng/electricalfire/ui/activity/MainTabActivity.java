@@ -32,10 +32,10 @@ import com.sanleng.electricalfire.dialog.CustomDialog;
 import com.sanleng.electricalfire.dialog.FireTipsDialog;
 import com.sanleng.electricalfire.model.UpdateRequest;
 import com.sanleng.electricalfire.service.UpdateService;
-import com.sanleng.electricalfire.ui.fragment.AlarmRecordFragment;
+import com.sanleng.electricalfire.ui.fragment.EventFragment;
 import com.sanleng.electricalfire.ui.fragment.HomeFragment;
 import com.sanleng.electricalfire.ui.fragment.MineFragment;
-import com.sanleng.electricalfire.ui.fragment.RealTimeDataFragment;
+import com.sanleng.electricalfire.ui.fragment.RemoteMonitoringFragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -66,6 +66,7 @@ public class MainTabActivity extends FragmentActivity implements View.OnClickLis
     private TextView texttab_d;
     static LinearLayout linearLayout;
     private Receivers receivers;
+    public static final String ROUTE_PLAN_NODE = "routePlanNode";
 
     @SuppressLint("ResourceAsColor")
     @Override
@@ -77,15 +78,15 @@ public class MainTabActivity extends FragmentActivity implements View.OnClickLis
         initEvents();//初始化事件
         initDatas();//初始化数据
 
-        UpdateRequest.GetUpdate(MainTabActivity.this, getApplicationContext(), "os_android", Version_mag.platformkey);
+        UpdateRequest.GetUpdate(MainTabActivity.this, getApplicationContext(), Version_mag.ostype, Version_mag.platformkey);
     }
 
     private void initDatas() {
         mFragments = new ArrayList<>();
         //将四个Fragment加入集合中
         mFragments.add(new HomeFragment());
-        mFragments.add(new RealTimeDataFragment());
-        mFragments.add(new AlarmRecordFragment());
+        mFragments.add(new RemoteMonitoringFragment());
+        mFragments.add(new EventFragment());
         mFragments.add(new MineFragment());
 
         //初始化适配器

@@ -90,7 +90,7 @@ public class RealTimeDataActivity extends AppCompatActivity implements OnClickLi
     protected void onCreate(Bundle arg0) {
         super.onCreate(arg0);
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
-        setContentView(R.layout.realtimedatafragment);
+        setContentView(R.layout.remotemonitoringfragment);
         ButterKnife.bind(this);
         initView();
         RealTimeDataRequest.getRealTimeData(RealTimeDataActivity.this, getApplicationContext(), pageNo + "");
@@ -218,6 +218,11 @@ public class RealTimeDataActivity extends AppCompatActivity implements OnClickLi
     @Override
     public void RealTimeDataSuccess(List<ERealTimeDataBean> list, int size) {
         addData(size, list);
+    }
+
+    @Override
+    public void RealTimeDatasSuccess(List<ERealTimeDataBean> list, int size) {
+
     }
 
     @Override

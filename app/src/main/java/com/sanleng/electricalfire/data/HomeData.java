@@ -9,7 +9,7 @@ import java.util.List;
 
 public class HomeData {
 
-    public static String[] TITLE = {"电气安全", "消防安全", "安防监控", "实验室安全", "安全巡查", "预警事件", "地图监控", "更多"};
+    public static String[] TITLE = {"电气安全", "消防安全", "安防监控", "危化品柜", "安全巡查", "预警事件", "地图监控", "更多"};
 
     public static int[] IMG = {R.drawable.se_a, R.drawable.se_b, R.drawable.se_c,
             R.drawable.se_d, R.drawable.se_e, R.drawable.se_f,

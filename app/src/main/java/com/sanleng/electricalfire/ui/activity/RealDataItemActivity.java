@@ -137,6 +137,11 @@ public class RealDataItemActivity extends BaseActivity implements OnClickListene
     }
 
     @Override
+    public void RealTimeDatasSuccess(List<ERealTimeDataBean> list, int size) {
+
+    }
+
+    @Override
     public void RealDataItemSuccess(List<ReadTimeItemData.DataBean.ElectricalDetectorInfosBean> list_temperature, List<ReadTimeItemData.DataBean.ElectricalDetectorInfosBean> list_current,
                                     List<ReadTimeItemData.DataBean.ElectricalDetectorInfosBean> list_residualcurrent, List<ReadTimeItemData.DataBean.ElectricalDetectorInfosBean> list_voltage, String buildids, String floorids, String electricalDetectorInfos) {
         mybuildids = buildids;

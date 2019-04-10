@@ -9,7 +9,7 @@ public class URLs {
     public static String HOST = "https://slyj.slicity.com";
 
     //调试地址
-//    public static String HOST = "http://10.101.80.113:8080";
+    //public static String HOST = "http://10.101.80.113:8080";
 
     // 电气火灾建筑列表
     public static String Architecture_URL = HOST + "/kspf/app/electricalfire/buildList";

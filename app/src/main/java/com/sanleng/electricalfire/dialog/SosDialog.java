@@ -1,0 +1,198 @@
+package com.sanleng.electricalfire.dialog;
+
+import android.app.Dialog;
+import android.content.Context;
+import android.os.Bundle;
+import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
+import android.widget.EditText;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import com.baidu.location.BDLocation;
+import com.baidu.location.BDLocationListener;
+import com.baidu.location.LocationClient;
+import com.baidu.location.LocationClientOption;
+import com.bigkoo.svprogresshud.SVProgressHUD;
+import com.loopj.android.http.RequestParams;
+import com.sanleng.electricalfire.Presenter.RescuePresenter;
+import com.sanleng.electricalfire.R;
+import com.sanleng.electricalfire.model.RescueRequest;
+import com.sanleng.electricalfire.net.URLs;
+import com.sanleng.electricalfire.util.PreferenceUtils;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+/**
+ * SOS确认提示
+ *
+ * @author qiaoshi
+ */
+public class SosDialog extends Dialog implements View.OnClickListener ,RescuePresenter {
+    private Context context;
+    private TextView notice;
+    private TextView cancle;
+
+    private EditText name;
+    private EditText phone;
+    private EditText identitycrad;
+    private String type;
+
+    private double lat;// 纬度
+    private double lng;// 经度
+    private String address;
+    private LocationClient mLocationClient = null; // 定位对象
+    private BDLocationListener myListener = new MyLocationListener(); // 定位监听
+
+    public SosDialog(Context context) {
+        super(context);
+        this.context = context;
+    }
+
+    public SosDialog(Context context, int theme) {
+        super(context, theme);
+        this.context = context;
+
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
+        this.requestWindowFeature(Window.FEATURE_NO_TITLE);// 去掉标题栏
+        initMap();
+        this.setContentView(R.layout.sosdialog);
+        this.setCancelable(false);// 设置点击屏幕Dialog不消失
+        notice = (TextView) findViewById(R.id.notice);
+        cancle = (TextView) findViewById(R.id.cancle);
+        name = (EditText) findViewById(R.id.name);
+        phone = (EditText) findViewById(R.id.phone);
+        identitycrad = (EditText) findViewById(R.id.identitycrad);
+        notice.setOnClickListener(this);
+        cancle.setOnClickListener(this);
+        RadioGroup group = (RadioGroup) this.findViewById(R.id.radioGroup);
+        // 绑定一个匿名监听器
+        group.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+
+            @Override
+            public void onCheckedChanged(RadioGroup arg0, int arg1) {
+                // TODO Auto-generated method stub
+                // 获取变更后的选中项的ID
+                int radioButtonId = arg0.getCheckedRadioButtonId();
+                // 根据ID获取RadioButton的实例
+                RadioButton rb = (RadioButton) findViewById(radioButtonId);
+                String s = rb.getText().toString();
+                if (s.equals("火灾")) {
+                    type = "firecontrol";
+                }
+                if (s.equals("医疗")) {
+                    type = "medicalcare";
+                }
+            }
+        });
+    }
+
+    @Override
+    public void onClick(View v) {
+        // TODO Auto-generated method stub
+        switch (v.getId()) {
+            // 确认求救
+            case R.id.notice:
+                CryForHelp();
+                break;
+            // 取消
+            case R.id.cancle:
+                dismiss();
+                break;
+            default:
+                break;
+        }
+    }
+
+    // 一键求救
+    private void CryForHelp() {
+        if (lat == 0.0 && lng == 0.0) {
+            new SVProgressHUD(context).showErrorWithStatus("获取位置信息失败，请重新获取");
+        } else if ("".equals(name.getText().toString().trim()) || "".equals(phone.getText().toString().trim()) || "".equals(identitycrad.getText().toString().trim()) || name.getText().toString().trim() == null || phone.getText().toString().trim() == null || identitycrad.getText().toString().trim() == null
+                ||"".equals(type)||type==null) {
+            Toast.makeText(context,"请填写完求救信息！",Toast.LENGTH_SHORT).show();
+        } else {
+            dismiss();
+            RescueRequest.getRescue(SosDialog.this,context,lat + "",lng + "",name.getText().toString().trim(), phone.getText().toString().trim(),identitycrad.getText().toString().trim(),type,address);
+        }
+    }
+
+
+    private void initMap() {
+        mLocationClient = new LocationClient(context);
+        // 声明LocationClient类 //配置定位SDK参数
+        initLocation();
+        mLocationClient.registerLocationListener(myListener);// 注册监听函数
+        // 开启定位
+        mLocationClient.start();
+        // 图片点击事件，回到定位点
+        mLocationClient.requestLocation();
+    }
+
+    //配置定位SDK参数
+    private void initLocation() {
+        LocationClientOption option = new LocationClientOption();
+        option.setLocationMode(LocationClientOption.LocationMode.Hight_Accuracy);
+        //可选，默认高精度，设置定位模式，高精度，低功耗，仅设备
+        option.setCoorType("bd09ll");
+        //可选，默认gcj02，设置返回的定位结果坐标系
+        int span = 10000;
+        option.setScanSpan(span);
+        //可选，默认0，即仅定位一次，设置发起定位请求的间隔需要大于等于1000ms才是有效的
+        option.setIsNeedAddress(true);
+        //可选，设置是否需要地址信息，默认不需要
+        option.setOpenGps(true);
+        //可选，默认false,设置是否使用gps
+        option.setLocationNotify(true);
+        //可选，默认false，设置是否当GPS有效时按照1S/1次频率输出GPS结果
+        option.setIsNeedLocationDescribe(true);
+        //可选，默认false，设置是否需要位置语义化结果，可以在BDLocation
+        // .getLocationDescribe里得到，结果类似于“在北京天安门附近”
+        option.setIsNeedLocationPoiList(true);
+        //可选，默认false，设置是否需要POI结果，可以在BDLocation.getPoiList里得到
+        option.setIgnoreKillProcess(false);
+        option.setOpenGps(true);// 打开gps
+        // 可选，默认true，定位SDK内部是一个SERVICE，并放到了独立进程， 设置是否在stop的时候杀死这个进程，默认不杀死
+        option.SetIgnoreCacheException(false);
+        //可选，默认false，设置是否收集CRASH信息，默认收集
+        option.setEnableSimulateGps(false);//可选，默认false，设置是否需要过滤GPS仿真结果，默认需要
+        mLocationClient.setLocOption(option);
+    }
+
+    @Override
+    public void RescueSuccess(String msg) {
+        try {
+            if (msg.equals("申请成功")) {
+                new SVProgressHUD(context).showSuccessWithStatus("求救成功");
+            } else {
+                new SVProgressHUD(context).showErrorWithStatus(msg);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void RescueFailed() {
+        new SVProgressHUD(context).showErrorWithStatus("求救失败");
+    }
+
+    //实现BDLocationListener接口,BDLocationListener为结果监听接口，异步获取定位结果
+    public class MyLocationListener implements BDLocationListener {
+        @Override
+        public void onReceiveLocation(BDLocation location) {
+            lat = location.getLatitude();
+            lng = location.getLongitude();
+            address = location.getAddrStr();
+        }
+    }
+}
