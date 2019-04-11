@@ -116,6 +116,10 @@
         <activity
             android:name=".ui.activity.FirsafetyAtivity"
             android:screenOrientation="portrait" />
+        <!-- 校园安全_消防安全（地图监控） -->
+        <activity
+            android:name=".ui.activity.MapMonitoringActivity"
+            android:screenOrientation="portrait" />
         <!-- 校园安全_危化品柜 -->
         <activity
             android:name=".ui.activity.HazardousChemicalsActivity"

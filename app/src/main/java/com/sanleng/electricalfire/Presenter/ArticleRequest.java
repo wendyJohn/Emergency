@@ -1,14 +1,11 @@
-package com.sanleng.electricalfire.model;
+package com.sanleng.electricalfire.Presenter;
 
 import android.content.Context;
 
-import com.sanleng.electricalfire.Presenter.ArticlePresenter;
-import com.sanleng.electricalfire.Presenter.FireAlarmPresenter;
+import com.sanleng.electricalfire.model.ArticleModel;
 import com.sanleng.electricalfire.net.Request_Interface;
 import com.sanleng.electricalfire.net.URLs;
 import com.sanleng.electricalfire.ui.bean.Article;
-import com.sanleng.electricalfire.ui.bean.ArticleItem;
-import com.sanleng.electricalfire.ui.bean.FireAlarmBean;
 import com.sanleng.electricalfire.util.PreferenceUtils;
 
 import java.util.ArrayList;
@@ -22,7 +19,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ArticleRequest {
     //文章列表
-    public static void getArticle(final ArticlePresenter articlePresenter, final Context context, final String page, final String publicitytype) {
+    public static void getArticle(final ArticleModel articleModel, final Context context, final String page, final String publicitytype) {
         final List<Article.DataBean.ListBean> list = new ArrayList<>();
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(URLs.HOST) // 设置 网络请求 Url
@@ -50,12 +47,12 @@ public class ArticleRequest {
                     bean.setCover_img(URLs.HOST + cover_img);
                     list.add(bean);
                 }
-                articlePresenter.ArticleSuccess(list,size);
+                articleModel.ArticleSuccess(list,size);
             }
 
             @Override
             public void onFailure(Call<Article> call, Throwable t) {
-                articlePresenter.ArticleFailed();
+                articleModel.ArticleFailed();
             }
         });
     }

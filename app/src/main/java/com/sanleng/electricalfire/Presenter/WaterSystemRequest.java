@@ -1,8 +1,8 @@
-package com.sanleng.electricalfire.model;
+package com.sanleng.electricalfire.Presenter;
 
 import android.content.Context;
 
-import com.sanleng.electricalfire.Presenter.WaterSystemPresenter;
+import com.sanleng.electricalfire.model.WaterSystemModel;
 import com.sanleng.electricalfire.net.Request_Interface;
 import com.sanleng.electricalfire.net.URLs;
 import com.sanleng.electricalfire.ui.bean.WaterSystem;
@@ -20,7 +20,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class WaterSystemRequest {
     //水系统列表
-    public static void getWaterSystem(final WaterSystemPresenter waterSystemPresenter, final Context context, final String page) {
+    public static void getWaterSystem(final WaterSystemModel waterSystemModel, final Context context, final String page) {
         final List<WaterSystem.DataBean.ListBean> list = new ArrayList<>();
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(URLs.HOST) // 设置 网络请求 Url
@@ -56,18 +56,18 @@ public class WaterSystemRequest {
                     bean.setDevice_type(device_type);
                     list.add(bean);
                 }
-                waterSystemPresenter.WaterSystemSuccess(list, size);
+                waterSystemModel.WaterSystemSuccess(list, size);
             }
 
             @Override
             public void onFailure(Call<WaterSystem> call, Throwable t) {
-                waterSystemPresenter.WaterSystemFailed();
+                waterSystemModel.WaterSystemFailed();
             }
         });
     }
 
     //异常数量统计
-    public static void getWaterSystemStatistics(final WaterSystemPresenter waterSystemPresenter, final Context context) {
+    public static void getWaterSystemStatistics(final WaterSystemModel waterSystemModel, final Context context) {
         Retrofit retrofits = new Retrofit.Builder()
                 .baseUrl(URLs.HOST) // 设置 网络请求 Url
                 .addConverterFactory(GsonConverterFactory.create()) //设置使用Gson解析(记得加入依赖)
@@ -81,12 +81,12 @@ public class WaterSystemRequest {
                 int hyrant = response.body().getHyrant();
                 int eqt = response.body().getEqt();
                 int water = response.body().getWater();
-                waterSystemPresenter.WaterSystemNumberSuccess(hyrant, eqt, water);
+                waterSystemModel.WaterSystemNumberSuccess(hyrant, eqt, water);
             }
 
             @Override
             public void onFailure(Call<WaterSystemStatistics> call, Throwable t) {
-                waterSystemPresenter.WaterSystemFailed();
+                waterSystemModel.WaterSystemFailed();
             }
         });
     }

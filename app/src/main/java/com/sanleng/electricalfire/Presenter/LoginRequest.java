@@ -1,9 +1,9 @@
-package com.sanleng.electricalfire.model;
+package com.sanleng.electricalfire.Presenter;
 
 import android.content.Context;
 
+import com.sanleng.electricalfire.model.LoginModel;
 import com.sanleng.electricalfire.ui.bean.Login;
-import com.sanleng.electricalfire.Presenter.LoginPresenter;
 import com.sanleng.electricalfire.net.Request_Interface;
 import com.sanleng.electricalfire.net.URLs;
 import com.sanleng.electricalfire.util.PreferenceUtils;
@@ -17,7 +17,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class LoginRequest {
     //登录
-    public static void GetLogin(final LoginPresenter loginPresenter, final Context context, final String username, final String password, final String platformkey) {
+    public static void GetLogin(final LoginModel loginModel, final Context context, final String username, final String password, final String platformkey) {
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(URLs.HOST) // 设置 网络请求 Url
                 .addConverterFactory(GsonConverterFactory.create()) //设置使用Gson解析
@@ -30,7 +30,7 @@ public class LoginRequest {
             public void onResponse(Call<Login> call, Response<Login> response) {
                 String msg = response.body().getMsg();
                 if (msg.equals("登录成功")) {
-                    loginPresenter.LoginSuccess(msg);
+                    loginModel.LoginSuccess(msg);
                     String unitcode = response.body().getData().getUnitcode();
                     String agentName = response.body().getData().getName();
                     //绑定唯一标识
@@ -48,13 +48,13 @@ public class LoginRequest {
                     // 人员名称
                     PreferenceUtils.setString(context, "agentName", agentName);
                 } else {
-                    loginPresenter.LoginSuccess(msg);
+                    loginModel.LoginSuccess(msg);
                 }
             }
 
             @Override
             public void onFailure(Call<Login> call, Throwable t) {
-                loginPresenter.LoginFailed();
+                loginModel.LoginFailed();
             }
         });
 

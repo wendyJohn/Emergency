@@ -1,8 +1,8 @@
-package com.sanleng.electricalfire.model;
+package com.sanleng.electricalfire.Presenter;
 
 import android.content.Context;
 
-import com.sanleng.electricalfire.Presenter.FireAlarmPresenter;
+import com.sanleng.electricalfire.model.FireAlarmModel;
 import com.sanleng.electricalfire.net.Request_Interface;
 import com.sanleng.electricalfire.net.URLs;
 import com.sanleng.electricalfire.ui.bean.FireAlarmBean;
@@ -19,7 +19,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class FireAlarmRequest {
     //火警列表
-    public static void getFireAlarm(final FireAlarmPresenter fireAlarmPresenter, final Context context, final String page, final String status, final String scope) {
+    public static void getFireAlarm(final FireAlarmModel fireAlarmModel, final Context context, final String page, final String status, final String scope) {
         final List<FireAlarmBean.DataBean.ListBean> list = new ArrayList<>();
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(URLs.HOST) // 设置 网络请求 Url
@@ -47,18 +47,18 @@ public class FireAlarmRequest {
                     bean.setIds(taskId);
                     list.add(bean);
                 }
-                fireAlarmPresenter.FireAlarmSuccess(list, size);
+                fireAlarmModel.FireAlarmSuccess(list, size);
             }
 
             @Override
             public void onFailure(Call<FireAlarmBean> call, Throwable t) {
-                fireAlarmPresenter.FireAlarmFailed();
+                fireAlarmModel.FireAlarmFailed();
             }
         });
     }
 
     //误报火警列表
-    public static void getFireAlarms(final FireAlarmPresenter fireAlarmPresenter, final Context context, final String page, final String status, final String scope) {
+    public static void getFireAlarms(final FireAlarmModel fireAlarmModel, final Context context, final String page, final String status, final String scope) {
         final List<FireAlarmBean.DataBean.ListBean> list = new ArrayList<>();
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(URLs.HOST) // 设置 网络请求 Url
@@ -88,12 +88,12 @@ public class FireAlarmRequest {
                         list.add(bean);
                     }
                 }
-                fireAlarmPresenter.FireAlarmSuccess(list, size);
+                fireAlarmModel.FireAlarmSuccess(list, size);
             }
 
             @Override
             public void onFailure(Call<FireAlarmBean> call, Throwable t) {
-                fireAlarmPresenter.FireAlarmFailed();
+                fireAlarmModel.FireAlarmFailed();
             }
         });
     }

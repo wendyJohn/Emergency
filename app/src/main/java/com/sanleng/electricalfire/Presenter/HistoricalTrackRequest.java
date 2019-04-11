@@ -1,8 +1,8 @@
-package com.sanleng.electricalfire.model;
+package com.sanleng.electricalfire.Presenter;
 
 import android.content.Context;
 
-import com.sanleng.electricalfire.Presenter.HistoricalTrackPresenter;
+import com.sanleng.electricalfire.model.HistoricalTrackModel;
 import com.sanleng.electricalfire.net.Request_Interface;
 import com.sanleng.electricalfire.net.URLs;
 import com.sanleng.electricalfire.ui.bean.HistoricalTrack;
@@ -19,7 +19,7 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class HistoricalTrackRequest {
-    public static void getHistoricalTrack(final HistoricalTrackPresenter historicalTrackPresenter, final Context context, final String device_id) {
+    public static void getHistoricalTrack(final HistoricalTrackModel historicalTrackModel, final Context context, final String device_id) {
         final List<HashMap<String, Object>> c_list = new ArrayList<>();
         final List<HashMap<String, Object>> h_list = new ArrayList<>();
         Retrofit retrofit = new Retrofit.Builder()
@@ -67,12 +67,12 @@ public class HistoricalTrackRequest {
                         h_list.add(map);
                     }
                 }
-                historicalTrackPresenter.HistoricalTrackSuccess(c_list,h_list);
+                historicalTrackModel.HistoricalTrackSuccess(c_list,h_list);
             }
 
             @Override
             public void onFailure(Call<HistoricalTrack> call, Throwable t) {
-                historicalTrackPresenter.HistoricalTrackFailed();
+                historicalTrackModel.HistoricalTrackFailed();
             }
         });
     }

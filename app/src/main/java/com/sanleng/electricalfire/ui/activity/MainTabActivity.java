@@ -25,12 +25,12 @@ import android.widget.TextView;
 
 import com.bigkoo.svprogresshud.SVProgressHUD;
 import com.sanleng.electricalfire.MyApplication;
-import com.sanleng.electricalfire.Presenter.UpdatePresenter;
 import com.sanleng.electricalfire.R;
 import com.sanleng.electricalfire.data.Version_mag;
 import com.sanleng.electricalfire.dialog.CustomDialog;
 import com.sanleng.electricalfire.dialog.FireTipsDialog;
-import com.sanleng.electricalfire.model.UpdateRequest;
+import com.sanleng.electricalfire.Presenter.UpdateRequest;
+import com.sanleng.electricalfire.model.UpdateModel;
 import com.sanleng.electricalfire.service.UpdateService;
 import com.sanleng.electricalfire.ui.fragment.EventFragment;
 import com.sanleng.electricalfire.ui.fragment.HomeFragment;
@@ -40,7 +40,7 @@ import com.sanleng.electricalfire.ui.fragment.RemoteMonitoringFragment;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainTabActivity extends FragmentActivity implements View.OnClickListener, UpdatePresenter {
+public class MainTabActivity extends FragmentActivity implements View.OnClickListener, UpdateModel {
     //声明ViewPager
     private ViewPager mViewPager;
     //适配器

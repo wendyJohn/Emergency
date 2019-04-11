@@ -13,10 +13,10 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 
 import com.bigkoo.svprogresshud.SVProgressHUD;
-import com.sanleng.electricalfire.Presenter.ArticlePresenter;
 import com.sanleng.electricalfire.R;
-import com.sanleng.electricalfire.model.ArticleItemRequest;
-import com.sanleng.electricalfire.model.ArticleRequest;
+import com.sanleng.electricalfire.Presenter.ArticleItemRequest;
+import com.sanleng.electricalfire.Presenter.ArticleRequest;
+import com.sanleng.electricalfire.model.ArticleModel;
 import com.sanleng.electricalfire.net.URLs;
 import com.sanleng.electricalfire.ui.adapter.ArticleAdapter;
 import com.sanleng.electricalfire.ui.bean.Article;
@@ -29,7 +29,7 @@ import java.util.List;
  *
  * @author Qiaoshi
  */
-public class ArticleActivity extends BaseActivity implements ArticlePresenter, OnClickListener {
+public class ArticleActivity extends BaseActivity implements ArticleModel, OnClickListener {
     private ListView listView;
     private ArticleAdapter articleAdapter;
     private List<Article.DataBean.ListBean> allList = new ArrayList<>();

@@ -1,8 +1,8 @@
-package com.sanleng.electricalfire.model;
+package com.sanleng.electricalfire.Presenter;
 
 import android.content.Context;
 
-import com.sanleng.electricalfire.Presenter.AlarmloadPresenter;
+import com.sanleng.electricalfire.model.AlarmloadModel;
 import com.sanleng.electricalfire.net.Request_Interface;
 import com.sanleng.electricalfire.net.URLs;
 import com.sanleng.electricalfire.ui.bean.Alarmload;
@@ -14,7 +14,7 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class AlarmLoadRequest {
-    public static void GetAlarmLoad(final AlarmloadPresenter alarmloadPresenter, final Context context, final String unitcode, final String username, final String platformkey) {
+    public static void GetAlarmLoad(final AlarmloadModel alarmloadmodel, final Context context, final String unitcode, final String username, final String platformkey) {
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(URLs.HOST) // 设置 网络请求 Url
                 .addConverterFactory(GsonConverterFactory.create()) //设置使用Gson解析
@@ -25,12 +25,12 @@ public class AlarmLoadRequest {
         call.enqueue(new Callback<Alarmload>() {
             @Override
             public void onResponse(Call<Alarmload> call, Response<Alarmload> response) {
-                alarmloadPresenter.AlarmloadSuccess(response.body().getUnhandlefire(), response.body().getTodayfire(), response.body().getTruefire(), response.body().getMissfire(), response.body().getWeekfire());
+                alarmloadmodel.AlarmloadSuccess(response.body().getUnhandlefire(), response.body().getTodayfire(), response.body().getTruefire(), response.body().getMissfire(), response.body().getWeekfire());
             }
 
             @Override
             public void onFailure(Call<Alarmload> call, Throwable t) {
-                alarmloadPresenter.AlarmloadFailed();
+                alarmloadmodel.AlarmloadFailed();
             }
         });
 

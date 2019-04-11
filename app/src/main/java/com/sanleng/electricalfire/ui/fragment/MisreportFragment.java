@@ -14,9 +14,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bigkoo.svprogresshud.SVProgressHUD;
-import com.sanleng.electricalfire.Presenter.FireAlarmPresenter;
 import com.sanleng.electricalfire.R;
-import com.sanleng.electricalfire.model.FireAlarmRequest;
+import com.sanleng.electricalfire.Presenter.FireAlarmRequest;
+import com.sanleng.electricalfire.model.FireAlarmModel;
 import com.sanleng.electricalfire.ui.adapter.MisreportAdapter;
 import com.sanleng.electricalfire.ui.bean.FireAlarmBean;
 
@@ -29,7 +29,7 @@ import java.util.List;
  * @author Qiaoshi
  */
 @SuppressLint("ResourceAsColor")
-public class MisreportFragment extends BaseFragment implements FireAlarmPresenter {
+public class MisreportFragment extends BaseFragment implements FireAlarmModel {
 
     private View view;
     private TextView text_todays, text_thisweeks, text_thismonths;

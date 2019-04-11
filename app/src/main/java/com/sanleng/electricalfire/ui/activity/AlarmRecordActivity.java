@@ -2,22 +2,16 @@ package com.sanleng.electricalfire.ui.activity;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
-import android.widget.Toast;
 
 import com.bigkoo.svprogresshud.SVProgressHUD;
-import com.sanleng.electricalfire.Presenter.AlarmRecordPresenter;
 import com.sanleng.electricalfire.R;
-import com.sanleng.electricalfire.model.AlarmRecordRequest;
-import com.sanleng.electricalfire.model.ArticleRequest;
+import com.sanleng.electricalfire.Presenter.AlarmRecordRequest;
+import com.sanleng.electricalfire.model.AlarmRecordModel;
 import com.sanleng.electricalfire.ui.adapter.AlarmAdapter;
-import com.sanleng.electricalfire.ui.bean.Article;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,7 +22,7 @@ import java.util.Map;
  *
  * @author Qiaoshi
  */
-public class AlarmRecordActivity extends BaseActivity implements View.OnClickListener, AlarmRecordPresenter {
+public class AlarmRecordActivity extends BaseActivity implements View.OnClickListener, AlarmRecordModel {
 
     private ListView alarmlistview;
     private int pageNo = 1;// 设置pageNo的初始化值为1，即默认获取的是第一页的数据。

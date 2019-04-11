@@ -24,9 +24,6 @@ public class RemoteMonitoringFragment extends BaseFragment implements OnClickLis
     //初始化
     private void initview() {
 
-
-
-
     }
 
 

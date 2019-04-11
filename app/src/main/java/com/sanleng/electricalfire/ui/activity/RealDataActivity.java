@@ -15,21 +15,16 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bigkoo.svprogresshud.SVProgressHUD;
-import com.sanleng.electricalfire.MyApplication;
-import com.sanleng.electricalfire.Presenter.RealTimeDataPresenter;
 import com.sanleng.electricalfire.R;
-import com.sanleng.electricalfire.model.AlarmUpdateRequest;
-import com.sanleng.electricalfire.model.RealTimeDatasRequest;
+import com.sanleng.electricalfire.Presenter.AlarmUpdateRequest;
+import com.sanleng.electricalfire.Presenter.RealTimeDatasRequest;
+import com.sanleng.electricalfire.model.RealTimeDataModel;
 import com.sanleng.electricalfire.ui.adapter.RealDataAdapter;
 import com.sanleng.electricalfire.ui.adapter.RealDatasAdapter;
 import com.sanleng.electricalfire.ui.bean.ERealTimeDataBean;
-import com.sanleng.electricalfire.model.RealTimeDataRequest;
+import com.sanleng.electricalfire.Presenter.RealTimeDataRequest;
 import com.sanleng.electricalfire.myview.MarqueeViews;
 import com.sanleng.electricalfire.ui.bean.ReadTimeItemData;
-import com.sanleng.electricalfire.util.MessageEvent;
-
-import org.greenrobot.eventbus.EventBus;
-import org.greenrobot.eventbus.Subscribe;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,7 +37,7 @@ import butterknife.ButterKnife;
  *
  * @author Qiaoshi
  */
-public class RealDataActivity extends BaseActivity implements OnClickListener, RealTimeDataPresenter {
+public class RealDataActivity extends BaseActivity implements OnClickListener, RealTimeDataModel {
     @BindView(R.id.query_im)
     ImageView queryIm;
     @BindView(R.id.imageView_item)

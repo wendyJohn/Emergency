@@ -12,9 +12,9 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bigkoo.svprogresshud.SVProgressHUD;
-import com.sanleng.electricalfire.Presenter.RealTimeDataPresenter;
 import com.sanleng.electricalfire.R;
-import com.sanleng.electricalfire.model.RealTimeDataRequest;
+import com.sanleng.electricalfire.Presenter.RealTimeDataRequest;
+import com.sanleng.electricalfire.model.RealTimeDataModel;
 import com.sanleng.electricalfire.ui.adapter.RealDataItemAdapter;
 import com.sanleng.electricalfire.ui.bean.ERealTimeDataBean;
 import com.sanleng.electricalfire.ui.bean.ReadTimeItemData;
@@ -28,7 +28,7 @@ import butterknife.ButterKnife;
  *
  * @author Qiaoshi
  */
-public class RealDataItemActivity extends BaseActivity implements OnClickListener, RealTimeDataPresenter {
+public class RealDataItemActivity extends BaseActivity implements OnClickListener, RealTimeDataModel {
     private String mybuildids;
     private String myfloorids;
     private String myelectricalDetectorInfos;

@@ -1,6 +1,6 @@
-package com.sanleng.electricalfire.Presenter;
+package com.sanleng.electricalfire.model;
 
-public interface AlarmloadPresenter {
+public interface AlarmloadModel {
     void AlarmloadSuccess(int unhandlefire, int todayfire, int truefire, int missfire, int weekfire);
     void AlarmloadFailed();
 }

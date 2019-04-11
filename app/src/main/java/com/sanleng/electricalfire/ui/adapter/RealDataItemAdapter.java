@@ -53,7 +53,6 @@ public class RealDataItemAdapter extends BaseAdapter {
         }
         String detector_name=list.get(position).getDetector_name();
         if(detector_name.equals("temperature_detector")){
-
 //            String strs=list.get(position).getRealtime_data().toString();
 //            int str=Double.valueOf(strs).intValue();//转换为Int类型
 //            if(str >= 80){

@@ -23,6 +23,7 @@ import com.sanleng.electricalfire.ui.activity.EmergencyRescueActivity;
 import com.sanleng.electricalfire.ui.activity.FirsafetyAtivity;
 import com.sanleng.electricalfire.ui.activity.HazardousChemicalsActivity;
 import com.sanleng.electricalfire.ui.activity.MainTabActivity;
+import com.sanleng.electricalfire.ui.activity.MapMonitoringActivity;
 import com.sanleng.electricalfire.ui.activity.MonitorsActivity;
 import com.sanleng.electricalfire.ui.activity.RealDataActivity;
 import com.sanleng.electricalfire.ui.activity.SafetyPatrolAtivity;
@@ -118,7 +119,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            //物资信息
+            //物资管理
             case R.id.emtext_a:
 
                 break;
@@ -133,10 +134,10 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                 Intent intent_EmergencyRescue = new Intent(getActivity(), EmergencyRescueActivity.class);
                 startActivity(intent_EmergencyRescue);
                 break;
-            //应急调度
+            //物资调度
             case R.id.emtext_d:
                 Intent intent_HazardousChemicalss = new Intent(getActivity(), HazardousChemicalsActivity.class);
-                intent_HazardousChemicalss.putExtra("name","应急调度");
+                intent_HazardousChemicalss.putExtra("name","物资调度");
                 startActivity(intent_HazardousChemicalss);
                 break;
             //应急预案
@@ -218,7 +219,8 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                     startActivity(intent_HazardousChemicals);
                 }
                 if (name.equals("地图监控")) {
-
+                    Intent intent_MapMonitoring = new Intent(getActivity(), MapMonitoringActivity.class);
+                    startActivity(intent_MapMonitoring);
                 }
             }
         }

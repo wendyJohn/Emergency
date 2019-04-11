@@ -1,13 +1,11 @@
-package com.sanleng.electricalfire.model;
+package com.sanleng.electricalfire.Presenter;
 
 import android.content.Context;
 
-import com.sanleng.electricalfire.Presenter.AlarmRecordPresenter;
-import com.sanleng.electricalfire.Presenter.FireAlarmPresenter;
+import com.sanleng.electricalfire.model.AlarmRecordModel;
 import com.sanleng.electricalfire.net.Request_Interface;
 import com.sanleng.electricalfire.net.URLs;
 import com.sanleng.electricalfire.ui.bean.AlarmRecord;
-import com.sanleng.electricalfire.ui.bean.FireAlarmBean;
 import com.sanleng.electricalfire.util.PreferenceUtils;
 
 import java.util.ArrayList;
@@ -23,7 +21,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class AlarmRecordRequest {
     //报警记录
-    public static void getAlarmRecord(final AlarmRecordPresenter alarmRecordPresenter, final Context context, final String page) {
+    public static void getAlarmRecord(final AlarmRecordModel alarmRecordModel, final Context context, final String page) {
         final List<Map<String, Object>> list = new ArrayList<>();
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(URLs.HOST) // 设置 网络请求 Url
@@ -49,12 +47,12 @@ public class AlarmRecordRequest {
                     map.put("time", "报警时间：" + receive_time);
                     list.add(map);
                 }
-                alarmRecordPresenter.AlarmRecordSuccess(list, size);
+                alarmRecordModel.AlarmRecordSuccess(list, size);
             }
 
             @Override
             public void onFailure(Call<AlarmRecord> call, Throwable t) {
-                alarmRecordPresenter.AlarmRecordFailed();
+                alarmRecordModel.AlarmRecordFailed();
             }
         });
     }

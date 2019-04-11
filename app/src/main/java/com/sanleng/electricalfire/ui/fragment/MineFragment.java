@@ -24,11 +24,11 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bigkoo.svprogresshud.SVProgressHUD;
-import com.sanleng.electricalfire.Presenter.UpdatePresenter;
 import com.sanleng.electricalfire.R;
 import com.sanleng.electricalfire.data.Version_mag;
 import com.sanleng.electricalfire.dialog.CustomDialog;
-import com.sanleng.electricalfire.model.UpdateRequest;
+import com.sanleng.electricalfire.Presenter.UpdateRequest;
+import com.sanleng.electricalfire.model.UpdateModel;
 import com.sanleng.electricalfire.service.UpdateService;
 import com.sanleng.electricalfire.ui.activity.LoginActivity;
 import com.sanleng.electricalfire.ui.activity.PwdChangeActivity;
@@ -42,7 +42,7 @@ import cn.pedant.SweetAlert.SweetAlertDialog;
 /**
  * @author qiaoshi
  */
-public class MineFragment extends BaseFragment implements OnClickListener, UpdatePresenter {
+public class MineFragment extends BaseFragment implements OnClickListener, UpdateModel {
     private View view;
     private TextView login_out;
     public static final String ACTION_IMGHEAD_PORTRAIT = "image_head";

@@ -31,7 +31,7 @@
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
             android:gravity="center"
-            android:text="主机监控"
+            android:text="火灾报警"
             android:textColor="@android:color/white"
             android:textSize="16sp" />
     </RelativeLayout>

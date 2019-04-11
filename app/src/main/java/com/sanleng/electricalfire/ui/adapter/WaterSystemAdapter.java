@@ -74,19 +74,19 @@ public class WaterSystemAdapter extends BaseAdapter {
         String range_min = mList.get(position).getRange_min();
         String range_max = mList.get(position).getRange_max();
         //液压
-        if (device_type.equals("watersystem_level")) {
+        if (device_type.equals("watersystem_hyrant")) {
             holder.image_devicetype.setBackground(mContext.getResources().getDrawable(R.drawable.waterc_icon));
             holder.name.setText("地址: " + build_name + device_address);
             holder.value.setText("当前压力: " + current_state + " Mpa");
             holder.range.setText("安全压力: " + range_min + "～" + range_max + " Mpa");
         }
-//        //液位
-//        if (device_type.equals("watersystem_level")) {
-//            holder.image_devicetype.setBackground(mContext.getResources().getDrawable(R.drawable.waterc_icon));
-//            holder.name.setText("地址: " + build_name + device_address);
-//            holder.value.setText("当前液位: " + current_state + "M");
-//            holder.range.setText("安全液位: " + range_min + "～" + range_max + "M");
-//        }
+        //液位
+        if (device_type.equals("watersystem_level")) {
+            holder.image_devicetype.setBackground(mContext.getResources().getDrawable(R.drawable.waterc_icon));
+            holder.name.setText("地址: " + build_name + device_address);
+            holder.value.setText("当前液位: " + current_state + "M");
+            holder.range.setText("安全液位: " + range_min + "～" + range_max + "M");
+        }
 
         String state = mList.get(position).getState();
         if (state.equals("异常")) {

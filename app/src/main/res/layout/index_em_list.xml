@@ -18,7 +18,7 @@
             android:background="@drawable/select_center"
             android:drawableTop="@drawable/em_a"
             android:gravity="center"
-            android:text="物资信息"
+            android:text="物资管理"
             />
 
         <TextView
@@ -51,7 +51,7 @@
             android:background="@drawable/select_center"
             android:drawableTop="@drawable/em_d"
             android:gravity="center"
-            android:text="应急调度" />
+            android:text="物资调度" />
     </LinearLayout>
 
     <LinearLayout

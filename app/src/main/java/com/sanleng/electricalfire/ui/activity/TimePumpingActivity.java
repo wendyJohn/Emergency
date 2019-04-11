@@ -8,15 +8,10 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 
 import com.bigkoo.svprogresshud.SVProgressHUD;
-import com.sanleng.electricalfire.MyApplication;
-import com.sanleng.electricalfire.Presenter.HistoricalTrackPresenter;
 import com.sanleng.electricalfire.R;
-import com.sanleng.electricalfire.model.HistoricalTrackRequest;
+import com.sanleng.electricalfire.Presenter.HistoricalTrackRequest;
+import com.sanleng.electricalfire.model.HistoricalTrackModel;
 import com.sanleng.electricalfire.ui.adapter.TimePumpAdapter;
-import com.sanleng.electricalfire.util.MessageEvent;
-
-import org.greenrobot.eventbus.EventBus;
-import org.greenrobot.eventbus.Subscribe;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -27,7 +22,7 @@ import butterknife.ButterKnife;
 /**
  * 时间轴
  */
-public class TimePumpingActivity extends BaseActivity implements HistoricalTrackPresenter {
+public class TimePumpingActivity extends BaseActivity implements HistoricalTrackModel {
     private ListView timepumplistview;
     private String deviceid;
     private TimePumpAdapter timePumpAdapter;

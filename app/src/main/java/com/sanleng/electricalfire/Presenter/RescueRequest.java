@@ -1,8 +1,8 @@
-package com.sanleng.electricalfire.model;
+package com.sanleng.electricalfire.Presenter;
 
 import android.content.Context;
 
-import com.sanleng.electricalfire.Presenter.RescuePresenter;
+import com.sanleng.electricalfire.model.RescueModel;
 import com.sanleng.electricalfire.net.Request_Interface;
 import com.sanleng.electricalfire.net.URLs;
 import com.sanleng.electricalfire.ui.bean.Rescue;
@@ -16,7 +16,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class RescueRequest {
     //附件应急站
-    public static void getRescue(final RescuePresenter rescuePresenter, final Context context, final String lat, final String lng, final String name, final String phone, final String identitycrad, final String type, final String address) {
+    public static void getRescue(final RescueModel rescueModel, final Context context, final String lat, final String lng, final String name, final String phone, final String identitycrad, final String type, final String address) {
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(URLs.HOST) // 设置 网络请求 Url
                 .addConverterFactory(GsonConverterFactory.create()) //设置使用Gson解析(记得加入依赖)
@@ -27,12 +27,12 @@ public class RescueRequest {
         call.enqueue(new Callback<Rescue>() {
             @Override
             public void onResponse(Call<Rescue> call, Response<Rescue> response) {
-                rescuePresenter.RescueSuccess(response.body().getMsg().toString());
+                rescueModel.RescueSuccess(response.body().getMsg().toString());
             }
 
             @Override
             public void onFailure(Call<Rescue> call, Throwable t) {
-                rescuePresenter.RescueFailed();
+                rescueModel.RescueFailed();
             }
         });
     }

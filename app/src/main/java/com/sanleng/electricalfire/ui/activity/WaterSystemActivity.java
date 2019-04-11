@@ -13,11 +13,11 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bigkoo.svprogresshud.SVProgressHUD;
-import com.sanleng.electricalfire.Presenter.WaterSystemPresenter;
 import com.sanleng.electricalfire.R;
+import com.sanleng.electricalfire.model.WaterSystemModel;
 import com.sanleng.electricalfire.ui.adapter.WaterSystemAdapter;
 import com.sanleng.electricalfire.ui.bean.WaterSystem;
-import com.sanleng.electricalfire.model.WaterSystemRequest;
+import com.sanleng.electricalfire.Presenter.WaterSystemRequest;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,7 +30,7 @@ import butterknife.ButterKnife;
  *
  * @author Qiaoshi
  */
-public class WaterSystemActivity extends BaseActivity implements OnClickListener, WaterSystemPresenter {
+public class WaterSystemActivity extends BaseActivity implements OnClickListener, WaterSystemModel {
     @BindView(R.id.back)
     RelativeLayout back;
     @BindView(R.id.waterlevel)

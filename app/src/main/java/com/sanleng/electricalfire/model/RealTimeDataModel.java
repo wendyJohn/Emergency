@@ -1,11 +1,11 @@
-package com.sanleng.electricalfire.Presenter;
+package com.sanleng.electricalfire.model;
 
 import com.sanleng.electricalfire.ui.bean.ERealTimeDataBean;
 import com.sanleng.electricalfire.ui.bean.ReadTimeItemData;
 
 import java.util.List;
 
-public interface RealTimeDataPresenter {
+public interface RealTimeDataModel {
 
     void RealTimeDataSuccess(List<ERealTimeDataBean> list, int size);
     void RealTimeDatasSuccess(List<ERealTimeDataBean> list, int size);

@@ -17,22 +17,16 @@ import com.baidu.location.BDLocationListener;
 import com.baidu.location.LocationClient;
 import com.baidu.location.LocationClientOption;
 import com.bigkoo.svprogresshud.SVProgressHUD;
-import com.loopj.android.http.RequestParams;
-import com.sanleng.electricalfire.Presenter.RescuePresenter;
 import com.sanleng.electricalfire.R;
-import com.sanleng.electricalfire.model.RescueRequest;
-import com.sanleng.electricalfire.net.URLs;
-import com.sanleng.electricalfire.util.PreferenceUtils;
-
-import org.json.JSONException;
-import org.json.JSONObject;
+import com.sanleng.electricalfire.Presenter.RescueRequest;
+import com.sanleng.electricalfire.model.RescueModel;
 
 /**
  * SOS确认提示
  *
  * @author qiaoshi
  */
-public class SosDialog extends Dialog implements View.OnClickListener ,RescuePresenter {
+public class SosDialog extends Dialog implements View.OnClickListener ,RescueModel {
     private Context context;
     private TextView notice;
     private TextView cancle;

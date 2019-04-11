@@ -1,10 +1,10 @@
-package com.sanleng.electricalfire.Presenter;
+package com.sanleng.electricalfire.model;
 
 import com.sanleng.electricalfire.ui.bean.FireAlarmBean;
 
 import java.util.List;
 
-public interface FireAlarmPresenter {
+public interface FireAlarmModel {
 
     void FireAlarmSuccess(List<FireAlarmBean.DataBean.ListBean> list, int size);
     void FireAlarmFailed();

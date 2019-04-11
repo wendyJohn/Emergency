@@ -6,17 +6,12 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
-import android.widget.Toast;
 
 import com.bigkoo.svprogresshud.SVProgressHUD;
-import com.sanleng.electricalfire.MyApplication;
-import com.sanleng.electricalfire.Presenter.HistoricalTrackPresenter;
+import com.sanleng.electricalfire.Presenter.HistoricalTrackRequest;
 import com.sanleng.electricalfire.R;
-import com.sanleng.electricalfire.model.HistoricalTrackRequest;
+import com.sanleng.electricalfire.model.HistoricalTrackModel;
 import com.sanleng.electricalfire.ui.adapter.PendingAdapter;
-import com.sanleng.electricalfire.util.MessageEvent;
-
-import org.greenrobot.eventbus.Subscribe;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -27,7 +22,7 @@ import butterknife.ButterKnife;
 /**
  * 待处理
  */
-public class PendingActivity extends BaseActivity implements View.OnClickListener ,HistoricalTrackPresenter {
+public class PendingActivity extends BaseActivity implements View.OnClickListener ,HistoricalTrackModel {
     private ListView pendinglistview;
     private RelativeLayout back;
     private String deviceid;

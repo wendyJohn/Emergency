@@ -17,9 +17,9 @@ import android.widget.TextView;
 
 import com.bigkoo.svprogresshud.SVProgressHUD;
 import com.sanleng.electricalfire.MyApplication;
-import com.sanleng.electricalfire.Presenter.RealTimeDataPresenter;
 import com.sanleng.electricalfire.R;
-import com.sanleng.electricalfire.model.RealTimeDataRequest;
+import com.sanleng.electricalfire.Presenter.RealTimeDataRequest;
+import com.sanleng.electricalfire.model.RealTimeDataModel;
 import com.sanleng.electricalfire.myview.MarqueeViews;
 import com.sanleng.electricalfire.ui.adapter.RealTimeDataAdapter;
 import com.sanleng.electricalfire.ui.bean.ERealTimeDataBean;
@@ -39,7 +39,7 @@ import butterknife.ButterKnife;
  *
  * @author Qiaoshi
  */
-public class RealTimeDataActivity extends AppCompatActivity implements OnClickListener, RealTimeDataPresenter {
+public class RealTimeDataActivity extends AppCompatActivity implements OnClickListener, RealTimeDataModel {
     @BindView(R.id.query_im)
     ImageView queryIm;
     @BindView(R.id.imageView_item)

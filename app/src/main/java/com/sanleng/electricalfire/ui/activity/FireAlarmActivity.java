@@ -16,10 +16,10 @@ import android.widget.Toast;
 
 import com.bigkoo.svprogresshud.SVProgressHUD;
 import com.sanleng.electricalfire.MyApplication;
-import com.sanleng.electricalfire.Presenter.FireAlarmPresenter;
 import com.sanleng.electricalfire.R;
 import com.sanleng.electricalfire.dialog.FireConfirmDialog;
-import com.sanleng.electricalfire.model.FireAlarmRequest;
+import com.sanleng.electricalfire.Presenter.FireAlarmRequest;
+import com.sanleng.electricalfire.model.FireAlarmModel;
 import com.sanleng.electricalfire.ui.adapter.FireAlarmAdapter;
 import com.sanleng.electricalfire.ui.bean.FireAlarmBean;
 
@@ -31,7 +31,7 @@ import java.util.List;
  *
  * @author Qiaoshi
  */
-public class FireAlarmActivity extends BaseActivity implements FireAlarmPresenter {
+public class FireAlarmActivity extends BaseActivity implements FireAlarmModel {
 
     private TextView tab_1, tab_2;// 选项名称
     private LinearLayout l_opa, l_opb;// 选项名称

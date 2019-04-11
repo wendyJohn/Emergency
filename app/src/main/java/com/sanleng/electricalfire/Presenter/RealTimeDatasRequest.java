@@ -1,13 +1,13 @@
-package com.sanleng.electricalfire.model;
+package com.sanleng.electricalfire.Presenter;
 
 import android.content.Context;
 
-import com.sanleng.electricalfire.ui.bean.ERealTimeDataBean;
-import com.sanleng.electricalfire.ui.bean.ReadTimeItemData;
-import com.sanleng.electricalfire.ui.bean.RealtimeData;
-import com.sanleng.electricalfire.Presenter.RealTimeDataPresenter;
+import com.sanleng.electricalfire.model.RealTimeDataModel;
 import com.sanleng.electricalfire.net.Request_Interface;
 import com.sanleng.electricalfire.net.URLs;
+import com.sanleng.electricalfire.ui.bean.ERealTimeDataBean;
+import com.sanleng.electricalfire.ui.bean.ReadTimeItemData;
+import com.sanleng.electricalfire.ui.bean.RealtimeDatas;
 import com.sanleng.electricalfire.util.PreferenceUtils;
 
 import java.util.ArrayList;
@@ -19,10 +19,10 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class RealTimeDataRequest {
+public class RealTimeDatasRequest {
 
     //设备列表
-    public static void getRealTimeData(final RealTimeDataPresenter realTimeDataModel, final Context context, final String pageNum) {
+    public static void getRealTimeDatas(final RealTimeDataModel realTimeDataModel, final Context context, final String pageNum) {
         final List<ERealTimeDataBean> mylist = new ArrayList<>();
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(URLs.HOST) // 设置 网络请求 Url
@@ -30,39 +30,39 @@ public class RealTimeDataRequest {
                 .build();
         Request_Interface request_Interface = retrofit.create(Request_Interface.class);
         //对 发送请求 进行封装
-        Call<RealtimeData> call = request_Interface.getReadtimeDataCall(pageNum, "10", PreferenceUtils.getString(context, "unitcode"), PreferenceUtils.getString(context, "ElectriFire_username"), "app_firecontrol_owner");
-        call.enqueue(new Callback<RealtimeData>() {
+        Call<RealtimeDatas> call = request_Interface.getReadtimeDatasCall(pageNum, "10", PreferenceUtils.getString(context, "unitcode"), PreferenceUtils.getString(context, "ElectriFire_username"), "app_firecontrol_owner");
+        call.enqueue(new Callback<RealtimeDatas>() {
             @Override
-            public void onResponse(Call<RealtimeData> call, Response<RealtimeData> response) {
+            public void onResponse(Call<RealtimeDatas> call, Response<RealtimeDatas> response) {
                 int size = response.body().getData().getTotal();
                 for (int i = 0; i < response.body().getData().getList().size(); i++) {
                     ERealTimeDataBean bean = new ERealTimeDataBean();
-                    String device_id = response.body().getData().getList().get(i).getDevice_id();
+                    String device_id = response.body().getData().getList().get(i).getIds();
                     String unit_name = response.body().getData().getList().get(i).getUnit_name();
                     String build_name = response.body().getData().getList().get(i).getBuild_name();
-                    String device_name = response.body().getData().getList().get(i).getDevice_name();
+                    String device_name = response.body().getData().getList().get(i).getPosition();
                     String state = response.body().getData().getList().get(i).getState();
-                    String contact_name = response.body().getData().getList().get(i).getContact_name();
-                    String contact_tel = response.body().getData().getList().get(i).getContact_tel();
+//                    String contact_name = response.body().getData().getList().get(i).getContact_name();
+//                    String contact_tel = response.body().getData().getList().get(i).getContact_tel();
                     bean.setId(device_id);
-                    bean.setAddress(unit_name + build_name + "\n" + "设备名称:" + device_name);
-                    bean.setContact_name(contact_name);
-                    bean.setContact_tel(contact_tel);
+                    bean.setAddress(unit_name + build_name + "\n" + "\n" + "名称: " + device_name);
+//                    bean.setContact_name(contact_name);
+//                    bean.setContact_tel(contact_tel);
                     bean.setState(state);
                     mylist.add(bean);
                 }
-                realTimeDataModel.RealTimeDataSuccess(mylist, size);
+                realTimeDataModel.RealTimeDatasSuccess(mylist, size);
             }
 
             @Override
-            public void onFailure(Call<RealtimeData> call, Throwable t) {
+            public void onFailure(Call<RealtimeDatas> call, Throwable t) {
                 realTimeDataModel.RealTimeDataFailed();
             }
         });
     }
 
     //设备实时数据
-    public static void getRealDataItem(final RealTimeDataPresenter realTimeDataPresenter, final Context context, final String device_id) {
+    public static void getRealDataItem(final RealTimeDataModel realTimeDataModel, final Context context, final String device_id) {
         final List<ReadTimeItemData.DataBean.ElectricalDetectorInfosBean> list_temperature = new ArrayList<>();
         final List<ReadTimeItemData.DataBean.ElectricalDetectorInfosBean> list_current = new ArrayList<>();
         final List<ReadTimeItemData.DataBean.ElectricalDetectorInfosBean> list_residualcurrent = new ArrayList<>();
@@ -129,12 +129,12 @@ public class RealTimeDataRequest {
                         list_voltage.add(electricalDetectorInfosBean);
                     }
                 }
-                realTimeDataPresenter.RealDataItemSuccess(list_temperature, list_current, list_residualcurrent, list_voltage, floorids, buildids, electricalDetectorInfos);
+                realTimeDataModel.RealDataItemSuccess(list_temperature, list_current, list_residualcurrent, list_voltage, floorids, buildids, electricalDetectorInfos);
             }
 
             @Override
             public void onFailure(Call<ReadTimeItemData> call, Throwable t) {
-                realTimeDataPresenter.RealTimeDataFailed();
+                realTimeDataModel.RealTimeDataFailed();
             }
         });
     }

@@ -10,9 +10,9 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.bigkoo.svprogresshud.SVProgressHUD;
-import com.sanleng.electricalfire.Presenter.AlarmloadPresenter;
 import com.sanleng.electricalfire.R;
-import com.sanleng.electricalfire.model.AlarmLoadRequest;
+import com.sanleng.electricalfire.Presenter.AlarmLoadRequest;
+import com.sanleng.electricalfire.model.AlarmloadModel;
 import com.sanleng.electricalfire.myview.DataItem;
 import com.sanleng.electricalfire.myview.DiscView;
 import com.sanleng.electricalfire.ui.activity.FireAlarmActivity;
@@ -28,7 +28,7 @@ import java.util.List;
  * @author Qiaoshi
  */
 @SuppressLint("ResourceAsColor")
-public class FireAlarmFragment extends BaseFragment implements AlarmloadPresenter {
+public class FireAlarmFragment extends BaseFragment implements AlarmloadModel {
 
     private TextView tab_1, tab_2;// 选项名称
     private View view;

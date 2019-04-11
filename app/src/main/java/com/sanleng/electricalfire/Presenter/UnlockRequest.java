@@ -1,11 +1,10 @@
-package com.sanleng.electricalfire.model;
+package com.sanleng.electricalfire.Presenter;
 
 import android.content.Context;
 
-import com.sanleng.electricalfire.Presenter.NearbyStationPresenter;
+import com.sanleng.electricalfire.model.NearbyStationModel;
 import com.sanleng.electricalfire.net.Request_Interface;
 import com.sanleng.electricalfire.net.URLs;
-import com.sanleng.electricalfire.ui.bean.NearbyStation;
 import com.sanleng.electricalfire.ui.bean.Sosbean;
 import com.sanleng.electricalfire.util.PreferenceUtils;
 
@@ -17,7 +16,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class UnlockRequest {
     //开锁
-    public static void getUnlock(final NearbyStationPresenter nearbyStationPresenter, final Context context, final String position, final String mac) {
+    public static void getUnlock(final NearbyStationModel nearbyStationModel, final Context context, final String position, final String mac) {
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl("http://101.132.139.37:8091") // 设置 网络请求 Url
                 .addConverterFactory(GsonConverterFactory.create()) //设置使用Gson解析(记得加入依赖)
@@ -33,14 +32,14 @@ public class UnlockRequest {
 
             @Override
             public void onFailure(Call<String> call, Throwable t) {
-                nearbyStationPresenter.NearbyStationFailed();
+                nearbyStationModel.NearbyStationFailed();
             }
         });
     }
 
 
     //附件SOS
-    public static void getSos(final NearbyStationPresenter nearbyStationPresenter, final Context context) {
+    public static void getSos(final NearbyStationModel nearbyStationModel, final Context context) {
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(URLs.HOST) // 设置 网络请求 Url
                 .addConverterFactory(GsonConverterFactory.create()) //设置使用Gson解析(记得加入依赖)
@@ -52,13 +51,13 @@ public class UnlockRequest {
             @Override
             public void onResponse(Call<Sosbean> call, Response<Sosbean> response) {
                 if(response.body().getData().getList().size()>0){
-                    nearbyStationPresenter.SosSuccess(response.body().getData().getList());
+                    nearbyStationModel.SosSuccess(response.body().getData().getList());
                 }
             }
 
             @Override
             public void onFailure(Call<Sosbean> call, Throwable t) {
-                nearbyStationPresenter.NearbyStationFailed();
+                nearbyStationModel.NearbyStationFailed();
             }
         });
     }

@@ -1,6 +1,6 @@
-package com.sanleng.electricalfire.Presenter;
+package com.sanleng.electricalfire.model;
 
-public interface UpdatePresenter {
+public interface UpdateModel {
     void UpdateSuccess(String version, String path);
     void UpdateFailed();
 }

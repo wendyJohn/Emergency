@@ -2,12 +2,10 @@ package com.sanleng.electricalfire.ui.activity;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.graphics.Rect;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.ViewTreeObserver.OnGlobalLayoutListener;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -17,9 +15,9 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.sanleng.electricalfire.R;
-import com.sanleng.electricalfire.Presenter.LoginPresenter;
 import com.sanleng.electricalfire.dialog.PromptDialog;
-import com.sanleng.electricalfire.model.LoginRequest;
+import com.sanleng.electricalfire.Presenter.LoginRequest;
+import com.sanleng.electricalfire.model.LoginModel;
 import com.sanleng.electricalfire.util.PreferenceUtils;
 import com.sanleng.electricalfire.util.StringUtils;
 
@@ -28,7 +26,7 @@ import com.sanleng.electricalfire.util.StringUtils;
  * 2019/1/9
  * @author qiaoshi
  */
-public class LoginActivity extends BaseActivity implements OnClickListener, LoginPresenter {
+public class LoginActivity extends BaseActivity implements OnClickListener, LoginModel {
     private EditText login_number;
     private EditText login_password;
     private Button login_btn;

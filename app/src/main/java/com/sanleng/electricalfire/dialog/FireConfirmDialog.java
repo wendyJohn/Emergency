@@ -16,9 +16,9 @@ import android.widget.RadioGroup.OnCheckedChangeListener;
 import android.widget.TextView;
 
 import com.sanleng.electricalfire.MyApplication;
-import com.sanleng.electricalfire.Presenter.FireConfirmationPresenter;
 import com.sanleng.electricalfire.R;
-import com.sanleng.electricalfire.model.FireConfirmationRequest;
+import com.sanleng.electricalfire.Presenter.FireConfirmationRequest;
+import com.sanleng.electricalfire.model.FireConfirmationModel;
 import com.sanleng.electricalfire.util.PreferenceUtils;
 
 import org.json.JSONException;
@@ -27,7 +27,7 @@ import org.json.JSONObject;
 /**
  * 火警确认
  */
-public class FireConfirmDialog extends Dialog implements OnClickListener, FireConfirmationPresenter {
+public class FireConfirmDialog extends Dialog implements OnClickListener, FireConfirmationModel {
     Context context;
     private ImageView bt_cancel;
     private TextView bt_confire;

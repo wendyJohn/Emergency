@@ -71,14 +71,14 @@ import com.iflytek.cloud.SpeechError;
 import com.iflytek.cloud.SpeechUtility;
 import com.iflytek.cloud.ui.RecognizerDialog;
 import com.iflytek.cloud.ui.RecognizerDialogListener;
-import com.sanleng.electricalfire.Presenter.NearbyStationPresenter;
 import com.sanleng.electricalfire.R;
 import com.sanleng.electricalfire.baidumap.DemoGuideActivity;
 import com.sanleng.electricalfire.baidumap.NormalUtils;
 import com.sanleng.electricalfire.baidumap.WNaviGuideActivity;
 import com.sanleng.electricalfire.dialog.E_StationDialog;
-import com.sanleng.electricalfire.model.NearbyStationRequest;
-import com.sanleng.electricalfire.model.UnlockRequest;
+import com.sanleng.electricalfire.Presenter.NearbyStationRequest;
+import com.sanleng.electricalfire.Presenter.UnlockRequest;
+import com.sanleng.electricalfire.model.NearbyStationModel;
 import com.sanleng.electricalfire.ui.adapter.BottomMenuAdapter;
 import com.sanleng.electricalfire.ui.adapter.StationAdapter;
 import com.sanleng.electricalfire.ui.bean.NearbyStation;
@@ -96,7 +96,7 @@ import java.util.List;
  *
  * @author qiaoshi
  */
-public class EmergencyRescueActivity extends BaseActivity implements OnClickListener, NearbyStationPresenter {
+public class EmergencyRescueActivity extends BaseActivity implements OnClickListener, NearbyStationModel {
     private LocationClient mLocationClient = null; // 定位对象
     private BDLocationListener myListener = new MyLocationListener(); // 定位监听
     private RelativeLayout myr_back;
@@ -217,7 +217,7 @@ public class EmergencyRescueActivity extends BaseActivity implements OnClickList
         }
         //获取地图控件引用
         mBaiduMap = mMapView.getMap();
-        // 普通地图
+        // 普通地图BMAP_PERSPECTIVE_MAP。。MAP_TYPE_NORMAL
         mBaiduMap.setMapType(BaiduMap.MAP_TYPE_NORMAL);
         View child = mMapView.getChildAt(1);
         if (child != null && (child instanceof ImageView || child instanceof ZoomControls)) {
