@@ -255,14 +255,12 @@ public class MainTabActivity extends FragmentActivity implements View.OnClickLis
     };
 
     @Override
-    public void UpdateSuccess(String version, final String path) {
-//        int versions = Integer.parseInt(version);
-        int versions = 3;
+    public void UpdateSuccess(String version, final String path, String appDescribe) {
+        int versions = Integer.parseInt(version);
         if (versions > getLocalVersion(MainTabActivity.this)) {
             // 是否更新
             CustomDialog.Builder builder = new CustomDialog.Builder(this);
-            String msg = Version_mag.update_mag;
-            String messageitems = "发现新的版本,更新内容如下：" + msg;
+            String messageitems = "更新内容如下：" + appDescribe;
             builder.setMessage(messageitems);
             builder.setTitle("检测到新的版本信息");
             builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
@@ -283,6 +281,7 @@ public class MainTabActivity extends FragmentActivity implements View.OnClickLis
         }
 
     }
+
 
     @Override
     public void UpdateFailed() {

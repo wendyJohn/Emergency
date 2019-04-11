@@ -34,6 +34,7 @@ public class RealTimeDataRequest {
         call.enqueue(new Callback<RealtimeData>() {
             @Override
             public void onResponse(Call<RealtimeData> call, Response<RealtimeData> response) {
+
                 int size = response.body().getData().getTotal();
                 for (int i = 0; i < response.body().getData().getList().size(); i++) {
                     ERealTimeDataBean bean = new ERealTimeDataBean();
