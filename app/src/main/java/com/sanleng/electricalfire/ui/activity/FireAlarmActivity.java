@@ -1,6 +1,8 @@
 package com.sanleng.electricalfire.ui.activity;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -108,6 +110,11 @@ public class FireAlarmActivity extends BaseActivity implements FireAlarmModel {
     @Override
     public void FireAlarmSuccess(List<FireAlarmBean.DataBean.ListBean> list, int size) {
         loadData(size, list);
+    }
+
+    @Override
+    public void FireSuccess(List<String> info) {
+
     }
 
     @Override
@@ -292,27 +299,39 @@ public class FireAlarmActivity extends BaseActivity implements FireAlarmModel {
                     break;
                 // 查看监控
                 case MyApplication.MSGViewMonitoring:
-//                    int selIndexs = data.getInt("selIndex");
-//                    Intent intent_Inspection = new Intent(FireAlarmActivity.this, MonitorVideoActivity.class);
-//                    startActivity(intent_Inspection);
+                    Intent intent_Inspection = new Intent(FireAlarmActivity.this, MonitorsActivity.class);
+                    startActivity(intent_Inspection);
                     break;
                 // 位置查看
                 case MyApplication.MSGViewlocation:
-//                    int selIndex_p = data.getInt("selIndex");
-//                    Intent intent_mapfunction = new Intent(FireAlarmActivity.this, MapFunctionActivity.class);
-//                    startActivity(intent_mapfunction);
+                    Intent intent_mapfunction = new Intent(FireAlarmActivity.this, EmergencyRescueActivity.class);
+                    startActivity(intent_mapfunction);
                     break;
                 // 火警确认成功
                 case MyApplication.MSGConfirmSuccess:
                     new SVProgressHUD(FireAlarmActivity.this).showSuccessWithStatus("火警确认成功");
                     allList = new ArrayList<>();
                     FireAlarmRequest.getFireAlarm(FireAlarmActivity.this, getApplicationContext(), "1", status, scope);
+                    String staus = data.getString("staus");
+                    if(staus.equals("101")){
+                        new Handler().postDelayed(new Runnable() {
+                            public void run() {
+                                // 等待1000毫秒后跳到应急救援界面。
+                                Intent intent_EmergencyRescue = new Intent(FireAlarmActivity.this, EmergencyRescueActivity.class);
+                                startActivity(intent_EmergencyRescue);
+                            }
+                        }, 1000);
+                    }
                     break;
                 // 火警确认失败
                 case MyApplication.MSGConfirmFailure:
                     new SVProgressHUD(FireAlarmActivity.this).showErrorWithStatus("火警确认失败");
                     break;
-
+                // 拨打119电话
+                case MyApplication.MSGFiretelePhone:
+                    Intent dialIntent =  new Intent(Intent.ACTION_CALL,Uri.parse("tel:" + 119));//直接拨打电话
+                    startActivity(dialIntent);
+                    break;
                 default:
                     break;
             }

@@ -2,6 +2,7 @@ package com.sanleng.electricalfire.dialog;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -12,6 +13,8 @@ import android.widget.TextView;
 
 import com.sanleng.electricalfire.MyApplication;
 import com.sanleng.electricalfire.R;
+import com.sanleng.electricalfire.ui.activity.FireAlarmActivity;
+import com.sanleng.electricalfire.ui.activity.MainTabActivity;
 import com.sanleng.electricalfire.util.MessageEvent;
 
 import org.greenrobot.eventbus.EventBus;
@@ -58,8 +61,8 @@ public class FireTipsDialog extends Dialog implements View.OnClickListener {
         // TODO Auto-generated method stub
         switch (v.getId()) {
             case R.id.notice:
-//				MessageEvent messageEvent = new MessageEvent(MyApplication.MESSRFireTips);
-//				EventBus.getDefault().post(messageEvent);
+                Intent intent_fireAlarm = new Intent(context, FireAlarmActivity.class);
+                context.startActivity(intent_fireAlarm);
                 dismiss();
                 break;
             case R.id.cancle:

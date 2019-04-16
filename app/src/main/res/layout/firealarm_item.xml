@@ -43,6 +43,7 @@
                 android:textColor="@color/red"
                 android:textSize="15sp"
                 android:visibility="visible" />
+
         </LinearLayout>
 
         <LinearLayout
@@ -166,7 +167,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/rl_dialog_edit"
         android:orientation="horizontal"
-        android:weightSum="3" >
+        android:weightSum="4" >
 
         <TextView
             android:id="@+id/cancle"
@@ -189,7 +190,7 @@
             android:gravity="center"
             android:paddingBottom="10dp"
             android:paddingTop="10dp"
-            android:text="查看位置"
+            android:text="附近应急站"
             android:textColor="#7cba59" />
 
         <TextView
@@ -204,6 +205,20 @@
             android:text="立即处理"
             android:textColor="@color/fragment_tab_text"
            />
+
+        <TextView
+            android:id="@+id/firetelephone"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@drawable/select_dialog_button_bg"
+            android:gravity="center"
+            android:paddingBottom="10dp"
+            android:paddingTop="10dp"
+            android:text="119"
+            android:textColor="@color/fragment_tab_text"
+            />
+
     </LinearLayout>
 
     <LinearLayout
@@ -213,7 +228,7 @@
         android:layout_below="@id/rl_dialog_edit"
         android:orientation="horizontal"
         android:visibility="gone"
-        android:weightSum="2" >
+        android:weightSum="3" >
 
         <TextView
             android:id="@+id/cancles"
@@ -236,8 +251,21 @@
             android:gravity="center"
             android:paddingBottom="10dp"
             android:paddingTop="10dp"
-            android:text="查看位置"
+            android:text="附近应急站"
             android:textColor="#7cba59" />
+
+        <TextView
+            android:id="@+id/firetelephones"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@drawable/select_dialog_button_bg"
+            android:gravity="center"
+            android:paddingBottom="10dp"
+            android:paddingTop="10dp"
+            android:text="119"
+            android:textColor="@color/fragment_tab_text"
+            />
     </LinearLayout>
 
 </LinearLayout>

@@ -53,8 +53,6 @@ public class MyReceiver extends BroadcastReceiver {
                 myintent.putExtra("str_test", str_test);
                 context.sendBroadcast(myintent, MyApplication.BROADCAST_PERMISSIONS_DISC);
 
-                System.out.println("=========收到了========"+str_test);
-
                 Log.d(TAG, "[MyReceiver] 接收到推送下来的通知的ID: " + notifactionId);
             } else if (JPushInterface.ACTION_NOTIFICATION_OPENED.equals(intent.getAction())) {
                 Log.d(TAG, "[MyReceiver] 用户点击打开了通知");

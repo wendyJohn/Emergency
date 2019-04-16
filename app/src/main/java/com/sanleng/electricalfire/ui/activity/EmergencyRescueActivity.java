@@ -8,6 +8,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.LocationManager;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
@@ -71,6 +72,7 @@ import com.iflytek.cloud.SpeechError;
 import com.iflytek.cloud.SpeechUtility;
 import com.iflytek.cloud.ui.RecognizerDialog;
 import com.iflytek.cloud.ui.RecognizerDialogListener;
+import com.sanleng.electricalfire.Presenter.MaterialsListRequest;
 import com.sanleng.electricalfire.R;
 import com.sanleng.electricalfire.baidumap.DemoGuideActivity;
 import com.sanleng.electricalfire.baidumap.NormalUtils;
@@ -78,6 +80,7 @@ import com.sanleng.electricalfire.baidumap.WNaviGuideActivity;
 import com.sanleng.electricalfire.dialog.E_StationDialog;
 import com.sanleng.electricalfire.Presenter.NearbyStationRequest;
 import com.sanleng.electricalfire.Presenter.UnlockRequest;
+import com.sanleng.electricalfire.model.MaterialsListModel;
 import com.sanleng.electricalfire.model.NearbyStationModel;
 import com.sanleng.electricalfire.ui.adapter.BottomMenuAdapter;
 import com.sanleng.electricalfire.ui.adapter.StationAdapter;
@@ -85,6 +88,12 @@ import com.sanleng.electricalfire.ui.bean.NearbyStation;
 import com.sanleng.electricalfire.ui.bean.Sosbean;
 import com.sanleng.electricalfire.ui.bean.StationBean;
 import com.sanleng.electricalfire.util.ScreenUtil;
+import com.sanleng.electricalfire.zxing.activiry.CaptureActivity;
+import com.sanleng.electricalfire.zxing.bean.ZxingConfig;
+import com.sanleng.electricalfire.zxing.common.Constant;
+import com.yanzhenjie.permission.Action;
+import com.yanzhenjie.permission.AndPermission;
+import com.yanzhenjie.permission.Permission;
 import com.yinglan.scrolllayout.ScrollLayout;
 
 import java.io.File;
@@ -96,7 +105,7 @@ import java.util.List;
  *
  * @author qiaoshi
  */
-public class EmergencyRescueActivity extends BaseActivity implements OnClickListener, NearbyStationModel {
+public class EmergencyRescueActivity extends BaseActivity implements OnClickListener, NearbyStationModel,MaterialsListModel {
     private LocationClient mLocationClient = null; // 定位对象
     private BDLocationListener myListener = new MyLocationListener(); // 定位监听
     private RelativeLayout myr_back;
@@ -459,6 +468,18 @@ public class EmergencyRescueActivity extends BaseActivity implements OnClickList
         new SVProgressHUD(EmergencyRescueActivity.this).showErrorWithStatus("数据加载失败");
     }
 
+    @Override
+    public void MaterialsListSuccess(List<StationBean> list, String stationId, String mac,String name,  String address, double distance) {
+        ListView listView = findViewById(R.id.list_view);
+        bottomMenuAdapter = new BottomMenuAdapter(EmergencyRescueActivity.this, list, name, address, distance, stationId, mac, m_Handler);
+        listView.setAdapter(bottomMenuAdapter);
+    }
+
+    @Override
+    public void MaterialsListFailed() {
+        new SVProgressHUD(EmergencyRescueActivity.this).showErrorWithStatus("数据加载失败");
+    }
+
     //实现BDLocationListener接口,BDLocationListener为结果监听接口，异步获取定位结果
     public class MyLocationListener implements BDLocationListener {
         @Override
@@ -578,14 +599,11 @@ public class EmergencyRescueActivity extends BaseActivity implements OnClickList
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 // TODO Auto-generated method stub
-
             }
-
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
                 // TODO Auto-generated method stub
             }
-
             @Override
             public void afterTextChanged(Editable s) {
                 // TODO Auto-generated method stub
@@ -593,9 +611,7 @@ public class EmergencyRescueActivity extends BaseActivity implements OnClickList
                 NearbyEmergencyStation();
             }
         });
-
         myr_back = findViewById(R.id.r_back);
-
         mylist.add("A");
         mylist.add("B");
         mylist.add("C");
@@ -652,65 +668,64 @@ public class EmergencyRescueActivity extends BaseActivity implements OnClickList
                 break;
             //开门
             case R.id.open_linyout:
-//                Intent intent_emergencyStation = new Intent(EmergencyRescueActivity.this, EmergencyStationActivity.class);
-//                intent_emergencyStation.putExtra("mode", "应急开门");
-//                startActivity(intent_emergencyStation);
+                Intent intent_emergencyStation = new Intent(EmergencyRescueActivity.this, EmergencyStationActivity.class);
+                intent_emergencyStation.putExtra("mode", "应急开门");
+                startActivity(intent_emergencyStation);
                 break;
             //领物资
             case R.id.receivingmaterials_linyout:
-//                AndPermission.with(this)
-//                        .permission(Permission.CAMERA, Permission.READ_EXTERNAL_STORAGE)
-//                        .onGranted(new Action() {
-//                            @Override
-//                            public void onAction(List<String> permissions) {
-//                                Intent intent_OutOfStock = new Intent(EmergencyRescueActivity.this, CaptureActivity.class);
-//                                ZxingConfig config = new ZxingConfig();
-//                                config.setFullScreenScan(false);//是否全屏扫描  默认为true  设为false则只会在扫描框中扫描
-//                                intent_OutOfStock.putExtra(Constant.INTENT_ZXING_CONFIG, config);
-//                                intent_OutOfStock.putExtra("mode", "OutOfStock");
-//                                intent_OutOfStock.putExtra("title", "领物资");
-//                                startActivity(intent_OutOfStock);
-//                            }
-//                        })
-//                        .onDenied(new Action() {
-//                            @Override
-//                            public void onAction(List<String> permissions) {
-//                                Uri packageURI = Uri.parse("package:" + getPackageName());
-//                                Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS, packageURI);
-//                                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//                                startActivity(intent);
-//                                Toast.makeText(EmergencyRescueActivity.this, "没有权限无法扫描", Toast.LENGTH_LONG).show();
-//                            }
-//                        }).start();
+                AndPermission.with(this)
+                        .permission(Permission.CAMERA, Permission.READ_EXTERNAL_STORAGE)
+                        .onGranted(new Action() {
+                            @Override
+                            public void onAction(List<String> permissions) {
+                                Intent intent_OutOfStock = new Intent(EmergencyRescueActivity.this, CaptureActivity.class);
+                                ZxingConfig config = new ZxingConfig();
+                                config.setFullScreenScan(false);//是否全屏扫描  默认为true  设为false则只会在扫描框中扫描
+                                intent_OutOfStock.putExtra(Constant.INTENT_ZXING_CONFIG, config);
+                                intent_OutOfStock.putExtra("mode", "OutOfStock");
+                                intent_OutOfStock.putExtra("title", "领物资");
+                                startActivity(intent_OutOfStock);
+                            }
+                        })
+                        .onDenied(new Action() {
+                            @Override
+                            public void onAction(List<String> permissions) {
+                                Uri packageURI = Uri.parse("package:" + getPackageName());
+                                Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS, packageURI);
+                                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                startActivity(intent);
+                                Toast.makeText(EmergencyRescueActivity.this, "没有权限无法扫描", Toast.LENGTH_LONG).show();
+                            }
+                        }).start();
 
                 break;
             //还物资
             case R.id.returnsupplies_linyout:
-//                AndPermission.with(this)
-//                        .permission(Permission.CAMERA, Permission.READ_EXTERNAL_STORAGE)
-//                        .onGranted(new Action() {
-//                            @Override
-//                            public void onAction(List<String> permissions) {
-//                                Intent intent_Warehousing = new Intent(EmergencyRescueActivity.this, CaptureActivity.class);
-//                                ZxingConfig config = new ZxingConfig();
-//                                config.setFullScreenScan(false);//是否全屏扫描  默认为true  设为false则只会在扫描框中扫描
-//                                intent_Warehousing.putExtra(Constant.INTENT_ZXING_CONFIG, config);
-//                                intent_Warehousing.putExtra("mode", "Warehousing");
-//                                intent_Warehousing.putExtra("title", "还物资");
-//                                startActivity(intent_Warehousing);
-//                            }
-//                        })
-//                        .onDenied(new Action() {
-//                            @Override
-//                            public void onAction(List<String> permissions) {
-//                                Uri packageURI = Uri.parse("package:" + getPackageName());
-//                                Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS, packageURI);
-//                                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//                                startActivity(intent);
-//                                Toast.makeText(EmergencyRescueActivity.this, "没有权限无法扫描", Toast.LENGTH_LONG).show();
-//                            }
-//                        }).start();
-
+                AndPermission.with(this)
+                        .permission(Permission.CAMERA, Permission.READ_EXTERNAL_STORAGE)
+                        .onGranted(new Action() {
+                            @Override
+                            public void onAction(List<String> permissions) {
+                                Intent intent_Warehousing = new Intent(EmergencyRescueActivity.this, CaptureActivity.class);
+                                ZxingConfig config = new ZxingConfig();
+                                config.setFullScreenScan(false);//是否全屏扫描  默认为true  设为false则只会在扫描框中扫描
+                                intent_Warehousing.putExtra(Constant.INTENT_ZXING_CONFIG, config);
+                                intent_Warehousing.putExtra("mode", "Warehousing");
+                                intent_Warehousing.putExtra("title", "还物资");
+                                startActivity(intent_Warehousing);
+                            }
+                        })
+                        .onDenied(new Action() {
+                            @Override
+                            public void onAction(List<String> permissions) {
+                                Uri packageURI = Uri.parse("package:" + getPackageName());
+                                Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS, packageURI);
+                                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                startActivity(intent);
+                                Toast.makeText(EmergencyRescueActivity.this, "没有权限无法扫描", Toast.LENGTH_LONG).show();
+                            }
+                        }).start();
                 break;
             //查看视频
             case R.id.monitor:
@@ -891,7 +906,7 @@ public class EmergencyRescueActivity extends BaseActivity implements OnClickList
         StationBean beana = new StationBean();
         beana.setType(0);
         slists.add(beana);
-//        loadData(name, address, distance, id, mac);
+        loadData(slists,name, address, distance, id, mac);
     }
 
     private ScrollLayout.OnScrollChangedListener mOnScrollChangedListener = new ScrollLayout.OnScrollChangedListener() {
@@ -962,84 +977,84 @@ public class EmergencyRescueActivity extends BaseActivity implements OnClickList
                     break;
                 //还物资
                 case 5859591:
-//                    AndPermission.with(EmergencyRescueActivity.this)
-//                            .permission(Permission.CAMERA, Permission.READ_EXTERNAL_STORAGE)
-//                            .onGranted(new Action() {
-//                                @Override
-//                                public void onAction(List<String> permissions) {
-//                                    Intent intent_Warehousing = new Intent(EmergencyRescueActivity.this, CaptureActivity.class);
-//                                    ZxingConfig config = new ZxingConfig();
-//                                    config.setFullScreenScan(false);//是否全屏扫描  默认为true  设为false则只会在扫描框中扫描
-//                                    intent_Warehousing.putExtra(Constant.INTENT_ZXING_CONFIG, config);
-//                                    intent_Warehousing.putExtra("mode", "Warehousing");
-//                                    intent_Warehousing.putExtra("title", "还物资");
-//                                    startActivity(intent_Warehousing);
-//                                }
-//                            })
-//                            .onDenied(new Action() {
-//                                @Override
-//                                public void onAction(List<String> permissions) {
-//                                    Uri packageURI = Uri.parse("package:" + getPackageName());
-//                                    Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS, packageURI);
-//                                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//                                    startActivity(intent);
-//                                    Toast.makeText(EmergencyRescueActivity.this, "没有权限无法扫描", Toast.LENGTH_LONG).show();
-//                                }
-//                            }).start();
+                    AndPermission.with(EmergencyRescueActivity.this)
+                            .permission(Permission.CAMERA, Permission.READ_EXTERNAL_STORAGE)
+                            .onGranted(new Action() {
+                                @Override
+                                public void onAction(List<String> permissions) {
+                                    Intent intent_Warehousing = new Intent(EmergencyRescueActivity.this, CaptureActivity.class);
+                                    ZxingConfig config = new ZxingConfig();
+                                    config.setFullScreenScan(false);//是否全屏扫描  默认为true  设为false则只会在扫描框中扫描
+                                    intent_Warehousing.putExtra(Constant.INTENT_ZXING_CONFIG, config);
+                                    intent_Warehousing.putExtra("mode", "Warehousing");
+                                    intent_Warehousing.putExtra("title", "还物资");
+                                    startActivity(intent_Warehousing);
+                                }
+                            })
+                            .onDenied(new Action() {
+                                @Override
+                                public void onAction(List<String> permissions) {
+                                    Uri packageURI = Uri.parse("package:" + getPackageName());
+                                    Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS, packageURI);
+                                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                    startActivity(intent);
+                                    Toast.makeText(EmergencyRescueActivity.this, "没有权限无法扫描", Toast.LENGTH_LONG).show();
+                                }
+                            }).start();
                     break;
                 //领物质
                 case 5859592:
-//                    AndPermission.with(EmergencyRescueActivity.this)
-//                            .permission(Permission.CAMERA, Permission.READ_EXTERNAL_STORAGE)
-//                            .onGranted(new Action() {
-//                                @Override
-//                                public void onAction(List<String> permissions) {
-//                                    Intent intent_OutOfStock = new Intent(EmergencyRescueActivity.this, CaptureActivity.class);
-//                                    ZxingConfig config = new ZxingConfig();
-//                                    config.setFullScreenScan(false);//是否全屏扫描  默认为true  设为false则只会在扫描框中扫描
-//                                    intent_OutOfStock.putExtra(Constant.INTENT_ZXING_CONFIG, config);
-//                                    intent_OutOfStock.putExtra("mode", "OutOfStock");
-//                                    intent_OutOfStock.putExtra("title", "领物质");
-//                                    startActivity(intent_OutOfStock);
-//                                }
-//                            })
-//                            .onDenied(new Action() {
-//                                @Override
-//                                public void onAction(List<String> permissions) {
-//                                    Uri packageURI = Uri.parse("package:" + getPackageName());
-//                                    Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS, packageURI);
-//                                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//                                    startActivity(intent);
-//                                    Toast.makeText(EmergencyRescueActivity.this, "没有权限无法扫描", Toast.LENGTH_LONG).show();
-//                                }
-//                            }).start();
+                    AndPermission.with(EmergencyRescueActivity.this)
+                            .permission(Permission.CAMERA, Permission.READ_EXTERNAL_STORAGE)
+                            .onGranted(new Action() {
+                                @Override
+                                public void onAction(List<String> permissions) {
+                                    Intent intent_OutOfStock = new Intent(EmergencyRescueActivity.this, CaptureActivity.class);
+                                    ZxingConfig config = new ZxingConfig();
+                                    config.setFullScreenScan(false);//是否全屏扫描  默认为true  设为false则只会在扫描框中扫描
+                                    intent_OutOfStock.putExtra(Constant.INTENT_ZXING_CONFIG, config);
+                                    intent_OutOfStock.putExtra("mode", "OutOfStock");
+                                    intent_OutOfStock.putExtra("title", "领物质");
+                                    startActivity(intent_OutOfStock);
+                                }
+                            })
+                            .onDenied(new Action() {
+                                @Override
+                                public void onAction(List<String> permissions) {
+                                    Uri packageURI = Uri.parse("package:" + getPackageName());
+                                    Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS, packageURI);
+                                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                    startActivity(intent);
+                                    Toast.makeText(EmergencyRescueActivity.this, "没有权限无法扫描", Toast.LENGTH_LONG).show();
+                                }
+                            }).start();
                     break;
                 //报损
                 case 5859593:
-//                    AndPermission.with(EmergencyRescueActivity.this)
-//                            .permission(Permission.CAMERA, Permission.READ_EXTERNAL_STORAGE)
-//                            .onGranted(new Action() {
-//                                @Override
-//                                public void onAction(List<String> permissions) {
-//                                    Intent intent_Reportloss = new Intent(EmergencyRescueActivity.this, CaptureActivity.class);
-//                                    ZxingConfig config = new ZxingConfig();
-//                                    config.setFullScreenScan(false);//是否全屏扫描  默认为true  设为false则只会在扫描框中扫描
-//                                    intent_Reportloss.putExtra(Constant.INTENT_ZXING_CONFIG, config);
-//                                    intent_Reportloss.putExtra("mode", "Reportloss");
-//                                    intent_Reportloss.putExtra("title", "报损");
-//                                    startActivity(intent_Reportloss);
-//                                }
-//                            })
-//                            .onDenied(new Action() {
-//                                @Override
-//                                public void onAction(List<String> permissions) {
-//                                    Uri packageURI = Uri.parse("package:" + getPackageName());
-//                                    Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS, packageURI);
-//                                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//                                    startActivity(intent);
-//                                    Toast.makeText(EmergencyRescueActivity.this, "没有权限无法扫描", Toast.LENGTH_LONG).show();
-//                                }
-//                            }).start();
+                    AndPermission.with(EmergencyRescueActivity.this)
+                            .permission(Permission.CAMERA, Permission.READ_EXTERNAL_STORAGE)
+                            .onGranted(new Action() {
+                                @Override
+                                public void onAction(List<String> permissions) {
+                                    Intent intent_Reportloss = new Intent(EmergencyRescueActivity.this, CaptureActivity.class);
+                                    ZxingConfig config = new ZxingConfig();
+                                    config.setFullScreenScan(false);//是否全屏扫描  默认为true  设为false则只会在扫描框中扫描
+                                    intent_Reportloss.putExtra(Constant.INTENT_ZXING_CONFIG, config);
+                                    intent_Reportloss.putExtra("mode", "Reportloss");
+                                    intent_Reportloss.putExtra("title", "报损");
+                                    startActivity(intent_Reportloss);
+                                }
+                            })
+                            .onDenied(new Action() {
+                                @Override
+                                public void onAction(List<String> permissions) {
+                                    Uri packageURI = Uri.parse("package:" + getPackageName());
+                                    Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS, packageURI);
+                                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                    startActivity(intent);
+                                    Toast.makeText(EmergencyRescueActivity.this, "没有权限无法扫描", Toast.LENGTH_LONG).show();
+                                }
+                            }).start();
                     break;
                 default:
                     break;
@@ -1419,68 +1434,10 @@ public class EmergencyRescueActivity extends BaseActivity implements OnClickList
     };
 
     // 加载物质数据
-//    private void loadData(final String name, final String address, final double distance,
-//                          final String id, final String mac) {
-//        RequestParams params = new RequestParams();
-//        params.put("stationId", id);
-//        params.put("pageNum", "1");
-//        params.put("pageSize", "100");
-//        params.put("unit_code", PreferenceUtils.getString(EmergencyRescueActivity.this, "unitcode"));
-//        params.put("username", PreferenceUtils.getString(EmergencyRescueActivity.this, "EmergencyStation_username"));
-//        params.put("platformkey", "app_firecontrol_owner");
-//
-//        RequestUtils.ClientPost(URLs.Material_URL, params, new NetCallBack() {
-//            @Override
-//            public void onStart() {
-//                super.onStart();
-//            }
-//
-//            @Override
-//            public void onMySuccess(String result) {
-//                if (result == null || result.length() == 0) {
-//                    return;
-//                }
-//                System.out.println("数据请求成功" + result);
-//                try {
-//                    JSONObject jsonObject = new JSONObject(result);
-//                    String msg = jsonObject.getString("msg");
-//                    if (msg.equals("获取成功")) {
-//                        String data = jsonObject.getString("data");
-//                        JSONObject objects = new JSONObject(data);
-//                        String list = objects.getString("list");
-//                        JSONArray array = new JSONArray(list);
-//                        JSONObject object;
-//                        for (int i = 0; i < array.length(); i++) {
-//                            StationBean bean = new StationBean();
-//                            object = (JSONObject) array.get(i);
-//                            String myname = object.getString("name");
-//                            String specification = object.getString("specification");
-//                            String model = object.getString("model");
-//                            String storageLocation = object.getString("storageLocation");
-//
-//                            bean.setName(myname + "  数量:" + specification);
-//                            bean.setNumber(storageLocation + "号应急箱");
-//                            bean.setImage_type(model);
-//                            bean.setType(1);
-//                            bean.setMac(mac);
-//                            slists.add(bean);
-//                        }
-//                        ListView listView = findViewById(R.id.list_view);
-//                        bottomMenuAdapter = new BottomMenuAdapter(EmergencyRescueActivity.this, slists, name, address, distance, id, mac, m_Handler);
-//                        listView.setAdapter(bottomMenuAdapter);
-//                    }
-//
-//                } catch (JSONException e) {
-//                    // TODO Auto-generated catch block
-//                    e.printStackTrace();
-//                }
-//            }
-//
-//            @Override
-//            public void onMyFailure(Throwable arg0) {
-//
-//            }
-//        });
-//
-//    }
+    private void loadData(List<StationBean> slists,final String name, final String address, final double distance,
+                          final String id, final String mac) {
+        MaterialsListRequest.getMaterialsList(EmergencyRescueActivity.this,getApplicationContext(),id,mac,name,address,distance,slists);
+    }
+
+
 }

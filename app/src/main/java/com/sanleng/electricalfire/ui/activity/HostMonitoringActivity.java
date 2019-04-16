@@ -1,6 +1,5 @@
 package com.sanleng.electricalfire.ui.activity;
 
-import android.annotation.SuppressLint;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 import android.os.Bundle;
@@ -97,8 +96,8 @@ public class HostMonitoringActivity extends FragmentActivity implements OnClickL
      * 初始化Viewpager页
      */
     private void InitViewPager() {
-        viewPager = (ViewPager) findViewById(R.id.vPager);
-        fragments = new ArrayList<Fragment>();
+        viewPager =  findViewById(R.id.vPager);
+        fragments = new ArrayList<>();
         fragments.add(new FireAlarmFragment());
         fragments.add(new FaultFragment());
         fragments.add(new MisreportFragment());
@@ -133,7 +132,7 @@ public class HostMonitoringActivity extends FragmentActivity implements OnClickL
      */
 
     private void InitImageView() {
-        imageView = (ImageView) findViewById(R.id.cursor);
+        imageView = findViewById(R.id.cursor);
         bmpW = BitmapFactory.decodeResource(getResources(), R.drawable.tab_selected_bg).getWidth();// 获取图片宽度
         DisplayMetrics dm = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(dm);

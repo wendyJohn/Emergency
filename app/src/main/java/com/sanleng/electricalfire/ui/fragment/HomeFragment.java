@@ -1,35 +1,49 @@
 package com.sanleng.electricalfire.ui.fragment;
 
 import android.annotation.SuppressLint;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.sanleng.electricalfire.MyApplication;
+import com.sanleng.electricalfire.Presenter.FireAlarmRequest;
 import com.sanleng.electricalfire.R;
 import com.sanleng.electricalfire.data.HomeData;
+import com.sanleng.electricalfire.dialog.FireTipsDialog;
 import com.sanleng.electricalfire.dialog.SosDialog;
+import com.sanleng.electricalfire.model.FireAlarmModel;
+import com.sanleng.electricalfire.myview.MarqueeViews;
 import com.sanleng.electricalfire.myview.ZQScrollGridView;
 import com.sanleng.electricalfire.ui.activity.ArticleActivity;
 import com.sanleng.electricalfire.ui.activity.EmergencyRescueActivity;
+import com.sanleng.electricalfire.ui.activity.FireAlarmActivity;
 import com.sanleng.electricalfire.ui.activity.FirsafetyAtivity;
 import com.sanleng.electricalfire.ui.activity.HazardousChemicalsActivity;
 import com.sanleng.electricalfire.ui.activity.MainTabActivity;
 import com.sanleng.electricalfire.ui.activity.MapMonitoringActivity;
+import com.sanleng.electricalfire.ui.activity.MonStationActivity;
 import com.sanleng.electricalfire.ui.activity.MonitorsActivity;
 import com.sanleng.electricalfire.ui.activity.RealDataActivity;
 import com.sanleng.electricalfire.ui.activity.SafetyPatrolAtivity;
 import com.sanleng.electricalfire.ui.activity.SearchActivity;
 import com.sanleng.electricalfire.ui.activity.VideoPlayerActivity;
 import com.sanleng.electricalfire.ui.adapter.HomeAdapter;
+import com.sanleng.electricalfire.ui.bean.FireAlarmBean;
 import com.sanleng.electricalfire.ui.bean.UserBean;
 import com.sanleng.electricalfire.util.ACache;
 import com.sanleng.electricalfire.util.UtilFileDB;
@@ -42,7 +56,7 @@ import java.util.List;
  * 首页
  */
 @SuppressLint("InflateParams")
-public class HomeFragment extends Fragment implements View.OnClickListener {
+public class HomeFragment extends Fragment implements View.OnClickListener, FireAlarmModel {
 
     private View view;
     private Intent intent;
@@ -54,6 +68,8 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     private TextView emtext_a, emtext_b, emtext_c, emtext_d, emtext_e, emtext_f, emtext_g, emtext_h;
     private LinearLayout article;
     private LinearLayout video;
+    private MarqueeViews marqueeviews;
+    private Receivers receivers;
 
     @Nullable
     @Override
@@ -67,6 +83,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         super.onActivityCreated(savedInstanceState);
         view = getView();
         initView();
+        addFrieData();
     }
 
     public void initView() {
@@ -93,6 +110,13 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         article.setOnClickListener(this);
         video.setOnClickListener(this);
         onLoad();
+        marqueeviews = view.findViewById(R.id.marqueeviews);
+        marqueeviews.setOnClickListener(this);
+
+        receivers = new Receivers();
+        IntentFilter intentFilter = new IntentFilter();
+        intentFilter.addAction(MyApplication.BROADCAST_ACTIONS_DISC); // 只有持有相同的action的接受者才能接收此广
+        getActivity().registerReceiver(receivers, intentFilter, MyApplication.BROADCAST_PERMISSIONS_DISC, null);
     }
 
     @Override
@@ -121,12 +145,13 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         switch (v.getId()) {
             //物资管理
             case R.id.emtext_a:
-
+                Intent intent_MonStation = new Intent(getActivity(), MonStationActivity.class);
+                startActivity(intent_MonStation);
                 break;
             //志愿者
             case R.id.emtext_b:
                 Intent intent_HazardousChemicals = new Intent(getActivity(), HazardousChemicalsActivity.class);
-                intent_HazardousChemicals.putExtra("name","志愿者");
+                intent_HazardousChemicals.putExtra("name", "志愿者");
                 startActivity(intent_HazardousChemicals);
                 break;
             //应急救援
@@ -137,7 +162,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
             //物资调度
             case R.id.emtext_d:
                 Intent intent_HazardousChemicalss = new Intent(getActivity(), HazardousChemicalsActivity.class);
-                intent_HazardousChemicalss.putExtra("name","物资调度");
+                intent_HazardousChemicalss.putExtra("name", "物资调度");
                 startActivity(intent_HazardousChemicalss);
                 break;
             //应急预案
@@ -167,6 +192,12 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                 Intent intent_VideoPlayer = new Intent(getActivity(), VideoPlayerActivity.class);
                 startActivity(intent_VideoPlayer);
                 break;
+            //火警提示查看火警详情
+            case R.id.marqueeviews:
+                Intent intent_FireAlarm = new Intent(getActivity(), FireAlarmActivity.class);
+                startActivity(intent_FireAlarm);
+                break;
+
         }
     }
 
@@ -206,7 +237,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                 }
                 if (name.equals("危化品柜")) {
                     Intent intent_HazardousChemicals = new Intent(getActivity(), HazardousChemicalsActivity.class);
-                    intent_HazardousChemicals.putExtra("name","危化品柜");
+                    intent_HazardousChemicals.putExtra("name", "危化品柜");
                     startActivity(intent_HazardousChemicals);
                 }
                 if (name.equals("安全巡查")) {
@@ -215,7 +246,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                 }
                 if (name.equals("预警事件")) {
                     Intent intent_HazardousChemicals = new Intent(getActivity(), HazardousChemicalsActivity.class);
-                    intent_HazardousChemicals.putExtra("name","预警事件");
+                    intent_HazardousChemicals.putExtra("name", "预警事件");
                     startActivity(intent_HazardousChemicals);
                 }
                 if (name.equals("地图监控")) {
@@ -311,4 +342,32 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         super.onDestroy();
     }
 
+    private void addFrieData() {
+        FireAlarmRequest.getFireAlarm(HomeFragment.this, getActivity(), "1", "pending", "oneday");
+    }
+
+    @Override
+    public void FireAlarmSuccess(List<FireAlarmBean.DataBean.ListBean> list, int size) {
+
+    }
+
+    @Override
+    public void FireSuccess(List<String> info) {
+        marqueeviews.startWithList(info);
+    }
+
+    @Override
+    public void FireAlarmFailed() {
+
+    }
+
+    // 收到报警广播处理，刷新界面
+    public class Receivers extends BroadcastReceiver {
+        public void onReceive(Context context, Intent intent) {
+            String action = intent.getAction();
+            if (action.equals(MyApplication.BROADCAST_ACTIONS_DISC)) {
+                addFrieData();
+            }
+        }
+    }
 }

@@ -30,7 +30,7 @@ public class MyApplication extends MultiDexApplication {
     public static final int MSGViewlocation = 0x121113;
     public static final int MSGConfirmSuccess = 0x121114;
     public static final int MSGConfirmFailure = 0x121115;
-
+    public static final int MSGFiretelePhone = 0x662360;
 
     @Override
     protected void attachBaseContext(Context base) {

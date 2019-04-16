@@ -23,7 +23,7 @@ public class WelcomeActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         this.setContentView(R.layout.welcome_activity);
-        mPv = (ParticleView) findViewById(R.id.pv);
+        mPv = findViewById(R.id.pv);
         mPv.setOnParticleAnimListener(new ParticleView.ParticleAnimListener() {
             @Override
             public void onAnimationEnd() {

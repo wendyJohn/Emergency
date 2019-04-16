@@ -77,6 +77,11 @@ public class FaultFragment extends BaseFragment implements FireAlarmModel {
     }
 
     @Override
+    public void FireSuccess(List<String> info) {
+
+    }
+
+    @Override
     public void FireAlarmFailed() {
         new SVProgressHUD(getActivity()).showErrorWithStatus("加载失败");
     }

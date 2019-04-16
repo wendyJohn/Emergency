@@ -36,5 +36,22 @@
         <item>@drawable/pa_icon</item>
     </string-array>
 
+    <string-array name="myfunction_name_items">
+        <!--<item>物资管理</item>-->
+        <item>入库</item>
+        <item>出库</item>
+        <item>报损</item>
+        <item>视频监控</item>
+        <item>应急开门</item>
+        <item>物资查询</item>
+    </string-array>
 
+    <string-array name="myfunction_icon_items">
+        <item>@drawable/warehousings</item>
+        <item>@drawable/outofstock</item>
+        <item>@drawable/reportloss</item>
+        <item>@drawable/videosurveillance</item>
+        <item>@drawable/dooropening</item>
+        <item>@drawable/materialinquiries</item>
+    </string-array>
 </resources>

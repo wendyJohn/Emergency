@@ -148,14 +148,13 @@ public class BottomMenuAdapter extends BaseAdapter {
             viewholdertwo.name.setText(mList.get(position).getNumber());
             viewholdertwo.address.setText(mList.get(position).getName());
             String image_type = mList.get(position).getImage_type();
-            System.out.println("================"+image_type);
             if(image_type.equals("ZJHXQ")||image_type.equals("HXQ")){
                 viewholdertwo.icon.setBackground(mContext.getResources().getDrawable(R.drawable.a));
             }
             if(image_type.equals("XFTK")){
                 viewholdertwo.icon.setBackground(mContext.getResources().getDrawable(R.drawable.b));
             }
-            if(image_type.equals("XFF")){
+            if(image_type.equals("FHF")){
                 viewholdertwo.icon.setBackground(mContext.getResources().getDrawable(R.drawable.c));
             }
             if(image_type.equals("ST")){

@@ -16,13 +16,9 @@ import android.widget.RadioGroup.OnCheckedChangeListener;
 import android.widget.TextView;
 
 import com.sanleng.electricalfire.MyApplication;
-import com.sanleng.electricalfire.R;
 import com.sanleng.electricalfire.Presenter.FireConfirmationRequest;
+import com.sanleng.electricalfire.R;
 import com.sanleng.electricalfire.model.FireConfirmationModel;
-import com.sanleng.electricalfire.util.PreferenceUtils;
-
-import org.json.JSONException;
-import org.json.JSONObject;
 
 /**
  * 火警确认
@@ -91,7 +87,7 @@ public class FireConfirmDialog extends Dialog implements OnClickListener, FireCo
         if (v.getId() == R.id.bt_cancel) {
             dismiss();
         } else if (v.getId() == R.id.bt_confire) {
-            FireConfirmationRequest.GetFireConfirmation(FireConfirmDialog.this, context, taskId, staus, PreferenceUtils.getString(context, "MobileFig_username"), "app_firecontrol_owner");
+            FireConfirmationRequest.GetFireConfirmation(FireConfirmDialog.this, context, taskId, staus);
             dismiss();
         }
     }
@@ -99,10 +95,11 @@ public class FireConfirmDialog extends Dialog implements OnClickListener, FireCo
     @Override
     public void FireConfirmationSuccess(String msg) {
         try {
-            JSONObject jsonObject = new JSONObject(msg);
-            String msgs = jsonObject.getString("msg");
-            if (msgs.equals("警情处理成功")) {
+            if (msg.equals("警情处理成功")) {
                 Message mymsg = new Message();
+                Bundle data = new Bundle();
+                data.putString("staus",staus);
+                mymsg.setData(data);
                 mymsg.what = MyApplication.MSGConfirmSuccess;
                 mHandler.sendMessage(mymsg);
             } else {
@@ -110,7 +107,7 @@ public class FireConfirmDialog extends Dialog implements OnClickListener, FireCo
                 mymsg.what = MyApplication.MSGConfirmFailure;
                 mHandler.sendMessage(mymsg);
             }
-        } catch (JSONException e) {
+        } catch (Exception e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }

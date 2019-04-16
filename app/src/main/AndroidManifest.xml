@@ -157,6 +157,22 @@
             android:name=".ui.activity.MonitorsActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:screenOrientation="portrait" />
+
+        <!-- 校园安全_应急开门 -->
+        <activity
+            android:name=".ui.activity.EmergencyUnlockingActivity"
+            android:screenOrientation="portrait" />
+
+        <!-- 校园安全_站点列表 -->
+        <activity
+            android:name=".ui.activity.EmergencyStationActivity"
+            android:screenOrientation="portrait" />
+
+        <!-- 校园安全_物资查询 -->
+        <activity
+            android:name=".ui.activity.MaterialActivity"
+            android:screenOrientation="portrait" />
+
         <!-- 应急导航 -->
         <activity
             android:name=".baidumap.WNaviGuideActivity"
@@ -168,6 +184,11 @@
         <!-- 校园安全_火灾报警处理 -->
         <activity
             android:name=".ui.activity.FireAlarmActivity"
+            android:screenOrientation="portrait" />
+
+        <!-- 校园应急_物资管理 -->
+        <activity
+            android:name=".ui.activity.MonStationActivity"
             android:screenOrientation="portrait" />
         <!-- 校园宣传_文章 -->
         <activity
@@ -210,7 +231,12 @@
         <activity
             android:name=".ui.activity.PwdChangeActivity"
             android:screenOrientation="portrait" />
-
+        <activity
+            android:name=".zxing.activiry.CaptureActivity"
+            android:configChanges="orientation|screenSize"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.NoActionBar"
+            android:windowSoftInputMode="adjustPan|stateHidden" />
         <service android:name=".service.UpdateService" />
 
         <service

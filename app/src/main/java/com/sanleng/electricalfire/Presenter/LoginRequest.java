@@ -3,6 +3,7 @@ package com.sanleng.electricalfire.Presenter;
 import android.content.Context;
 
 import com.sanleng.electricalfire.model.LoginModel;
+import com.sanleng.electricalfire.ui.activity.LoginActivity;
 import com.sanleng.electricalfire.ui.bean.Login;
 import com.sanleng.electricalfire.net.Request_Interface;
 import com.sanleng.electricalfire.net.URLs;
@@ -33,6 +34,8 @@ public class LoginRequest {
                     loginModel.LoginSuccess(msg);
                     String unitcode = response.body().getData().getUnitcode();
                     String agentName = response.body().getData().getName();
+                    String ids =response.body().getData().getIds();
+
                     //绑定唯一标识
                     JPushInterface.setAlias(context, 1, unitcode);
                     // 存入数据库中（登录名称和密码）
@@ -47,6 +50,7 @@ public class LoginRequest {
                     PreferenceUtils.setString(context, "unitcode", unitcode);
                     // 人员名称
                     PreferenceUtils.setString(context, "agentName", agentName);
+                    PreferenceUtils.setString(context, "ids", ids);
                 } else {
                     loginModel.LoginSuccess(msg);
                 }

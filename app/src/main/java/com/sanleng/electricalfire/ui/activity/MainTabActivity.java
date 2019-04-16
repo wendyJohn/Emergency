@@ -16,6 +16,7 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.Gravity;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -25,17 +26,17 @@ import android.widget.TextView;
 
 import com.bigkoo.svprogresshud.SVProgressHUD;
 import com.sanleng.electricalfire.MyApplication;
+import com.sanleng.electricalfire.Presenter.UpdateRequest;
 import com.sanleng.electricalfire.R;
 import com.sanleng.electricalfire.data.Version_mag;
 import com.sanleng.electricalfire.dialog.CustomDialog;
 import com.sanleng.electricalfire.dialog.FireTipsDialog;
-import com.sanleng.electricalfire.Presenter.UpdateRequest;
 import com.sanleng.electricalfire.model.UpdateModel;
 import com.sanleng.electricalfire.service.UpdateService;
 import com.sanleng.electricalfire.ui.fragment.EventFragment;
 import com.sanleng.electricalfire.ui.fragment.HomeFragment;
+import com.sanleng.electricalfire.ui.fragment.MapMonitoringFragment;
 import com.sanleng.electricalfire.ui.fragment.MineFragment;
-import com.sanleng.electricalfire.ui.fragment.RemoteMonitoringFragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -51,18 +52,18 @@ public class MainTabActivity extends FragmentActivity implements View.OnClickLis
     //四个Tab对应的布局
     private LinearLayout mTabWeixin;
     private LinearLayout mTabFrd;
-    private LinearLayout mTabAddress;
+//    private LinearLayout mTabAddress;
     private LinearLayout mTabSetting;
 
     //四个Tab对应的ImageButton
     private ImageButton mImgWeixin;
     private ImageButton mImgFrd;
-    private ImageButton mImgAddress;
+//    private ImageButton mImgAddress;
     private ImageButton mImgSetting;
     //四个Tab对应的TextView
     private TextView texttab_a;
     private TextView texttab_b;
-    private TextView texttab_c;
+//    private TextView texttab_c;
     private TextView texttab_d;
     static LinearLayout linearLayout;
     private Receivers receivers;
@@ -85,8 +86,8 @@ public class MainTabActivity extends FragmentActivity implements View.OnClickLis
         mFragments = new ArrayList<>();
         //将四个Fragment加入集合中
         mFragments.add(new HomeFragment());
-        mFragments.add(new RemoteMonitoringFragment());
-        mFragments.add(new EventFragment());
+        mFragments.add(new MapMonitoringFragment());
+//        mFragments.add(new EventFragment());
         mFragments.add(new MineFragment());
 
         //初始化适配器
@@ -129,34 +130,42 @@ public class MainTabActivity extends FragmentActivity implements View.OnClickLis
         });
     }
 
+
     private void initEvents() {
         //设置四个Tab的点击事件
         mTabWeixin.setOnClickListener(this);
         mTabFrd.setOnClickListener(this);
-        mTabAddress.setOnClickListener(this);
+//        mTabAddress.setOnClickListener(this);
         mTabSetting.setOnClickListener(this);
 
     }
 
     //初始化控件
+    @SuppressLint("ClickableViewAccessibility")
     private void initViews() {
         linearLayout = findViewById(R.id.login_delete);
         findViewById(R.id.home_close).setOnClickListener(this);
         findViewById(R.id.home_delete).setOnClickListener(this);
         mViewPager = findViewById(R.id.id_viewpager);
-
+        // 禁止ViewPager滑动
+        mViewPager.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                return true;
+            }
+        });
         mTabWeixin = findViewById(R.id.id_tab_weixin);
         mTabFrd = findViewById(R.id.id_tab_frd);
-        mTabAddress = findViewById(R.id.id_tab_address);
+//        mTabAddress = findViewById(R.id.id_tab_address);
         mTabSetting = findViewById(R.id.id_tab_setting);
 
         mImgWeixin = findViewById(R.id.id_tab_weixin_img);
         mImgFrd = findViewById(R.id.id_tab_frd_img);
-        mImgAddress = findViewById(R.id.id_tab_address_img);
+//        mImgAddress = findViewById(R.id.id_tab_address_img);
         mImgSetting = findViewById(R.id.id_tab_setting_img);
         texttab_a = findViewById(R.id.texttab_a);
         texttab_b = findViewById(R.id.texttab_b);
-        texttab_c = findViewById(R.id.texttab_c);
+//        texttab_c = findViewById(R.id.texttab_c);
         texttab_d = findViewById(R.id.texttab_d);
 
         receivers = new Receivers();
@@ -169,7 +178,6 @@ public class MainTabActivity extends FragmentActivity implements View.OnClickLis
     public void onClick(View v) {
         //先将四个ImageButton置为灰色
         resetImgs();
-
         //根据点击的Tab切换不同的页面及设置对应的ImageButton为绿色
         switch (v.getId()) {
             case R.id.id_tab_weixin:
@@ -207,28 +215,28 @@ public class MainTabActivity extends FragmentActivity implements View.OnClickLis
                 mImgWeixin.setImageResource(R.drawable.emergencya_in);
                 texttab_a.setTextColor(MainTabActivity.this.getResources().getColor(R.color.text_blue));
                 texttab_b.setTextColor(MainTabActivity.this.getResources().getColor(R.color.gray));
-                texttab_c.setTextColor(MainTabActivity.this.getResources().getColor(R.color.gray));
+//                texttab_c.setTextColor(MainTabActivity.this.getResources().getColor(R.color.gray));
                 texttab_d.setTextColor(MainTabActivity.this.getResources().getColor(R.color.gray));
                 break;
             case 1:
                 mImgFrd.setImageResource(R.drawable.emergencyb_in);
                 texttab_a.setTextColor(MainTabActivity.this.getResources().getColor(R.color.gray));
                 texttab_b.setTextColor(MainTabActivity.this.getResources().getColor(R.color.text_blue));
-                texttab_c.setTextColor(MainTabActivity.this.getResources().getColor(R.color.gray));
+//                texttab_c.setTextColor(MainTabActivity.this.getResources().getColor(R.color.gray));
                 texttab_d.setTextColor(MainTabActivity.this.getResources().getColor(R.color.gray));
                 break;
+//            case 2:
+//                mImgAddress.setImageResource(R.drawable.emergencyc_in);
+//                texttab_a.setTextColor(MainTabActivity.this.getResources().getColor(R.color.gray));
+//                texttab_b.setTextColor(MainTabActivity.this.getResources().getColor(R.color.gray));
+//                texttab_c.setTextColor(MainTabActivity.this.getResources().getColor(R.color.text_blue));
+//                texttab_d.setTextColor(MainTabActivity.this.getResources().getColor(R.color.gray));
+//                break;
             case 2:
-                mImgAddress.setImageResource(R.drawable.emergencyc_in);
-                texttab_a.setTextColor(MainTabActivity.this.getResources().getColor(R.color.gray));
-                texttab_b.setTextColor(MainTabActivity.this.getResources().getColor(R.color.gray));
-                texttab_c.setTextColor(MainTabActivity.this.getResources().getColor(R.color.text_blue));
-                texttab_d.setTextColor(MainTabActivity.this.getResources().getColor(R.color.gray));
-                break;
-            case 3:
                 mImgSetting.setImageResource(R.drawable.emergencyd_in);
                 texttab_a.setTextColor(MainTabActivity.this.getResources().getColor(R.color.gray));
                 texttab_b.setTextColor(MainTabActivity.this.getResources().getColor(R.color.gray));
-                texttab_c.setTextColor(MainTabActivity.this.getResources().getColor(R.color.gray));
+//                texttab_c.setTextColor(MainTabActivity.this.getResources().getColor(R.color.gray));
                 texttab_d.setTextColor(MainTabActivity.this.getResources().getColor(R.color.text_blue));
                 break;
         }
@@ -241,7 +249,7 @@ public class MainTabActivity extends FragmentActivity implements View.OnClickLis
     private void resetImgs() {
         mImgWeixin.setImageResource(R.drawable.emergencya_on);
         mImgFrd.setImageResource(R.drawable.emergencyb_on);
-        mImgAddress.setImageResource(R.drawable.emergencyc_on);
+//        mImgAddress.setImageResource(R.drawable.emergencyc_on);
         mImgSetting.setImageResource(R.drawable.emergencyd_on);
     }
 

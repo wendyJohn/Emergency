@@ -108,9 +108,11 @@ public class MapMonitoringActivity extends BaseActivity implements OnClickListen
     private MapView mMapView;  // 地图应用
     private BaiduMap mBaiduMap;
     private LatLng latLng;
+    private List<OverlayOptions> listoption;
     private boolean isFirstLoc = true; // 是否首次定位
-    BitmapDescriptor bdAs = BitmapDescriptorFactory.fromResource(R.drawable.stations_icon);//应急站标识
-    BitmapDescriptor bdA = BitmapDescriptorFactory.fromResource(R.drawable.ico_sos);//求救标识
+    BitmapDescriptor bdA = BitmapDescriptorFactory.fromResource(R.drawable.bd_fire);//火灾标识
+    BitmapDescriptor bdB = BitmapDescriptorFactory.fromResource(R.drawable.bd_lectrical);//电气标识
+    BitmapDescriptor bdC = BitmapDescriptorFactory.fromResource(R.drawable.bd_watere);//水系统标识
     private static final double EARTH_RADIUS = 6378137.0;
     WalkNaviLaunchParam walkParam;
     /*导航起终点Marker，可拖动改变起终点的坐标*/
@@ -205,16 +207,24 @@ public class MapMonitoringActivity extends BaseActivity implements OnClickListen
         mBaiduMap.setOnMarkerClickListener(new BaiduMap.OnMarkerClickListener() {
             @Override
             public boolean onMarkerClick(Marker arg0) {
-                // 获得marker中的数据
                 StationBean bean = (StationBean) arg0.getExtraInfo().get("marker");
                 E_mylatitude = bean.getE_mylatitude();
                 E_mylongitude = bean.getE_mylongitude();
                 String names = bean.getName();
-                String addresss = bean.getAddress();
-
+                String address = bean.getAddress();
+                int type = bean.getType();
+                LatLng llA = new LatLng(E_mylatitude, E_mylongitude);
+                showInfoWindow(llA, names, address, type);
                 // 获得marker中的数据
-                e_stationDialog = new E_StationDialog(MapMonitoringActivity.this, names, addresss, clickListener);
-                e_stationDialog.show();
+//                StationBean bean = (StationBean) arg0.getExtraInfo().get("marker");
+//                E_mylatitude = bean.getE_mylatitude();
+//                E_mylongitude = bean.getE_mylongitude();
+//                String names = bean.getName();
+//                String addresss = bean.getAddress();
+//
+//                // 获得marker中的数据
+//                e_stationDialog = new E_StationDialog(MapMonitoringActivity.this, names, addresss, clickListener);
+//                e_stationDialog.show();
                 return true;
 
             }
@@ -288,18 +298,18 @@ public class MapMonitoringActivity extends BaseActivity implements OnClickListen
                 new SVProgressHUD(MapMonitoringActivity.this).showErrorWithStatus("当前网络不通畅，请重新获取");
             }
 //            // 构造定位数据
-            MyLocationData locData = new MyLocationData.Builder().accuracy(location.getRadius())
-                    // 此处设置开发者获取到的方向信息，顺时针0-360
-                    .direction(0).latitude(location.getLatitude()).longitude(location.getLongitude()).build();
-            // 设置定位数据
-            mBaiduMap.setMyLocationData(locData);
+//            MyLocationData locData = new MyLocationData.Builder().accuracy(location.getRadius())
+//                    // 此处设置开发者获取到的方向信息，顺时针0-360
+//                    .direction(0).latitude(location.getLatitude()).longitude(location.getLongitude()).build();
+//            // 设置定位数据
+//            mBaiduMap.setMyLocationData(locData);
             // 当不需要定位图层时关闭定位图层
             mBaiduMap.setMyLocationEnabled(true);
             if (isFirstLoc) {
                 isFirstLoc = false;
                 LatLng ll = new LatLng(location.getLatitude(), location.getLongitude());
                 MapStatus.Builder builder = new MapStatus.Builder();
-                builder.target(ll).zoom(17.0f);
+                builder.target(ll).zoom(18.0f);
                 mBaiduMap.animateMapStatus(MapStatusUpdateFactory.newMapStatus(builder.build()));
                 if (location.getLocType() == BDLocation.TypeGpsLocation) {
                     // GPS定位结果
@@ -322,9 +332,66 @@ public class MapMonitoringActivity extends BaseActivity implements OnClickListen
 
     }
 
+    private void fire() {
+        StationBean beana = new StationBean();
+        beana.setName("火灾报警");
+        beana.setAddress("南京市-江宁区-秣周东路");
+        beana.setE_mylatitude(31.87308);
+        beana.setE_mylongitude(118.83488);
+        beana.setType(1);
+        // 构建MarkerOption，用于在地图上添加Marker
+        LatLng llA = new LatLng(31.87308, 118.83488);
+        MarkerOptions option = new MarkerOptions().position(llA).icon(bdA);
+        Marker marker = (Marker) mBaiduMap.addOverlay(option);
+        // 将信息保存
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("marker", beana);
+        marker.setExtraInfo(bundle);
+        mBaiduMap.addOverlays(listoption);
+    }
+
+    private void lectrical() {
+        StationBean beanb = new StationBean();
+        beanb.setName("电气安全");
+        beanb.setAddress("南京市-江宁区-秣周东路");
+        beanb.setE_mylatitude(31.87208);
+        beanb.setE_mylongitude(118.83388);
+        beanb.setType(2);
+        // 构建MarkerOption，用于在地图上添加Marker
+        LatLng llA = new LatLng(31.87208, 118.83388);
+        MarkerOptions option = new MarkerOptions().position(llA).icon(bdB);
+        Marker marker = (Marker) mBaiduMap.addOverlay(option);
+        // 将信息保存
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("marker", beanb);
+        marker.setExtraInfo(bundle);
+        mBaiduMap.addOverlays(listoption);
+    }
+
+    private void watere() {
+        StationBean beanc = new StationBean();
+        beanc.setName("水系统");
+        beanc.setAddress("南京市-江宁区-秣周东路");
+        beanc.setE_mylatitude(31.87408);
+        beanc.setE_mylongitude(118.83588);
+        beanc.setType(3);
+        // 构建MarkerOption，用于在地图上添加Marker
+        LatLng llA = new LatLng(31.87408, 118.83588);
+        MarkerOptions option = new MarkerOptions().position(llA).icon(bdC);
+        Marker marker = (Marker) mBaiduMap.addOverlay(option);
+        // 将信息保存
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("marker", beanc);
+        marker.setExtraInfo(bundle);
+        mBaiduMap.addOverlays(listoption);
+    }
+
     @Override
     protected void onResume() {
         super.onResume();
+        fire();
+        lectrical();
+        watere();
         // 在activity执行onResume时执行mMapView. onResume ()，实现地图生命周期管理
         WalkNavigateHelper.getInstance().resume();
         mMapView.onResume();
@@ -365,7 +432,6 @@ public class MapMonitoringActivity extends BaseActivity implements OnClickListen
             case R.id.r_back:
                 finish();
                 break;
-
             default:
                 break;
         }
@@ -465,11 +531,42 @@ public class MapMonitoringActivity extends BaseActivity implements OnClickListen
     /**
      * 显示弹出窗
      */
-    private void showInfoWindow(LatLng ll, String name) {
+    private void showInfoWindow(LatLng ll, String name, String addresses, final int type) {
         //创建InfoWindow展示的view
-        View contentView = LayoutInflater.from(getApplicationContext()).inflate(R.layout.infowindow_item, null);
+        View contentView = LayoutInflater.from(getApplicationContext()).inflate(R.layout.infowindow_items, null);
         TextView tvCount = contentView.findViewById(R.id.tv_count);
-        tvCount.setText(name);
+        TextView address = contentView.findViewById(R.id.address);
+        ImageView index_a = contentView.findViewById(R.id.index_a);
+        RelativeLayout viewdetails= contentView.findViewById(R.id.viewdetails);
+        tvCount.setText("名称："+name);
+        address.setText("地址："+addresses);
+        if (type == 1) {
+            index_a.setBackground(MapMonitoringActivity.this.getResources().getDrawable(R.drawable.bd_fire));
+        }
+        if (type == 2) {
+            index_a.setBackground(MapMonitoringActivity.this.getResources().getDrawable(R.drawable.bd_lectrical));
+        }
+        if (type == 3) {
+            index_a.setBackground(MapMonitoringActivity.this.getResources().getDrawable(R.drawable.bd_watere));
+        }
+        viewdetails.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (type == 1) {
+                    Intent HostMonitoring=new Intent(MapMonitoringActivity.this,HostMonitoringActivity.class);
+                    startActivity(HostMonitoring);
+                }
+                if (type == 2) {
+                    Intent intent_RealTimeData = new Intent(MapMonitoringActivity.this, RealDataActivity.class);
+                    startActivity(intent_RealTimeData);
+                }
+                if (type == 3) {
+                    Intent WaterSystemintent=new Intent(MapMonitoringActivity.this,WaterSystemActivity.class);
+                    startActivity(WaterSystemintent);
+                }
+            }
+        });
+
         //创建InfoWindow , 传入 view， 地理坐标， y 轴偏移量
         InfoWindow infoWindow = new InfoWindow(contentView, ll, -80);
         //显示InfoWindow

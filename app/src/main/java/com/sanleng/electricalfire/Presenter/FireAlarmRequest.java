@@ -8,6 +8,8 @@ import com.sanleng.electricalfire.net.URLs;
 import com.sanleng.electricalfire.ui.bean.FireAlarmBean;
 import com.sanleng.electricalfire.util.PreferenceUtils;
 
+import org.json.JSONException;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,6 +23,7 @@ public class FireAlarmRequest {
     //火警列表
     public static void getFireAlarm(final FireAlarmModel fireAlarmModel, final Context context, final String page, final String status, final String scope) {
         final List<FireAlarmBean.DataBean.ListBean> list = new ArrayList<>();
+        final List<String> info = new ArrayList<>();
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(URLs.HOST) // 设置 网络请求 Url
                 .addConverterFactory(GsonConverterFactory.create()) //设置使用Gson解析(记得加入依赖)
@@ -31,23 +34,30 @@ public class FireAlarmRequest {
         call.enqueue(new Callback<FireAlarmBean>() {
             @Override
             public void onResponse(Call<FireAlarmBean> call, Response<FireAlarmBean> response) {
-                int size = response.body().getData().getTotal();
-                for (int i = 0; i < response.body().getData().getList().size(); i++) {
-                    FireAlarmBean.DataBean.ListBean bean = new FireAlarmBean.DataBean.ListBean();
-                    String taskId = response.body().getData().getList().get(i).getIds();
-                    String receive_time = response.body().getData().getList().get(i).getReceive_time();
-                    String device_name = response.body().getData().getList().get(i).getDevice_name();
-                    String position = response.body().getData().getList().get(i).getPosition();
-                    String unit_name = response.body().getData().getList().get(i).getUnit_name();
+                try {
+                    int size = response.body().getData().getTotal();
+                    for (int i = 0; i < response.body().getData().getList().size(); i++) {
+                        FireAlarmBean.DataBean.ListBean bean = new FireAlarmBean.DataBean.ListBean();
+                        String taskId = response.body().getData().getList().get(i).getIds();
+                        String receive_time = response.body().getData().getList().get(i).getReceive_time();
+                        String device_name = response.body().getData().getList().get(i).getDevice_name();
+                        String position = response.body().getData().getList().get(i).getPosition();
+                        String unit_name = response.body().getData().getList().get(i).getUnit_name();
 
-                    bean.setReceive_time(receive_time);
-                    bean.setDevice_name(device_name);
-                    bean.setPosition(position);
-                    bean.setUnit_name(unit_name);
-                    bean.setIds(taskId);
-                    list.add(bean);
+                        bean.setReceive_time(receive_time);
+                        bean.setDevice_name(device_name);
+                        bean.setPosition(position);
+                        bean.setUnit_name(unit_name);
+                        bean.setIds(taskId);
+                        list.add(bean);
+                        String str = unit_name + position + device_name + "发生火警";
+                        info.add(str);
+                    }
+                    fireAlarmModel.FireSuccess(info);
+                    fireAlarmModel.FireAlarmSuccess(list, size);
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
-                fireAlarmModel.FireAlarmSuccess(list, size);
             }
 
             @Override
@@ -78,8 +88,8 @@ public class FireAlarmRequest {
                     String device_name = response.body().getData().getList().get(i).getDevice_name();
                     String position = response.body().getData().getList().get(i).getPosition();
                     String unit_name = response.body().getData().getList().get(i).getUnit_name();
-                    String alarm_type= response.body().getData().getList().get(i).getAlarm_type();
-                    if(alarm_type.equals(102)) {
+                    String alarm_type = response.body().getData().getList().get(i).getAlarm_type();
+                    if (alarm_type.equals(102)) {
                         bean.setReceive_time(receive_time);
                         bean.setDevice_name(device_name);
                         bean.setPosition(position);

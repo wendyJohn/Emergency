@@ -80,7 +80,13 @@ public class MisreportFragment extends BaseFragment implements FireAlarmModel {
 
     @Override
     public void FireAlarmSuccess(List<FireAlarmBean.DataBean.ListBean> list, int size) {
+        System.out.println("========AAAAA========"+list.size());
         loadData(size, list);
+    }
+
+    @Override
+    public void FireSuccess(List<String> info) {
+
     }
 
     @Override
@@ -162,7 +168,7 @@ public class MisreportFragment extends BaseFragment implements FireAlarmModel {
         if (scope.equals("thirtydays")) {
             data_text.setText("本月共有" + size + "起误报");
         }
-        firealarmlistview = (ListView) view.findViewById(R.id.firealarmlistview);
+        firealarmlistview = view.findViewById(R.id.firealarmlistview);
         allList.addAll(list);
         misreportAdapter.bindData(getActivity(), allList);
         if (pageNo == 1) {

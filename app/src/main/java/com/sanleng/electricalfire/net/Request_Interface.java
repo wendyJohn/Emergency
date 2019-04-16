@@ -4,15 +4,19 @@ import com.sanleng.electricalfire.ui.bean.AlarmRecord;
 import com.sanleng.electricalfire.ui.bean.Alarmload;
 import com.sanleng.electricalfire.ui.bean.Article;
 import com.sanleng.electricalfire.ui.bean.ArticleItem;
+import com.sanleng.electricalfire.ui.bean.ConfirmFire;
 import com.sanleng.electricalfire.ui.bean.FireAlarmBean;
 import com.sanleng.electricalfire.ui.bean.HistoricalTrack;
 import com.sanleng.electricalfire.ui.bean.Login;
+import com.sanleng.electricalfire.ui.bean.Material;
+import com.sanleng.electricalfire.ui.bean.MaterialsList;
 import com.sanleng.electricalfire.ui.bean.NearbyStation;
 import com.sanleng.electricalfire.ui.bean.ReadTimeItemData;
 import com.sanleng.electricalfire.ui.bean.RealtimeData;
 import com.sanleng.electricalfire.ui.bean.RealtimeDatas;
 import com.sanleng.electricalfire.ui.bean.Rescue;
 import com.sanleng.electricalfire.ui.bean.Sosbean;
+import com.sanleng.electricalfire.ui.bean.Station;
 import com.sanleng.electricalfire.ui.bean.Version;
 import com.sanleng.electricalfire.ui.bean.WaterSystem;
 import com.sanleng.electricalfire.ui.bean.WaterSystemStatistics;
@@ -71,7 +75,7 @@ public interface Request_Interface {
 
     //火警确认
     @POST("/kspf/app/ferecord/isTrueFire?")
-    Call<String> getFireConfirmationCall(@Query("ids") String ids, @Query("alarmtype") String alarmtype, @Query("username") String username, @Query("platformkey") String platformkey);
+    Call<ConfirmFire> getFireConfirmationCall(@Query("ids") String ids, @Query("alarmtype") String alarmtype, @Query("username") String username, @Query("platformkey") String platformkey);
 
     //文章视频
     @POST("/kspf/app/publicityedu/list?")
@@ -104,5 +108,22 @@ public interface Request_Interface {
     //报警状态修改
     @POST("/kspf/app/gsm/update?")
     Call<String> getAlarmUpdateCall(@Query("ids") String ids, @Query("state") String state, @Query("username") String username, @Query("platformkey") String platformkey);
+
+    //获取物资详情
+    @POST("/kspf/app/station/detail?")
+    Call<Material> getMaterialDetailsCall(@Query("ids") String ids, @Query("username") String username, @Query("platformkey") String platformkey);
+
+    //应急站列表
+    @POST("/kspf/app/station/list?")
+    Call<Station> getStationCall(@Query("pageNum") String pageNum, @Query("pageSize") String pageSize, @Query("unit_code") String unit_code, @Query("username") String username, @Query("platformkey") String platformkey);
+
+    //物资状态
+    @POST("/kspf/app/station/state?")
+    Call<String> getMaterialStatusCall(@Query("ids") String ids, @Query("agentName") String agentName, @Query("agentId") String agentId, @Query("stationName") String stationName, @Query("stationId") String stationId, @Query("storageLocation") String storageLocation, @Query("state") String state, @Query("reason") String reason, @Query("username") String username, @Query("platformkey") String platformkey);
+
+    //物资列表
+    @POST("/kspf/app/station/materiallist?")
+    Call<MaterialsList> getMaterialsListCall(@Query("pageNum") String pageNum, @Query("pageSize") String pageSize, @Query("stationId") String stationId, @Query("unit_code") String unit_code, @Query("username") String username, @Query("platformkey") String platformkey);
+
 
 }
