@@ -152,6 +152,10 @@
         <activity
             android:name=".ui.activity.HostMonitoringActivity"
             android:screenOrientation="portrait" />
+        <!-- 校园安全_处理上报 -->
+        <activity
+            android:name=".ui.activity.ProcessingReportActivity"
+            android:screenOrientation="portrait" />
         <!-- 校园安全_安防监控 -->
         <activity
             android:name=".ui.activity.MonitorsActivity"
@@ -185,7 +189,14 @@
         <activity
             android:name=".ui.activity.FireAlarmActivity"
             android:screenOrientation="portrait" />
-
+        <!-- 校园安全_火灾报警处理上报 -->
+        <activity
+            android:name=".ui.activity.FireAlarmsActivity"
+            android:screenOrientation="portrait" />
+        <!-- 校园安全_火灾报警处理上报详情 -->
+        <activity
+            android:name=".ui.activity.ReportingDetailsActivity"
+            android:screenOrientation="portrait" />
         <!-- 校园应急_物资管理 -->
         <activity
             android:name=".ui.activity.MonStationActivity"
@@ -237,6 +248,7 @@
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.NoActionBar"
             android:windowSoftInputMode="adjustPan|stateHidden" />
+
         <service android:name=".service.UpdateService" />
 
         <service

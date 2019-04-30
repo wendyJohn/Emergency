@@ -14,6 +14,7 @@ import com.sanleng.electricalfire.ui.bean.NearbyStation;
 import com.sanleng.electricalfire.ui.bean.ReadTimeItemData;
 import com.sanleng.electricalfire.ui.bean.RealtimeData;
 import com.sanleng.electricalfire.ui.bean.RealtimeDatas;
+import com.sanleng.electricalfire.ui.bean.ReportingDetailsBean;
 import com.sanleng.electricalfire.ui.bean.Rescue;
 import com.sanleng.electricalfire.ui.bean.Sosbean;
 import com.sanleng.electricalfire.ui.bean.Station;
@@ -45,9 +46,9 @@ public interface Request_Interface {
     @POST("/kspf/app/electricalfire/deviceRealTimeData?")
     Call<ReadTimeItemData> getReadtimeItemDataCall(@Query("device_id") String device_id, @Query("username") String username, @Query("platformkey") String platformkey);
 
-    //获取报警信息
+    //获取上报详情
     @POST("/kspf/app/electricalfire/recordlist?")
-    Call<RealtimeData> getAlarmDataCall(@Query("pageNum") String pageNum, @Query("pageSize") String pageSize, @Query("unit_id") String unit_id, @Query("username") String username, @Query("platformkey") String platformkey);
+    Call<ReportingDetailsBean> getReportingDetailsCall(@Query("pageNum") String pageNum, @Query("pageSize") String pageSize, @Query("pointId") String pointId, @Query("type") String type, @Query("username") String username, @Query("platformkey") String platformkey);
 
     //获取设备历史轨迹
     @POST("/kspf/app/electricalfire/trajectory?")
@@ -125,5 +126,8 @@ public interface Request_Interface {
     @POST("/kspf/app/station/materiallist?")
     Call<MaterialsList> getMaterialsListCall(@Query("pageNum") String pageNum, @Query("pageSize") String pageSize, @Query("stationId") String stationId, @Query("unit_code") String unit_code, @Query("username") String username, @Query("platformkey") String platformkey);
 
+    //获取巡查任务列表
+    @POST("/kspf/app/patroltask/list?")
+    Call<WaterSystem> getInspTaskCall(@Query("page") String page, @Query("pageSize") String pageSize, @Query("unitcode") String unitcode, @Query("username") String username, @Query("platformkey") String platformkey, @Query("status") String status);
 
 }

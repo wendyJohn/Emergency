@@ -75,7 +75,7 @@ public class UpdateService extends Service {
         notification = new Notification(icon, tickerText, when);
 
         RemoteViews contentView = new RemoteViews(getPackageName(), R.layout.notify_update_layout);
-        contentView.setTextViewText(R.id.name, "智慧校园正在下载中...");
+        contentView.setTextViewText(R.id.name, "智慧应急正在下载中...");
 
         Intent canceledIntent = new Intent("canceled");
         canceledIntent.putExtra("canceled", "canceled");

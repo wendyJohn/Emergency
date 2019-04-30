@@ -18,9 +18,9 @@ import android.widget.Toast;
 
 import com.bigkoo.svprogresshud.SVProgressHUD;
 import com.sanleng.electricalfire.MyApplication;
+import com.sanleng.electricalfire.Presenter.FireAlarmRequest;
 import com.sanleng.electricalfire.R;
 import com.sanleng.electricalfire.dialog.FireConfirmDialog;
-import com.sanleng.electricalfire.Presenter.FireAlarmRequest;
 import com.sanleng.electricalfire.model.FireAlarmModel;
 import com.sanleng.electricalfire.ui.adapter.FireAlarmAdapter;
 import com.sanleng.electricalfire.ui.bean.FireAlarmBean;
@@ -329,9 +329,28 @@ public class FireAlarmActivity extends BaseActivity implements FireAlarmModel {
                     break;
                 // 拨打119电话
                 case MyApplication.MSGFiretelePhone:
-                    Intent dialIntent =  new Intent(Intent.ACTION_CALL,Uri.parse("tel:" + 119));//直接拨打电话
+                    Intent dialIntent =  new Intent(Intent.ACTION_DIAL,Uri.parse("tel:" + 119));//直接拨打电话
                     startActivity(dialIntent);
                     break;
+                // 处理上报
+                case MyApplication.MSGProcessingReport:
+                    int selIndexs = data.getInt("selIndex");
+                    FireAlarmBean.DataBean.ListBean beans = allList.get(selIndexs);
+                    String ids = beans.getIds();
+                    Intent intent_Patrol = new Intent(FireAlarmActivity.this, ProcessingReportActivity.class);
+                    intent_Patrol.putExtra("ids", ids);
+                    startActivity(intent_Patrol);
+                    break;
+                // 上报详情
+                case MyApplication.MSGReportingDetails:
+                    int rselIndexs = data.getInt("selIndex");
+                    FireAlarmBean.DataBean.ListBean rbeans = allList.get(rselIndexs);
+                    String rids = rbeans.getIds();
+                    Intent intent_ReportingDetails = new Intent(FireAlarmActivity.this, ReportingDetailsActivity.class);
+                    intent_ReportingDetails.putExtra("ids", rids);
+                    startActivity(intent_ReportingDetails);
+                    break;
+
                 default:
                     break;
             }

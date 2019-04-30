@@ -8,7 +8,7 @@
     <ImageView
         android:id="@+id/imageView_item"
         android:layout_width="match_parent"
-        android:background="@drawable/home_taba_ion"
+        android:background="@drawable/homes_taba_ion"
         android:layout_height="@dimen/widget_size_150" />
 
 </LinearLayout>

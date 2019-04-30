@@ -32,6 +32,7 @@ import com.sanleng.electricalfire.myview.ZQScrollGridView;
 import com.sanleng.electricalfire.ui.activity.ArticleActivity;
 import com.sanleng.electricalfire.ui.activity.EmergencyRescueActivity;
 import com.sanleng.electricalfire.ui.activity.FireAlarmActivity;
+import com.sanleng.electricalfire.ui.activity.FireAlarmsActivity;
 import com.sanleng.electricalfire.ui.activity.FirsafetyAtivity;
 import com.sanleng.electricalfire.ui.activity.HazardousChemicalsActivity;
 import com.sanleng.electricalfire.ui.activity.MainTabActivity;
@@ -253,6 +254,10 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Fire
                     Intent intent_MapMonitoring = new Intent(getActivity(), MapMonitoringActivity.class);
                     startActivity(intent_MapMonitoring);
                 }
+                if (name.equals("处理上报")) {
+                    Intent intent_FireAlarms = new Intent(getActivity(), FireAlarmsActivity.class);
+                    startActivity(intent_FireAlarms);
+                }
             }
         }
     };
@@ -332,7 +337,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Fire
             list.add(user);
         }
 
-        HomeFragment.list.get(7).setIsvisibility(false);
+        HomeFragment.list.get(8).setIsvisibility(false);
         notifyData();
     }
 

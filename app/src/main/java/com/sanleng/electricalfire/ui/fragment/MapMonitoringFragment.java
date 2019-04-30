@@ -115,7 +115,7 @@ public class MapMonitoringFragment extends BaseFragment implements OnClickListen
     };
     private static final int authBaseRequestCode = 1;
     private boolean hasInitSuccess = false;
-    private static final String APP_FOLDER_NAME = "智慧校园";
+    private static final String APP_FOLDER_NAME = "智慧应急";
     public static final String ROUTE_PLAN_NODE = "routePlanNode";
     private String mSDCardPath = null;
     private BNRoutePlanNode mStartNode = null;

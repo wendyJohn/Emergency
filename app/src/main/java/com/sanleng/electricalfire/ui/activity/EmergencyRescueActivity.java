@@ -16,6 +16,7 @@ import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
 import android.provider.Settings;
+import android.speech.tts.Voice;
 import android.support.v4.app.ActivityCompat;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -72,6 +73,7 @@ import com.iflytek.cloud.SpeechError;
 import com.iflytek.cloud.SpeechUtility;
 import com.iflytek.cloud.ui.RecognizerDialog;
 import com.iflytek.cloud.ui.RecognizerDialogListener;
+import com.sanleng.electricalfire.Presenter.FireAlarmRequest;
 import com.sanleng.electricalfire.Presenter.MaterialsListRequest;
 import com.sanleng.electricalfire.R;
 import com.sanleng.electricalfire.baidumap.DemoGuideActivity;
@@ -80,13 +82,16 @@ import com.sanleng.electricalfire.baidumap.WNaviGuideActivity;
 import com.sanleng.electricalfire.dialog.E_StationDialog;
 import com.sanleng.electricalfire.Presenter.NearbyStationRequest;
 import com.sanleng.electricalfire.Presenter.UnlockRequest;
+import com.sanleng.electricalfire.model.FireAlarmModel;
 import com.sanleng.electricalfire.model.MaterialsListModel;
 import com.sanleng.electricalfire.model.NearbyStationModel;
 import com.sanleng.electricalfire.ui.adapter.BottomMenuAdapter;
 import com.sanleng.electricalfire.ui.adapter.StationAdapter;
+import com.sanleng.electricalfire.ui.bean.FireAlarmBean;
 import com.sanleng.electricalfire.ui.bean.NearbyStation;
 import com.sanleng.electricalfire.ui.bean.Sosbean;
 import com.sanleng.electricalfire.ui.bean.StationBean;
+import com.sanleng.electricalfire.ui.fragment.MapMonitoringFragment;
 import com.sanleng.electricalfire.util.ScreenUtil;
 import com.sanleng.electricalfire.zxing.activiry.CaptureActivity;
 import com.sanleng.electricalfire.zxing.bean.ZxingConfig;
@@ -105,7 +110,7 @@ import java.util.List;
  *
  * @author qiaoshi
  */
-public class EmergencyRescueActivity extends BaseActivity implements OnClickListener, NearbyStationModel,MaterialsListModel {
+public class EmergencyRescueActivity extends BaseActivity implements OnClickListener, NearbyStationModel,MaterialsListModel ,FireAlarmModel {
     private LocationClient mLocationClient = null; // 定位对象
     private BDLocationListener myListener = new MyLocationListener(); // 定位监听
     private RelativeLayout myr_back;
@@ -122,6 +127,7 @@ public class EmergencyRescueActivity extends BaseActivity implements OnClickList
     private boolean isFirstLoc = true; // 是否首次定位
     BitmapDescriptor bdAs = BitmapDescriptorFactory.fromResource(R.drawable.stations_icon);//应急站标识
     BitmapDescriptor bdA = BitmapDescriptorFactory.fromResource(R.drawable.ico_sos);//求救标识
+    BitmapDescriptor bdF = BitmapDescriptorFactory.fromResource(R.drawable.bd_fire);//求救标识
     private int i = 0;// 开锁次数
     private String str;
     private List<String> mylist = new ArrayList<>();//应急门的标识
@@ -276,6 +282,9 @@ public class EmergencyRescueActivity extends BaseActivity implements OnClickList
                     e_stationDialog = new E_StationDialog(EmergencyRescueActivity.this, names, addresss, clickListener);
                     e_stationDialog.show();
                     mScrollLayout.setVisibility(View.GONE);
+                }
+                if (type == 3) {
+                    showInfoWindows(llA,names,addresss);
                 }
                 return true;
 
@@ -480,6 +489,40 @@ public class EmergencyRescueActivity extends BaseActivity implements OnClickList
         new SVProgressHUD(EmergencyRescueActivity.this).showErrorWithStatus("数据加载失败");
     }
 
+    @Override
+    public void FireAlarmSuccess(List<FireAlarmBean.DataBean.ListBean> list, int size) {
+        for (int i = 0; i < list.size(); i++) {
+            StationBean bean = new StationBean();
+                bean.setName("火警信息");
+                bean.setAddress("南京市秣周东路12号");
+                bean.setE_mylatitude(S_mylatitude);
+                bean.setE_mylongitude(S_mylongitude);
+                bean.setType(3);
+                bean.setId("123");
+                bean.setDistance(gps_m(S_mylatitude, S_mylongitude, S_mylatitude, S_mylongitude));
+                // 构建MarkerOption，用于在地图上添加Marker
+                LatLng llA = new LatLng(S_mylatitude, S_mylongitude);
+                MarkerOptions option = new MarkerOptions().position(llA).icon(bdF);
+                Marker marker = (Marker) mBaiduMap.addOverlay(option);
+                // 将信息保存
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("marker", bean);
+                marker.setExtraInfo(bundle);
+                mBaiduMap.addOverlays(listoption);
+
+        }
+    }
+
+    @Override
+    public void FireSuccess(List<String> info) {
+
+    }
+
+    @Override
+    public void FireAlarmFailed() {
+
+    }
+
     //实现BDLocationListener接口,BDLocationListener为结果监听接口，异步获取定位结果
     public class MyLocationListener implements BDLocationListener {
         @Override
@@ -538,6 +581,7 @@ public class EmergencyRescueActivity extends BaseActivity implements OnClickList
                 // 等待1000毫秒后获取数据
                 NearbyEmergencyStation();
                 NearbyEmergencySOS();
+                NearbyFireAlarm();
             }
         }, 1000);
 
@@ -772,7 +816,10 @@ public class EmergencyRescueActivity extends BaseActivity implements OnClickList
     private void NearbyEmergencySOS() {
         NearbyStationRequest.getSos(EmergencyRescueActivity.this, getApplicationContext());
     }
-
+    //火警列表数据
+    private void NearbyFireAlarm() {
+        FireAlarmRequest.getFireAlarm(EmergencyRescueActivity.this, getApplicationContext(),  "1", "pending", "oneday");
+    }
 
     //清除SOS
 //    private void Eliminate_sos() {
@@ -1439,5 +1486,27 @@ public class EmergencyRescueActivity extends BaseActivity implements OnClickList
         MaterialsListRequest.getMaterialsList(EmergencyRescueActivity.this,getApplicationContext(),id,mac,name,address,distance,slists);
     }
 
+    private void showInfoWindows(LatLng ll, String name, String addresses) {
+        //创建InfoWindow展示的view
+        View contentView = LayoutInflater.from(EmergencyRescueActivity.this).inflate(R.layout.infowindow_items, null);
+        TextView tvCount = contentView.findViewById(R.id.tv_count);
+        TextView address = contentView.findViewById(R.id.address);
+        final ImageView index_a = contentView.findViewById(R.id.index_a);
+        RelativeLayout viewdetails= contentView.findViewById(R.id.viewdetails);
+        tvCount.setText("名称："+name);
+        address.setText("地址："+addresses);
+        index_a.setBackground(EmergencyRescueActivity.this.getResources().getDrawable(R.drawable.bd_fire));
+        viewdetails.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                    Intent HostMonitoring=new Intent(EmergencyRescueActivity.this,HostMonitoringActivity.class);
+                    startActivity(HostMonitoring);
+            }
+        });
+        //创建InfoWindow , 传入 view， 地理坐标， y 轴偏移量
+        InfoWindow infoWindow = new InfoWindow(contentView, ll, -80);
+        //显示InfoWindow
+        mBaiduMap.showInfoWindow(infoWindow);
 
+    }
 }

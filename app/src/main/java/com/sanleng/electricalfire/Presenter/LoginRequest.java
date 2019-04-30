@@ -36,8 +36,11 @@ public class LoginRequest {
                     String agentName = response.body().getData().getName();
                     String ids =response.body().getData().getIds();
 
-                    //绑定唯一标识
+//                    //绑定唯一标识
                     JPushInterface.setAlias(context, 1, unitcode);
+                    //绑定唯一标识
+//                    JPushInterface.setAlias(context, 1, ids);
+
                     // 存入数据库中（登录名称和密码）
                     PreferenceUtils.setString(context, "ElectriFire_username", username);
                     PreferenceUtils.setString(context, "ElectriFire_password", password);

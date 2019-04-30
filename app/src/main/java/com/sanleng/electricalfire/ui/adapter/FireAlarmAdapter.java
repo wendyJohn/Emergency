@@ -79,11 +79,11 @@ public class FireAlarmAdapter extends BaseAdapter {
             holder.immediatetreatment = convertView.findViewById(R.id.immediatetreatment);
             type_yout = convertView.findViewById(R.id.type_yout);
             holder.cancles = convertView.findViewById(R.id.cancles);
-            holder.viewlocations = convertView.findViewById(R.id.viewlocations);
+            holder.processingreport = convertView.findViewById(R.id.processingreport);
             type_youts = convertView.findViewById(R.id.type_youts);
 
             holder.firetelephone = convertView.findViewById(R.id.firetelephone);
-            holder.firetelephones = convertView.findViewById(R.id.firetelephones);
+            holder.reportingdetails = convertView.findViewById(R.id.reportingdetails);
 
             convertView.setTag(holder);
         } else {
@@ -152,7 +152,7 @@ public class FireAlarmAdapter extends BaseAdapter {
                 handler.sendMessage(msg);
             }
         });
-        holder.viewlocations.setOnClickListener(new OnClickListener() {
+        holder.processingreport.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
                 // TODO Auto-generated method stub
@@ -160,7 +160,7 @@ public class FireAlarmAdapter extends BaseAdapter {
                 Bundle data = new Bundle();
                 data.putInt("selIndex", position);
                 msg.setData(data);
-                msg.what = MyApplication.MSGViewlocation;
+                msg.what = MyApplication.MSGProcessingReport;
                 handler.sendMessage(msg);
             }
         });
@@ -178,7 +178,7 @@ public class FireAlarmAdapter extends BaseAdapter {
             }
         });
 
-        holder.firetelephones.setOnClickListener(new OnClickListener() {
+        holder.reportingdetails.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
                 // TODO Auto-generated method stub
@@ -186,7 +186,7 @@ public class FireAlarmAdapter extends BaseAdapter {
                 Bundle data = new Bundle();
                 data.putInt("selIndex", position);
                 msg.setData(data);
-                msg.what = MyApplication.MSGFiretelePhone;
+                msg.what = MyApplication.MSGReportingDetails;
                 handler.sendMessage(msg);
             }
         });
@@ -201,9 +201,9 @@ public class FireAlarmAdapter extends BaseAdapter {
         TextView cancle;
         TextView viewlocation;
         TextView cancles;
-        TextView viewlocations;
+        TextView processingreport;
         TextView immediatetreatment;
         TextView firetelephone;
-        TextView firetelephones;
+        TextView reportingdetails;
     }
 }

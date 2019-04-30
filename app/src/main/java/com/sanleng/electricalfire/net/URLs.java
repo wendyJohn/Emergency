@@ -9,7 +9,9 @@ public class URLs {
     public static String HOST = "https://slyj.slicity.com";
 
     //调试地址
-    //public static String HOST = "http://10.101.80.113:8080";
+//    public static String HOST_IP = "10.101.80.177";
+//    public static String HOST_PORT = "8080";
+//    public static String HOST = "http://" + HOST_IP + ":" + HOST_PORT;
 
     // 电气火灾建筑列表
     public static String Architecture_URL = HOST + "/kspf/app/electricalfire/buildList";
@@ -28,5 +30,6 @@ public class URLs {
     // 电气火灾隐患整改
     public static String Rectification_URL = HOST + "/kspf/app/electricalfire/recordfinish";
 
-
+    // 火警处理上报
+    public static String ProcessingReport_URL = HOST + "/kspf/app/electricalfire/recordfinish";
 }
