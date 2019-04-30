@@ -950,9 +950,10 @@ public class EmergencyRescueActivity extends BaseActivity implements OnClickList
     private void BottomMenu(String name, String address, double distance, String id, String
             mac) {
         slists = new ArrayList<>();
-        StationBean beana = new StationBean();
-        beana.setType(0);
-        slists.add(beana);
+//        StationBean beana = new StationBean();
+//        beana.setType(0);
+//        slists.add(beana);
+
         loadData(slists,name, address, distance, id, mac);
     }
 

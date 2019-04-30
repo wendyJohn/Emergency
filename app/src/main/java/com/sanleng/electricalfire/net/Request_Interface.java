@@ -2,6 +2,7 @@ package com.sanleng.electricalfire.net;
 
 import com.sanleng.electricalfire.ui.bean.AlarmRecord;
 import com.sanleng.electricalfire.ui.bean.Alarmload;
+import com.sanleng.electricalfire.ui.bean.ArchitecturesBean;
 import com.sanleng.electricalfire.ui.bean.Article;
 import com.sanleng.electricalfire.ui.bean.ArticleItem;
 import com.sanleng.electricalfire.ui.bean.ConfirmFire;
@@ -129,5 +130,9 @@ public interface Request_Interface {
     //获取巡查任务列表
     @POST("/kspf/app/patroltask/list?")
     Call<WaterSystem> getInspTaskCall(@Query("page") String page, @Query("pageSize") String pageSize, @Query("unitcode") String unitcode, @Query("username") String username, @Query("platformkey") String platformkey, @Query("status") String status);
+
+    //物资分类列表
+    @POST("/kspf/app/station/count?")
+    Call<ArchitecturesBean> getArchitecturesCall(@Query("ids") String ids, @Query("format") String format,@Query("username") String username, @Query("platformkey") String platformkey);
 
 }
