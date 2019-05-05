@@ -16,11 +16,15 @@ import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.loopj.android.http.RequestParams;
+import com.sanleng.electricalfire.Presenter.MaterialsListRequest;
 import com.sanleng.electricalfire.R;
 import com.sanleng.electricalfire.dialog.PromptDialog;
+import com.sanleng.electricalfire.model.MaterialsListModel;
 import com.sanleng.electricalfire.net.URLs;
+import com.sanleng.electricalfire.ui.adapter.BottomMenuAdapter;
 import com.sanleng.electricalfire.ui.adapter.MaterialAdapter;
 import com.sanleng.electricalfire.ui.bean.ArchitectureBean;
+import com.sanleng.electricalfire.ui.bean.StationBean;
 import com.sanleng.electricalfire.util.PreferenceUtils;
 
 import org.json.JSONArray;
@@ -35,19 +39,14 @@ import java.util.List;
  *
  * @author Qiaoshi
  */
-public class MaterialActivity extends BaseActivity {
+public class MaterialActivity extends BaseActivity implements MaterialsListModel {
 
     private RelativeLayout r_back;
     private ListView materiallistview;
-    private MaterialAdapter materialAdapter;
-    private int pageNo = 1;// 设置pageNo的初始化值为1，即默认获取的是第一页的数据。
-    private int allpage;
-    private List<ArchitectureBean> allList;// 存放所有数据AlarmBean的list集合
-    private List<ArchitectureBean> onelist;// 存放一页数据实体类的Bean
-    private boolean is_divPage;// 是否进行分页操作
-    private boolean finish = true;// 是否加载完成;
     private String ids;
-
+    private BottomMenuAdapter bottomMenuAdapter;
+    private List<StationBean> slists;
+    double distance;
     @SuppressLint("ResourceAsColor")
     @Override
     protected void onCreate(Bundle arg0) {
@@ -55,7 +54,7 @@ public class MaterialActivity extends BaseActivity {
         super.onCreate(arg0);
         this.setContentView(R.layout.materialactivity);
         initview();
-        loadData(pageNo);
+        loadData();
     }
 
 	@Override
@@ -66,17 +65,27 @@ public class MaterialActivity extends BaseActivity {
 	private void initview() {
         Intent intent = getIntent();
         ids = intent.getStringExtra("ids");
-        materialAdapter = new MaterialAdapter();
-        allList = new ArrayList<>();
         r_back =  findViewById(R.id.r_back);
         r_back.setOnClickListener(new MyOnClickListener(0));
     }
 
     // 加载数据
-    private void loadData(int page) {
-
+    private void loadData() {
+        slists=new ArrayList<>();
+        MaterialsListRequest.getMaterialsList(MaterialActivity.this,getApplicationContext(),ids,null,null,null,distance,slists);
     }
 
+    @Override
+    public void MaterialsListSuccess(List<StationBean> list, String stationId, String mac, String name, String address, double distance) {
+        materiallistview=findViewById(R.id.materiallistview);
+        bottomMenuAdapter = new BottomMenuAdapter(MaterialActivity.this, list, name, address, distance, stationId, mac, null);
+        materiallistview.setAdapter(bottomMenuAdapter);
+    }
+
+    @Override
+    public void MaterialsListFailed() {
+
+    }
 
 
     /**
