@@ -38,6 +38,7 @@ public class StationRequest {
         call.enqueue(new Callback<Station>() {
             @Override
             public void onResponse(Call<Station> call, Response<Station> response) {
+                try{
                 int size = response.body().getData().getTotal();
                 for (int i = 0; i < response.body().getData().getList().size(); i++) {
                     // 获取数据
@@ -53,6 +54,9 @@ public class StationRequest {
                     list.add(bean);
                 }
                 stationModel.StationSuccess(list,size);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
 
             @Override

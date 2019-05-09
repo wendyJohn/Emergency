@@ -136,6 +136,10 @@
         <activity
             android:name=".ui.activity.SafetyPatrolAtivity"
             android:screenOrientation="portrait" />
+        <!-- 校园安全_出入库纪录 -->
+        <activity
+            android:name=".ui.activity.HistoricalrecordActivity"
+            android:screenOrientation="portrait" />
         <!-- 校园安全_电气安全 -->
         <activity
             android:name=".ui.activity.RealTimeDataActivity"

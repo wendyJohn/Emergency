@@ -21,6 +21,7 @@ public class MyApplication extends MultiDexApplication {
     public static final int MESSREALTIMEDATAA = 0x66660;
     public static final int MESSREALTIMEDATAB = 0x66661;
     public static final int MESSREALTIMEDATAC = 0x66662;
+    public static final int MESSAGE_HISTORRECORD = 0x219988;
     public static final String BROADCAST_PERMISSIONS_DISC = "com.permission.BROADCASTS";
     public static final String BROADCAST_ACTIONS_DISC = "com.permission.broadcasts";
     public static final int REQUEST_CODE_ASK_PERMISSIONS = 0x1231232;

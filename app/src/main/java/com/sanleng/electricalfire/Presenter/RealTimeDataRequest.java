@@ -34,25 +34,28 @@ public class RealTimeDataRequest {
         call.enqueue(new Callback<RealtimeData>() {
             @Override
             public void onResponse(Call<RealtimeData> call, Response<RealtimeData> response) {
-
-                int size = response.body().getData().getTotal();
-                for (int i = 0; i < response.body().getData().getList().size(); i++) {
-                    ERealTimeDataBean bean = new ERealTimeDataBean();
-                    String device_id = response.body().getData().getList().get(i).getDevice_id();
-                    String unit_name = response.body().getData().getList().get(i).getUnit_name();
-                    String build_name = response.body().getData().getList().get(i).getBuild_name();
-                    String device_name = response.body().getData().getList().get(i).getDevice_name();
-                    String state = response.body().getData().getList().get(i).getState();
-                    String contact_name = response.body().getData().getList().get(i).getContact_name();
-                    String contact_tel = response.body().getData().getList().get(i).getContact_tel();
-                    bean.setId(device_id);
-                    bean.setAddress(unit_name + build_name + "\n" + "设备名称:" + device_name);
-                    bean.setContact_name(contact_name);
-                    bean.setContact_tel(contact_tel);
-                    bean.setState(state);
-                    mylist.add(bean);
+                try {
+                    int size = response.body().getData().getTotal();
+                    for (int i = 0; i < response.body().getData().getList().size(); i++) {
+                        ERealTimeDataBean bean = new ERealTimeDataBean();
+                        String device_id = response.body().getData().getList().get(i).getDevice_id();
+                        String unit_name = response.body().getData().getList().get(i).getUnit_name();
+                        String build_name = response.body().getData().getList().get(i).getBuild_name();
+                        String device_name = response.body().getData().getList().get(i).getDevice_name();
+                        String state = response.body().getData().getList().get(i).getState();
+                        String contact_name = response.body().getData().getList().get(i).getContact_name();
+                        String contact_tel = response.body().getData().getList().get(i).getContact_tel();
+                        bean.setId(device_id);
+                        bean.setAddress(unit_name + build_name + "\n" + "设备名称:" + device_name);
+                        bean.setContact_name(contact_name);
+                        bean.setContact_tel(contact_tel);
+                        bean.setState(state);
+                        mylist.add(bean);
+                    }
+                    realTimeDataModel.RealTimeDataSuccess(mylist, size);
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
-                realTimeDataModel.RealTimeDataSuccess(mylist, size);
             }
 
             @Override

@@ -1,6 +1,7 @@
 package com.sanleng.electricalfire.util;
 
 import com.sanleng.electricalfire.ui.bean.ERealTimeDataBean;
+import com.sanleng.electricalfire.ui.bean.HistorRecordBean;
 import com.sanleng.electricalfire.ui.bean.ReadTimeItemData;
 import com.sanleng.electricalfire.ui.bean.WaterSystem;
 
@@ -26,6 +27,7 @@ public class MessageEvent {
     private int hyrant;
     private int eqt;
     private int water;
+    private List<HistorRecordBean> lists;
 
     public MessageEvent(int TAG) {
         this.TAG = TAG;
@@ -178,5 +180,13 @@ public class MessageEvent {
 
     public void setList_watersystem(List<WaterSystem.DataBean.ListBean> list_watersystem) {
         this.list_watersystem = list_watersystem;
+    }
+
+    public List<HistorRecordBean> getLists() {
+        return lists;
+    }
+
+    public void setLists(List<HistorRecordBean> lists) {
+        this.lists = lists;
     }
 }

@@ -137,16 +137,19 @@ public class BottomMenuAdapter extends BaseAdapter {
                 convertView = inflater.inflate(R.layout.material_item, null);
                 viewholdertwo.name = (TextView) convertView.findViewById(R.id.name);
                 viewholdertwo.address = (TextView) convertView.findViewById(R.id.address);
+                viewholdertwo.materialsnumber = (TextView) convertView.findViewById(R.id.materialsnumber);
+                viewholdertwo.shortage = (TextView) convertView.findViewById(R.id.shortage);
                 viewholdertwo.icon = (ImageView) convertView.findViewById(R.id.icon);
-                viewholdertwo.instructions_yout = convertView.findViewById(R.id.instructions_yout);
 
                 convertView.setTag(viewholdertwo);
             } else {
                 viewholdertwo = (ViewHolderTwo) convertView.getTag();
             }
             //设置参数
-            viewholdertwo.name.setText(mList.get(position).getNumber());
-            viewholdertwo.address.setText(mList.get(position).getName());
+            viewholdertwo.name.setText(mList.get(position).getName());
+            viewholdertwo.address.setText(mList.get(position).getAddress());
+            viewholdertwo.materialsnumber.setText(mList.get(position).getNumber());
+            viewholdertwo.shortage.setText(mList.get(position).getShortage());
             String image_type = mList.get(position).getImage_type();
             if(image_type.equals("ZJHXQ")||image_type.equals("HXQ")){
                 viewholdertwo.icon.setBackground(mContext.getResources().getDrawable(R.drawable.a));
@@ -223,7 +226,9 @@ public class BottomMenuAdapter extends BaseAdapter {
             if(image_type.equals("XFF")) {
                 viewholdertwo.icon.setBackground(mContext.getResources().getDrawable(R.drawable.xff));
             }
-
+            if (image_type.equals("AEDZDTWCCY")) {
+                viewholdertwo.icon.setBackground(mContext.getResources().getDrawable(R.drawable.defibrillator_icon));
+            }
         }
         return convertView;
     }
@@ -239,9 +244,9 @@ public class BottomMenuAdapter extends BaseAdapter {
     public class ViewHolderTwo {
         TextView name;
         TextView address;
+        TextView materialsnumber;
+        TextView shortage;
         ImageView icon;
-
-        LinearLayout instructions_yout;
     }
 
 

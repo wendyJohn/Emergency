@@ -19,6 +19,7 @@ public class StationBean implements Serializable {
     private String mac;
     private String channel_one;
     private String channel_two;
+    private String shortage;
 
     private int type;//布局样式
 
@@ -116,5 +117,13 @@ public class StationBean implements Serializable {
 
     public void setChannel_two(String channel_two) {
         this.channel_two = channel_two;
+    }
+
+    public String getShortage() {
+        return shortage;
+    }
+
+    public void setShortage(String shortage) {
+        this.shortage = shortage;
     }
 }

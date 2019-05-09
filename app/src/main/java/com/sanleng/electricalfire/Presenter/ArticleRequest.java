@@ -31,6 +31,7 @@ public class ArticleRequest {
         call.enqueue(new Callback<Article>() {
             @Override
             public void onResponse(Call<Article> call, Response<Article> response) {
+                try{
                 int size = response.body().getData().getTotal();
                 for (int i = 0; i < response.body().getData().getList().size(); i++) {
                     Article.DataBean.ListBean bean = new Article.DataBean.ListBean();
@@ -48,6 +49,9 @@ public class ArticleRequest {
                     list.add(bean);
                 }
                 articleModel.ArticleSuccess(list,size);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
 
             @Override

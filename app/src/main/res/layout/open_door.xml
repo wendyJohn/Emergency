@@ -51,54 +51,58 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:drawableLeft="@drawable/door_a"
-            android:text="开启一号箱" />
+            android:text="开启A号箱" />
 
         <Button
             android:id="@+id/btn_two"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:drawableLeft="@drawable/door_b"
-            android:text="开启二号箱" />
+            android:text="开启B号箱" />
 
         <Button
             android:id="@+id/btn_three"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:drawableLeft="@drawable/door_c"
-            android:text="开启三号箱" />
+            android:text="开启C号箱" />
 
         <Button
             android:id="@+id/btn_four"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:drawableLeft="@drawable/door_d"
-            android:text="开启四号箱" />
+            android:text="开启D号箱" />
 
         <Button
             android:id="@+id/btn_five"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:drawableLeft="@drawable/door_e"
-            android:text="开启五号箱" />
+            android:text="开启E号箱" />
 
         <Button
             android:id="@+id/btn_six"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:drawableLeft="@drawable/door_f"
-            android:text="开启六号箱" />
+            android:text="开启F号箱" />
 
         <Button
             android:id="@+id/btn_seven"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:drawableLeft="@drawable/door_g"
-            android:text="开启七号箱" />
+            android:text="开启G号箱" />
 
         <Button
             android:id="@+id/btn_onekey"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:background="@drawable/b_onekey"
+            android:textColor="@color/white"
             android:text="一键开启" />
     </LinearLayout>
 </LinearLayout>

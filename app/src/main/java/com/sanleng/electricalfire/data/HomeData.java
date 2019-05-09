@@ -9,15 +9,13 @@ import java.util.List;
 
 public class HomeData {
 
-    public static String[] TITLE = {"电气安全", "消防安全", "安防监控", "危化品柜", "安全巡查", "地图监控","处理上报", "更多", "预警事件"};
+    public static String[] TITLE = {"电气安全", "消防安全", "安防监控", "处理上报", "安全巡查", "地图监控", "危化品柜", "更多", "预警事件"};
 
-    public static int[] IMG = {R.drawable.se_a, R.drawable.se_b, R.drawable.se_c,
-            R.drawable.se_d, R.drawable.se_e,
-             R.drawable.se_g, R.drawable.report,R.drawable.whole, R.drawable.se_f};
+    public static int[] IMG = {R.drawable.se_a, R.drawable.se_b, R.drawable.se_c, R.drawable.report, R.drawable.se_e,
+            R.drawable.se_g, R.drawable.se_d, R.drawable.whole, R.drawable.se_f};
 
-    public static int[] IMGSEARCH = {R.drawable.se_a, R.drawable.se_b, R.drawable.se_c,
-            R.drawable.se_d, R.drawable.se_e,
-            R.drawable.se_g,  R.drawable.report,R.drawable.whole, R.drawable.se_f};
+    public static int[] IMGSEARCH = {R.drawable.se_a, R.drawable.se_b, R.drawable.se_c, R.drawable.report, R.drawable.se_e,
+            R.drawable.se_g, R.drawable.se_d, R.drawable.whole, R.drawable.se_f};
 
     /****
      *

@@ -33,6 +33,7 @@ public class AlarmRecordRequest {
         call.enqueue(new Callback<AlarmRecord>() {
             @Override
             public void onResponse(Call<AlarmRecord> call, Response<AlarmRecord> response) {
+                try {
                 int size = response.body().getData().getTotal();
                 for (int i = 0; i < response.body().getData().getList().size(); i++) {
                     // 获取数据
@@ -48,6 +49,9 @@ public class AlarmRecordRequest {
                     list.add(map);
                 }
                 alarmRecordModel.AlarmRecordSuccess(list, size);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
 
             @Override

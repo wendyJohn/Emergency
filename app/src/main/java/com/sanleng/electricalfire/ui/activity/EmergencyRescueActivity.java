@@ -110,7 +110,7 @@ import java.util.List;
  *
  * @author qiaoshi
  */
-public class EmergencyRescueActivity extends BaseActivity implements OnClickListener, NearbyStationModel,MaterialsListModel ,FireAlarmModel {
+public class EmergencyRescueActivity extends BaseActivity implements OnClickListener, NearbyStationModel, MaterialsListModel, FireAlarmModel {
     private LocationClient mLocationClient = null; // 定位对象
     private BDLocationListener myListener = new MyLocationListener(); // 定位监听
     private RelativeLayout myr_back;
@@ -284,7 +284,7 @@ public class EmergencyRescueActivity extends BaseActivity implements OnClickList
                     mScrollLayout.setVisibility(View.GONE);
                 }
                 if (type == 3) {
-                    showInfoWindows(llA,names,addresss);
+                    showInfoWindows(llA, names, addresss, ids);
                 }
                 return true;
 
@@ -428,8 +428,8 @@ public class EmergencyRescueActivity extends BaseActivity implements OnClickList
             String lat = soslist.get(i).getLat();
             String lng = soslist.get(i).getLng();
             String ids = soslist.get(i).getIds();
-            String examineResult =soslist.get(i).getExamineResult();
-            String address =soslist.get(i).getAddress();
+            String examineResult = soslist.get(i).getExamineResult();
+            String address = soslist.get(i).getAddress();
             if (examineResult.equals("1")) {
                 bean.setName("SOS求救");
                 bean.setAddress(address);
@@ -478,7 +478,7 @@ public class EmergencyRescueActivity extends BaseActivity implements OnClickList
     }
 
     @Override
-    public void MaterialsListSuccess(List<StationBean> list, String stationId, String mac,String name,  String address, double distance) {
+    public void MaterialsListSuccess(List<StationBean> list, String stationId, String mac, String name, String address, double distance) {
         ListView listView = findViewById(R.id.list_view);
         bottomMenuAdapter = new BottomMenuAdapter(EmergencyRescueActivity.this, list, name, address, distance, stationId, mac, m_Handler);
         listView.setAdapter(bottomMenuAdapter);
@@ -493,22 +493,24 @@ public class EmergencyRescueActivity extends BaseActivity implements OnClickList
     public void FireAlarmSuccess(List<FireAlarmBean.DataBean.ListBean> list, int size) {
         for (int i = 0; i < list.size(); i++) {
             StationBean bean = new StationBean();
-                bean.setName("火警信息");
-                bean.setAddress("南京市秣周东路12号");
-                bean.setE_mylatitude(S_mylatitude);
-                bean.setE_mylongitude(S_mylongitude);
-                bean.setType(3);
-                bean.setId("123");
-                bean.setDistance(gps_m(S_mylatitude, S_mylongitude, S_mylatitude, S_mylongitude));
-                // 构建MarkerOption，用于在地图上添加Marker
-                LatLng llA = new LatLng(S_mylatitude, S_mylongitude);
-                MarkerOptions option = new MarkerOptions().position(llA).icon(bdF);
-                Marker marker = (Marker) mBaiduMap.addOverlay(option);
-                // 将信息保存
-                Bundle bundle = new Bundle();
-                bundle.putSerializable("marker", bean);
-                marker.setExtraInfo(bundle);
-                mBaiduMap.addOverlays(listoption);
+            String ids = list.get(i).getIds();
+            String position = list.get(i).getPosition();
+            bean.setName("火警信息");
+            bean.setAddress(position);
+            bean.setE_mylatitude(S_mylatitude+0.001);
+            bean.setE_mylongitude(S_mylongitude+0.001);
+            bean.setType(3);
+            bean.setId(ids);
+            bean.setDistance(gps_m(S_mylatitude, S_mylongitude+0.001, S_mylatitude, S_mylongitude+0.001));
+            // 构建MarkerOption，用于在地图上添加Marker
+            LatLng llA = new LatLng(S_mylatitude+0.001, S_mylongitude+0.001);
+            MarkerOptions option = new MarkerOptions().position(llA).icon(bdF);
+            Marker marker = (Marker) mBaiduMap.addOverlay(option);
+            // 将信息保存
+            Bundle bundle = new Bundle();
+            bundle.putSerializable("marker", bean);
+            marker.setExtraInfo(bundle);
+            mBaiduMap.addOverlays(listoption);
 
         }
     }
@@ -644,10 +646,12 @@ public class EmergencyRescueActivity extends BaseActivity implements OnClickList
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 // TODO Auto-generated method stub
             }
+
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
                 // TODO Auto-generated method stub
             }
+
             @Override
             public void afterTextChanged(Editable s) {
                 // TODO Auto-generated method stub
@@ -700,7 +704,7 @@ public class EmergencyRescueActivity extends BaseActivity implements OnClickList
 
     // 开锁方式
     private void Unlock(String position, final String mac) {
-        UnlockRequest.getUnlock(EmergencyRescueActivity.this,getApplicationContext(),position,mac);
+        UnlockRequest.getUnlock(EmergencyRescueActivity.this, getApplicationContext(), position, mac);
     }
 
     @Override
@@ -816,9 +820,10 @@ public class EmergencyRescueActivity extends BaseActivity implements OnClickList
     private void NearbyEmergencySOS() {
         NearbyStationRequest.getSos(EmergencyRescueActivity.this, getApplicationContext());
     }
+
     //火警列表数据
     private void NearbyFireAlarm() {
-        FireAlarmRequest.getFireAlarm(EmergencyRescueActivity.this, getApplicationContext(),  "1", "pending", "oneday");
+        FireAlarmRequest.getFireAlarm(EmergencyRescueActivity.this, getApplicationContext(), "1", "pending", "oneday");
     }
 
     //清除SOS
@@ -954,7 +959,7 @@ public class EmergencyRescueActivity extends BaseActivity implements OnClickList
 //        beana.setType(0);
 //        slists.add(beana);
 
-        loadData(slists,name, address, distance, id, mac);
+        loadData(slists, name, address, distance, id, mac);
     }
 
     private ScrollLayout.OnScrollChangedListener mOnScrollChangedListener = new ScrollLayout.OnScrollChangedListener() {
@@ -1482,26 +1487,57 @@ public class EmergencyRescueActivity extends BaseActivity implements OnClickList
     };
 
     // 加载物质数据
-    private void loadData(List<StationBean> slists,final String name, final String address, final double distance,
+    private void loadData(List<StationBean> slists, final String name, final String address, final double distance,
                           final String id, final String mac) {
-        MaterialsListRequest.getMaterialsList(EmergencyRescueActivity.this,getApplicationContext(),id,mac,name,address,distance,slists);
+        MaterialsListRequest.getMaterialsList(EmergencyRescueActivity.this, getApplicationContext(), id, mac, name, address, distance, slists);
     }
 
-    private void showInfoWindows(LatLng ll, String name, String addresses) {
+    private void showInfoWindows(LatLng ll, String name, String addresses, final String ids) {
         //创建InfoWindow展示的view
         View contentView = LayoutInflater.from(EmergencyRescueActivity.this).inflate(R.layout.infowindow_items, null);
         TextView tvCount = contentView.findViewById(R.id.tv_count);
         TextView address = contentView.findViewById(R.id.address);
         final ImageView index_a = contentView.findViewById(R.id.index_a);
-        RelativeLayout viewdetails= contentView.findViewById(R.id.viewdetails);
-        tvCount.setText("名称："+name);
-        address.setText("地址："+addresses);
+        TextView viewdetails = contentView.findViewById(R.id.viewdetails);
+        TextView report = contentView.findViewById(R.id.report);
+        TextView walknavigation = contentView.findViewById(R.id.walknavigation);
+        TextView drivenavigation = contentView.findViewById(R.id.drivenavigation);
+        tvCount.setText("名称：" + name);
+        address.setText("地址：" + addresses);
         index_a.setBackground(EmergencyRescueActivity.this.getResources().getDrawable(R.drawable.bd_fire));
         viewdetails.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                    Intent HostMonitoring=new Intent(EmergencyRescueActivity.this,HostMonitoringActivity.class);
-                    startActivity(HostMonitoring);
+                Intent HostMonitoring = new Intent(EmergencyRescueActivity.this, FireAlarmActivity.class);
+                startActivity(HostMonitoring);
+            }
+        });
+        report.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent_Patrol = new Intent(EmergencyRescueActivity.this, ProcessingReportActivity.class);
+                intent_Patrol.putExtra("ids", ids);
+                startActivity(intent_Patrol);
+            }
+        });
+        walknavigation.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //初始化导航数据
+                initOverlay();
+                startPt = new LatLng(S_mylatitude, S_mylongitude);
+                endPt = new LatLng(E_mylatitude, E_mylongitude);
+                /*构造导航起终点参数对象*/
+                walkParam = new WalkNaviLaunchParam().stPt(startPt).endPt(endPt);
+                walkParam.extraNaviMode(0);
+                startWalkNavi();
+                mBaiduMap.clear();
+            }
+        });
+        drivenavigation.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                routeplanToNavi(CoordinateType.BD09LL);
             }
         });
         //创建InfoWindow , 传入 view， 地理坐标， y 轴偏移量

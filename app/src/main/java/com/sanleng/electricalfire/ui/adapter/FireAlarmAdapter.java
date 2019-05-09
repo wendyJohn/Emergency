@@ -31,8 +31,6 @@ public class FireAlarmAdapter extends BaseAdapter {
     private Context mContext;
     private Handler handler;
     private String type;
-    private LinearLayout type_yout;
-    private LinearLayout type_youts;
 
     /**
      * bindData用来传递数据给适配器。
@@ -77,10 +75,10 @@ public class FireAlarmAdapter extends BaseAdapter {
             holder.cancle = convertView.findViewById(R.id.cancle);
             holder.viewlocation = convertView.findViewById(R.id.viewlocation);
             holder.immediatetreatment = convertView.findViewById(R.id.immediatetreatment);
-            type_yout = convertView.findViewById(R.id.type_yout);
+            holder.type_yout = convertView.findViewById(R.id.type_yout);
             holder.cancles = convertView.findViewById(R.id.cancles);
             holder.processingreport = convertView.findViewById(R.id.processingreport);
-            type_youts = convertView.findViewById(R.id.type_youts);
+            holder. type_youts = convertView.findViewById(R.id.type_youts);
 
             holder.firetelephone = convertView.findViewById(R.id.firetelephone);
             holder.reportingdetails = convertView.findViewById(R.id.reportingdetails);
@@ -91,12 +89,12 @@ public class FireAlarmAdapter extends BaseAdapter {
         }
 
         if (type.equals("已处理")) {
-            type_youts.setVisibility(View.VISIBLE);
-            type_yout.setVisibility(View.GONE);
+            holder.type_youts.setVisibility(View.VISIBLE);
+            holder.type_yout.setVisibility(View.GONE);
         }
         if (type.equals("待处理")) {
-            type_youts.setVisibility(View.GONE);
-            type_yout.setVisibility(View.VISIBLE);
+            holder. type_youts.setVisibility(View.GONE);
+            holder.type_yout.setVisibility(View.VISIBLE);
         }
 
         holder.alarmTime.setText(mList.get(position).getReceive_time());
@@ -205,5 +203,7 @@ public class FireAlarmAdapter extends BaseAdapter {
         TextView immediatetreatment;
         TextView firetelephone;
         TextView reportingdetails;
+        LinearLayout type_yout;
+        LinearLayout type_youts;
     }
 }

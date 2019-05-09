@@ -40,13 +40,23 @@ public class MaterialsListRequest {
                     StationBean bean = new StationBean();
                     // 获取数据
                     String name = response.body().getData().get(i).getName();
-                    String total = response.body().getData().get(i).getTotal();
-                    String storage_location = response.body().getData().get(i).getStorage_location();
-                    String specification = response.body().getData().get(i).getSpecification();
+                    String lack = response.body().getData().get(i).getLack();
+                    String location = response.body().getData().get(i).getLocation();
                     String model = response.body().getData().get(i).getModel();
+                    String num = response.body().getData().get(i).getNum();//规格数量
+                    String state = response.body().getData().get(i).getState();//状态为O时即为物资短缺
 
-                    bean.setName(name + "  数量:" + total + specification);
-                    bean.setNumber(storage_location + "号应急箱");
+                    bean.setName("物资名称:" + name);
+                    bean.setNumber("现有数量:" + lack);
+                    bean.setAddress("所在位置:" + location + "箱");
+                    if (state.equals("0")) {
+                        int nums = Integer.parseInt(num);
+                        int lacks = Integer.parseInt(lack);
+                        int str = nums - lacks;
+                        bean.setShortage("短缺数量:" + str + "");
+                    } else {
+                        bean.setShortage("短缺数量:" + "0");
+                    }
                     bean.setType(1);
                     bean.setImage_type(model);
                     bean.setMac(mac);

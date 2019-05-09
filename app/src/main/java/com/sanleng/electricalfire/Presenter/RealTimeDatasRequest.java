@@ -34,24 +34,28 @@ public class RealTimeDatasRequest {
         call.enqueue(new Callback<RealtimeDatas>() {
             @Override
             public void onResponse(Call<RealtimeDatas> call, Response<RealtimeDatas> response) {
-                int size = response.body().getData().getTotal();
-                for (int i = 0; i < response.body().getData().getList().size(); i++) {
-                    ERealTimeDataBean bean = new ERealTimeDataBean();
-                    String device_id = response.body().getData().getList().get(i).getIds();
-                    String unit_name = response.body().getData().getList().get(i).getUnit_name();
-                    String build_name = response.body().getData().getList().get(i).getBuild_name();
-                    String device_name = response.body().getData().getList().get(i).getPosition();
-                    String state = response.body().getData().getList().get(i).getState();
+                try {
+                    int size = response.body().getData().getTotal();
+                    for (int i = 0; i < response.body().getData().getList().size(); i++) {
+                        ERealTimeDataBean bean = new ERealTimeDataBean();
+                        String device_id = response.body().getData().getList().get(i).getIds();
+                        String unit_name = response.body().getData().getList().get(i).getUnit_name();
+                        String build_name = response.body().getData().getList().get(i).getBuild_name();
+                        String device_name = response.body().getData().getList().get(i).getPosition();
+                        String state = response.body().getData().getList().get(i).getState();
 //                    String contact_name = response.body().getData().getList().get(i).getContact_name();
 //                    String contact_tel = response.body().getData().getList().get(i).getContact_tel();
-                    bean.setId(device_id);
-                    bean.setAddress(unit_name + build_name + "\n" + "\n" + "名称: " + device_name);
+                        bean.setId(device_id);
+                        bean.setAddress(unit_name + build_name + "\n" + "\n" + "名称: " + device_name);
 //                    bean.setContact_name(contact_name);
 //                    bean.setContact_tel(contact_tel);
-                    bean.setState(state);
-                    mylist.add(bean);
+                        bean.setState(state);
+                        mylist.add(bean);
+                    }
+                    realTimeDataModel.RealTimeDatasSuccess(mylist, size);
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
-                realTimeDataModel.RealTimeDatasSuccess(mylist, size);
             }
 
             @Override

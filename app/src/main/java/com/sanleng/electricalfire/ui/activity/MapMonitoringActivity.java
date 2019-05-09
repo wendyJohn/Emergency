@@ -71,6 +71,7 @@ import com.iflytek.cloud.SpeechError;
 import com.iflytek.cloud.SpeechUtility;
 import com.iflytek.cloud.ui.RecognizerDialog;
 import com.iflytek.cloud.ui.RecognizerDialogListener;
+import com.sanleng.electricalfire.Presenter.FireAlarmRequest;
 import com.sanleng.electricalfire.Presenter.NearbyStationRequest;
 import com.sanleng.electricalfire.Presenter.UnlockRequest;
 import com.sanleng.electricalfire.R;
@@ -78,9 +79,11 @@ import com.sanleng.electricalfire.baidumap.DemoGuideActivity;
 import com.sanleng.electricalfire.baidumap.NormalUtils;
 import com.sanleng.electricalfire.baidumap.WNaviGuideActivity;
 import com.sanleng.electricalfire.dialog.E_StationDialog;
+import com.sanleng.electricalfire.model.FireAlarmModel;
 import com.sanleng.electricalfire.model.NearbyStationModel;
 import com.sanleng.electricalfire.ui.adapter.BottomMenuAdapter;
 import com.sanleng.electricalfire.ui.adapter.StationAdapter;
+import com.sanleng.electricalfire.ui.bean.FireAlarmBean;
 import com.sanleng.electricalfire.ui.bean.NearbyStation;
 import com.sanleng.electricalfire.ui.bean.Sosbean;
 import com.sanleng.electricalfire.ui.bean.StationBean;
@@ -96,7 +99,7 @@ import java.util.List;
  *
  * @author qiaoshi
  */
-public class MapMonitoringActivity extends BaseActivity implements OnClickListener {
+public class MapMonitoringActivity extends BaseActivity implements OnClickListener ,FireAlarmModel {
     private LocationClient mLocationClient = null; // 定位对象
     private BDLocationListener myListener = new MyLocationListener(); // 定位监听
     private RelativeLayout myr_back;
@@ -184,8 +187,8 @@ public class MapMonitoringActivity extends BaseActivity implements OnClickListen
         }
         //获取地图控件引用
         mBaiduMap = mMapView.getMap();
-        // 普通地图BMAP_PERSPECTIVE_MAP。。MAP_TYPE_NORMAL
-        mBaiduMap.setMapType(BaiduMap.MAP_TYPE_SATELLITE);
+        // 普通地图MAP_PERSPECTIVE_MAP。。MAP_TYPE_NORMAL
+        mBaiduMap.setMapType(BaiduMap.MAP_TYPE_NORMAL);
         View child = mMapView.getChildAt(1);
         if (child != null && (child instanceof ImageView || child instanceof ZoomControls)) {
             child.setVisibility(View.INVISIBLE);
@@ -211,20 +214,10 @@ public class MapMonitoringActivity extends BaseActivity implements OnClickListen
                 E_mylatitude = bean.getE_mylatitude();
                 E_mylongitude = bean.getE_mylongitude();
                 String names = bean.getName();
+                String ids = bean.getId();
                 String address = bean.getAddress();
-                int type = bean.getType();
                 LatLng llA = new LatLng(E_mylatitude, E_mylongitude);
-                showInfoWindow(llA, names, address, type);
-                // 获得marker中的数据
-//                StationBean bean = (StationBean) arg0.getExtraInfo().get("marker");
-//                E_mylatitude = bean.getE_mylatitude();
-//                E_mylongitude = bean.getE_mylongitude();
-//                String names = bean.getName();
-//                String addresss = bean.getAddress();
-//
-//                // 获得marker中的数据
-//                e_stationDialog = new E_StationDialog(MapMonitoringActivity.this, names, addresss, clickListener);
-//                e_stationDialog.show();
+                showInfoWindows(llA, names, address,ids);
                 return true;
 
             }
@@ -287,6 +280,41 @@ public class MapMonitoringActivity extends BaseActivity implements OnClickListen
         mLocationClient.setLocOption(option);
     }
 
+    @Override
+    public void FireAlarmSuccess(List<FireAlarmBean.DataBean.ListBean> list, int size) {
+        for (int i = 0; i < list.size(); i++) {
+            StationBean bean = new StationBean();
+            String ids=list.get(i).getIds();
+            String position=list.get(i).getPosition();
+            bean.setName("火警信息");
+            bean.setAddress(position);
+            bean.setE_mylatitude(S_mylatitude+0.001);
+            bean.setE_mylongitude(S_mylongitude+0.001);
+            bean.setType(1);
+            bean.setId(ids);
+            bean.setDistance(gps_m(S_mylatitude, S_mylongitude+0.001, S_mylatitude, S_mylongitude+0.001));
+            // 构建MarkerOption，用于在地图上添加Marker
+            LatLng llA = new LatLng(S_mylatitude+0.001, S_mylongitude+0.001);
+            MarkerOptions option = new MarkerOptions().position(llA).icon(bdA);
+            Marker marker = (Marker) mBaiduMap.addOverlay(option);
+            // 将信息保存
+            Bundle bundle = new Bundle();
+            bundle.putSerializable("marker", bean);
+            marker.setExtraInfo(bundle);
+            mBaiduMap.addOverlays(listoption);
+        }
+    }
+
+    @Override
+    public void FireSuccess(List<String> info) {
+
+    }
+
+    @Override
+    public void FireAlarmFailed() {
+
+    }
+
     //实现BDLocationListener接口,BDLocationListener为结果监听接口，异步获取定位结果
     public class MyLocationListener implements BDLocationListener {
         @Override
@@ -333,65 +361,13 @@ public class MapMonitoringActivity extends BaseActivity implements OnClickListen
     }
 
     private void fire() {
-        StationBean beana = new StationBean();
-        beana.setName("火灾报警");
-        beana.setAddress("南京市-江宁区-秣周东路");
-        beana.setE_mylatitude(31.87308);
-        beana.setE_mylongitude(118.83488);
-        beana.setType(1);
-        // 构建MarkerOption，用于在地图上添加Marker
-        LatLng llA = new LatLng(31.87308, 118.83488);
-        MarkerOptions option = new MarkerOptions().position(llA).icon(bdA);
-        Marker marker = (Marker) mBaiduMap.addOverlay(option);
-        // 将信息保存
-        Bundle bundle = new Bundle();
-        bundle.putSerializable("marker", beana);
-        marker.setExtraInfo(bundle);
-        mBaiduMap.addOverlays(listoption);
-    }
-
-    private void lectrical() {
-        StationBean beanb = new StationBean();
-        beanb.setName("电气安全");
-        beanb.setAddress("南京市-江宁区-秣周东路");
-        beanb.setE_mylatitude(31.87208);
-        beanb.setE_mylongitude(118.83388);
-        beanb.setType(2);
-        // 构建MarkerOption，用于在地图上添加Marker
-        LatLng llA = new LatLng(31.87208, 118.83388);
-        MarkerOptions option = new MarkerOptions().position(llA).icon(bdB);
-        Marker marker = (Marker) mBaiduMap.addOverlay(option);
-        // 将信息保存
-        Bundle bundle = new Bundle();
-        bundle.putSerializable("marker", beanb);
-        marker.setExtraInfo(bundle);
-        mBaiduMap.addOverlays(listoption);
-    }
-
-    private void watere() {
-        StationBean beanc = new StationBean();
-        beanc.setName("水系统");
-        beanc.setAddress("南京市-江宁区-秣周东路");
-        beanc.setE_mylatitude(31.87408);
-        beanc.setE_mylongitude(118.83588);
-        beanc.setType(3);
-        // 构建MarkerOption，用于在地图上添加Marker
-        LatLng llA = new LatLng(31.87408, 118.83588);
-        MarkerOptions option = new MarkerOptions().position(llA).icon(bdC);
-        Marker marker = (Marker) mBaiduMap.addOverlay(option);
-        // 将信息保存
-        Bundle bundle = new Bundle();
-        bundle.putSerializable("marker", beanc);
-        marker.setExtraInfo(bundle);
-        mBaiduMap.addOverlays(listoption);
+        FireAlarmRequest.getFireAlarm(MapMonitoringActivity.this, getApplicationContext(),  "1", "pending", "oneday");
     }
 
     @Override
     protected void onResume() {
         super.onResume();
         fire();
-        lectrical();
-        watere();
         // 在activity执行onResume时执行mMapView. onResume ()，实现地图生命周期管理
         WalkNavigateHelper.getInstance().resume();
         mMapView.onResume();
@@ -528,45 +504,54 @@ public class MapMonitoringActivity extends BaseActivity implements OnClickListen
     }
 
 
-    /**
-     * 显示弹出窗
-     */
-    private void showInfoWindow(LatLng ll, String name, String addresses, final int type) {
+    private void showInfoWindows(LatLng ll, String name, String addresses, final String ids) {
         //创建InfoWindow展示的view
-        View contentView = LayoutInflater.from(getApplicationContext()).inflate(R.layout.infowindow_items, null);
+        View contentView = LayoutInflater.from(MapMonitoringActivity.this).inflate(R.layout.infowindow_items, null);
         TextView tvCount = contentView.findViewById(R.id.tv_count);
         TextView address = contentView.findViewById(R.id.address);
-        ImageView index_a = contentView.findViewById(R.id.index_a);
-        RelativeLayout viewdetails= contentView.findViewById(R.id.viewdetails);
+        final ImageView index_a = contentView.findViewById(R.id.index_a);
+        TextView viewdetails= contentView.findViewById(R.id.viewdetails);
+        TextView report= contentView.findViewById(R.id.report);
+        TextView walknavigation= contentView.findViewById(R.id.walknavigation);
+        TextView drivenavigation= contentView.findViewById(R.id.drivenavigation);
         tvCount.setText("名称："+name);
         address.setText("地址："+addresses);
-        if (type == 1) {
-            index_a.setBackground(MapMonitoringActivity.this.getResources().getDrawable(R.drawable.bd_fire));
-        }
-        if (type == 2) {
-            index_a.setBackground(MapMonitoringActivity.this.getResources().getDrawable(R.drawable.bd_lectrical));
-        }
-        if (type == 3) {
-            index_a.setBackground(MapMonitoringActivity.this.getResources().getDrawable(R.drawable.bd_watere));
-        }
+        index_a.setBackground(MapMonitoringActivity.this.getResources().getDrawable(R.drawable.bd_fire));
         viewdetails.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (type == 1) {
-                    Intent HostMonitoring=new Intent(MapMonitoringActivity.this,HostMonitoringActivity.class);
-                    startActivity(HostMonitoring);
-                }
-                if (type == 2) {
-                    Intent intent_RealTimeData = new Intent(MapMonitoringActivity.this, RealDataActivity.class);
-                    startActivity(intent_RealTimeData);
-                }
-                if (type == 3) {
-                    Intent WaterSystemintent=new Intent(MapMonitoringActivity.this,WaterSystemActivity.class);
-                    startActivity(WaterSystemintent);
-                }
+                Intent HostMonitoring=new Intent(MapMonitoringActivity.this,FireAlarmActivity.class);
+                startActivity(HostMonitoring);
             }
         });
-
+        report.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent_Patrol = new Intent(MapMonitoringActivity.this, ProcessingReportActivity.class);
+                intent_Patrol.putExtra("ids", ids);
+                startActivity(intent_Patrol);
+            }
+        });
+        walknavigation.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //初始化导航数据
+                initOverlay();
+                startPt = new LatLng(S_mylatitude, S_mylongitude);
+                endPt = new LatLng(E_mylatitude, E_mylongitude);
+                /*构造导航起终点参数对象*/
+                walkParam = new WalkNaviLaunchParam().stPt(startPt).endPt(endPt);
+                walkParam.extraNaviMode(0);
+                startWalkNavi();
+                mBaiduMap.clear();
+            }
+        });
+        drivenavigation.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                routeplanToNavi(CoordinateType.BD09LL);
+            }
+        });
         //创建InfoWindow , 传入 view， 地理坐标， y 轴偏移量
         InfoWindow infoWindow = new InfoWindow(contentView, ll, -80);
         //显示InfoWindow

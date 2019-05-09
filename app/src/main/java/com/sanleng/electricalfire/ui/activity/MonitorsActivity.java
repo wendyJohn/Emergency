@@ -91,9 +91,9 @@ public class MonitorsActivity extends BaseActivity {
         });
         videoa = findViewById(R.id.videoa);
         videob = findViewById(R.id.videob);
-//        Intent inten = getIntent();
-//        channel_one = inten.getStringExtra("channel_one");
-//        channel_two = inten.getStringExtra("channel_two");
+        //Intent inten = getIntent();
+        //channel_one = inten.getStringExtra("channel_one");
+        //channel_two = inten.getStringExtra("channel_two");
         setVideoa();
         setVideob();
     }

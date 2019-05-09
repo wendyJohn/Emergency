@@ -17,6 +17,7 @@
             android:layout_marginLeft="6dp"
             android:layout_weight="1"
             android:orientation="vertical"
+            android:gravity="center"
             android:paddingLeft="3dp" >
 
             <TextView
@@ -39,7 +40,7 @@
     <RelativeLayout
         android:id="@+id/rl_dialog_edit"
         android:layout_width="match_parent"
-        android:layout_height="200dp"
+        android:layout_height="160dp"
         android:layout_below="@id/viewa"
         android:layout_centerHorizontal="true" >
 
@@ -123,6 +124,7 @@
             android:layout_height="50dp"
             android:layout_below="@+id/youtb"
             android:background="@color/white"
+            android:visibility="gone"
             android:orientation="horizontal" >
 
             <LinearLayout
@@ -190,7 +192,7 @@
                     android:layout_height="wrap_content"
                     android:id="@+id/firecontrol"
                     android:button="@null"
-                    android:layout_marginRight="10dp"
+                    android:layout_marginRight="20dp"
                     android:drawableLeft="@drawable/radio_button_state"
                     android:text="火灾"
                     android:textColor="@color/black"
@@ -199,7 +201,7 @@
 
                 <RadioButton
                     android:id="@+id/medicalcare"
-                    android:layout_marginLeft="10dp"
+                    android:layout_marginLeft="20dp"
                     android:button="@null"
                     android:drawableLeft="@drawable/radio_button_state"
                     android:text="医疗"

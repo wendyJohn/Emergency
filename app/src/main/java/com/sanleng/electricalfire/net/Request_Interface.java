@@ -7,6 +7,7 @@ import com.sanleng.electricalfire.ui.bean.Article;
 import com.sanleng.electricalfire.ui.bean.ArticleItem;
 import com.sanleng.electricalfire.ui.bean.ConfirmFire;
 import com.sanleng.electricalfire.ui.bean.FireAlarmBean;
+import com.sanleng.electricalfire.ui.bean.HistorRecordBean;
 import com.sanleng.electricalfire.ui.bean.HistoricalTrack;
 import com.sanleng.electricalfire.ui.bean.Login;
 import com.sanleng.electricalfire.ui.bean.Material;
@@ -134,5 +135,9 @@ public interface Request_Interface {
     //物资分类列表
     @POST("/kspf/app/station/count?")
     Call<ArchitecturesBean> getArchitecturesCall(@Query("ids") String ids, @Query("format") String format,@Query("username") String username, @Query("platformkey") String platformkey);
+
+    //出入库记录
+    @POST("/kspf/app/station/record?")
+    Call<HistorRecordBean> getHistorRecordCall(@Query("pageNum") String pageNum, @Query("pageSize") String pageSize, @Query("mac") String mac, @Query("username") String username, @Query("platformkey") String platformkey);
 
 }

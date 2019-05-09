@@ -32,31 +32,35 @@ public class WaterSystemRequest {
         call.enqueue(new Callback<WaterSystem>() {
             @Override
             public void onResponse(Call<WaterSystem> call, Response<WaterSystem> response) {
-                int size = response.body().getData().getTotal();
-                for (int i = 0; i < response.body().getData().getList().size(); i++) {
-                    WaterSystem.DataBean.ListBean bean = new WaterSystem.DataBean.ListBean();
-                    String ids = response.body().getData().getList().get(i).getIds();
-                    String device_name = response.body().getData().getList().get(i).getDevice_name();
-                    String build_name = response.body().getData().getList().get(i).getBuild_name();
-                    String device_address = response.body().getData().getList().get(i).getDevice_address();
-                    String current_state = response.body().getData().getList().get(i).getCurrent_state();
-                    String range_min = response.body().getData().getList().get(i).getRange_min();
-                    String range_max = response.body().getData().getList().get(i).getRange_max();
-                    String state = response.body().getData().getList().get(i).getState();
-                    String device_type = response.body().getData().getList().get(i).getDevice_type();
+                try {
+                    int size = response.body().getData().getTotal();
+                    for (int i = 0; i < response.body().getData().getList().size(); i++) {
+                        WaterSystem.DataBean.ListBean bean = new WaterSystem.DataBean.ListBean();
+                        String ids = response.body().getData().getList().get(i).getIds();
+                        String device_name = response.body().getData().getList().get(i).getDevice_name();
+                        String build_name = response.body().getData().getList().get(i).getBuild_name();
+                        String device_address = response.body().getData().getList().get(i).getDevice_address();
+                        String current_state = response.body().getData().getList().get(i).getCurrent_state();
+                        String range_min = response.body().getData().getList().get(i).getRange_min();
+                        String range_max = response.body().getData().getList().get(i).getRange_max();
+                        String state = response.body().getData().getList().get(i).getState();
+                        String device_type = response.body().getData().getList().get(i).getDevice_type();
 
-                    bean.setIds(ids);
-                    bean.setDevice_name(device_name);
-                    bean.setBuild_name(build_name);
-                    bean.setDevice_address(device_address);
-                    bean.setCurrent_state(current_state);
-                    bean.setRange_max(range_max);
-                    bean.setRange_min(range_min);
-                    bean.setState(state);
-                    bean.setDevice_type(device_type);
-                    list.add(bean);
+                        bean.setIds(ids);
+                        bean.setDevice_name(device_name);
+                        bean.setBuild_name(build_name);
+                        bean.setDevice_address(device_address);
+                        bean.setCurrent_state(current_state);
+                        bean.setRange_max(range_max);
+                        bean.setRange_min(range_min);
+                        bean.setState(state);
+                        bean.setDevice_type(device_type);
+                        list.add(bean);
+                    }
+                    waterSystemModel.WaterSystemSuccess(list, size);
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
-                waterSystemModel.WaterSystemSuccess(list, size);
             }
 
             @Override

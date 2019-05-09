@@ -64,47 +64,6 @@
                     android:textColor="@color/gray"
                     android:textSize="12sp" />
 
-                <TextView
-                    android:id="@+id/report"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:background="@drawable/select_center"
-                    android:drawablePadding="2dp"
-                    android:drawableTop="@drawable/reports"
-                    android:gravity="center"
-                    android:paddingTop="6dp"
-                    android:text="处理上报"
-                    android:textColor="@color/gray"
-                    android:textSize="12sp" />
-                <TextView
-                    android:id="@+id/walknavigation"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:background="@drawable/select_center"
-                    android:drawablePadding="2dp"
-                    android:drawableTop="@drawable/walks_icon"
-                    android:gravity="center"
-                    android:paddingTop="6dp"
-                    android:text="步行导航"
-                    android:textColor="@color/gray"
-                    android:textSize="12sp" />
-
-                <TextView
-                    android:id="@+id/drivenavigation"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:background="@drawable/select_center"
-                    android:drawablePadding="2dp"
-                    android:drawableTop="@drawable/drives_icon"
-                    android:gravity="center"
-                    android:paddingTop="6dp"
-                    android:text="驾车导航"
-                    android:textColor="@color/gray"
-                    android:textSize="12sp" />
-
 
         </LinearLayout>
 

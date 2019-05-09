@@ -20,6 +20,8 @@ import com.sanleng.electricalfire.model.StationModel;
 import com.sanleng.electricalfire.ui.adapter.EmergencystationAdapter;
 import com.sanleng.electricalfire.ui.bean.ArchitectureBean;
 
+import org.greenrobot.eventbus.EventBus;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -137,6 +139,11 @@ public class EmergencyStationActivity extends BaseActivity implements StationMod
                     intent_Monitor.putExtra("channel_one", channel_one);
                     intent_Monitor.putExtra("channel_two", channel_two);
                     startActivity(intent_Monitor);
+                }
+                if (mode.equals("历史纪录")) {
+                    Intent intent_Historicalrecord = new Intent(EmergencyStationActivity.this, HistoricalrecordActivity.class);
+                    intent_Historicalrecord.putExtra("mac", mac);
+                    startActivity(intent_Historicalrecord);
                 }
             }
         });

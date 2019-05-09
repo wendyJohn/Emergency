@@ -31,6 +31,7 @@ import com.sanleng.electricalfire.myview.MarqueeViews;
 import com.sanleng.electricalfire.myview.ZQScrollGridView;
 import com.sanleng.electricalfire.ui.activity.ArticleActivity;
 import com.sanleng.electricalfire.ui.activity.EmergencyRescueActivity;
+import com.sanleng.electricalfire.ui.activity.EmergencyStationActivity;
 import com.sanleng.electricalfire.ui.activity.FireAlarmActivity;
 import com.sanleng.electricalfire.ui.activity.FireAlarmsActivity;
 import com.sanleng.electricalfire.ui.activity.FirsafetyAtivity;
@@ -66,7 +67,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Fire
     public static List<Integer> listPosition;
     public static List<UserBean> list;
     private static ACache aCache;
-    private TextView emtext_a, emtext_b, emtext_c, emtext_d, emtext_e, emtext_f, emtext_g, emtext_h;
+    private TextView emtext_a, emtext_b, emtext_c, emtext_d, emtext_e, emtext_f, emtext_g, emtext_h,emtext_k;
     private LinearLayout article;
     private LinearLayout video;
     private MarqueeViews marqueeviews;
@@ -98,6 +99,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Fire
         emtext_f = view.findViewById(R.id.emtext_f);
         emtext_g = view.findViewById(R.id.emtext_g);
         emtext_h = view.findViewById(R.id.emtext_h);
+        emtext_k = view.findViewById(R.id.emtext_k);
         article = view.findViewById(R.id.article);
         video = view.findViewById(R.id.video);
         emtext_a.setOnClickListener(this);
@@ -108,6 +110,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Fire
         emtext_f.setOnClickListener(this);
         emtext_g.setOnClickListener(this);
         emtext_h.setOnClickListener(this);
+        emtext_k.setOnClickListener(this);
         article.setOnClickListener(this);
         video.setOnClickListener(this);
         onLoad();
@@ -146,8 +149,11 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Fire
         switch (v.getId()) {
             //物资管理
             case R.id.emtext_a:
-                Intent intent_MonStation = new Intent(getActivity(), MonStationActivity.class);
-                startActivity(intent_MonStation);
+//                Intent intent_MonStation = new Intent(getActivity(), MonStationActivity.class);
+//                startActivity(intent_MonStation);
+                Intent intent_emergencystation = new Intent(getActivity(), EmergencyStationActivity.class);
+                intent_emergencystation.putExtra("mode", "物资查询");
+                startActivity(intent_emergencystation);
                 break;
             //志愿者
             case R.id.emtext_b:
@@ -162,18 +168,30 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Fire
                 break;
             //物资调度
             case R.id.emtext_d:
-                Intent intent_HazardousChemicalss = new Intent(getActivity(), HazardousChemicalsActivity.class);
-                intent_HazardousChemicalss.putExtra("name", "物资调度");
-                startActivity(intent_HazardousChemicalss);
-                break;
-            //应急预案
-            case R.id.emtext_e:
+//                Intent intent_HazardousChemicalss = new Intent(getActivity(), HazardousChemicalsActivity.class);
+//                intent_HazardousChemicalss.putExtra("name", "物资调度");
+//                startActivity(intent_HazardousChemicalss);
 
+                Intent intent_emergencyStation = new Intent(getActivity(), EmergencyStationActivity.class);
+                intent_emergencyStation.putExtra("mode", "应急开门");
+                startActivity(intent_emergencyStation);
+                break;
+            //站点监控
+            case R.id.emtext_e:
+                Intent intent_MonitorsStation = new Intent(getActivity(), EmergencyStationActivity.class);
+                intent_MonitorsStation.putExtra("mode", "视频监控");
+                startActivity(intent_MonitorsStation);
                 break;
             //一键救援
             case R.id.emtext_f:
                 SosDialog sosDialog = new SosDialog(getActivity());
                 sosDialog.show();
+                break;
+            //历史记录
+            case R.id.emtext_k:
+                Intent intent_Historicalrecord = new Intent(getActivity(), EmergencyStationActivity.class);
+                intent_Historicalrecord.putExtra("mode", "历史纪录");
+                startActivity(intent_Historicalrecord);
                 break;
             //处置报告
             case R.id.emtext_g:

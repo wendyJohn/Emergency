@@ -7,8 +7,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-       >
+        android:layout_height="wrap_content">
 
         <TextView
             android:id="@+id/emtext_a"
@@ -18,19 +17,8 @@
             android:background="@drawable/select_center"
             android:drawableTop="@drawable/em_a"
             android:gravity="center"
-            android:text="物资管理"
-            />
+            android:text="物资查询" />
 
-        <TextView
-            android:id="@+id/emtext_b"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="@drawable/select_center"
-            android:drawableTop="@drawable/em_b"
-            android:gravity="center"
-            android:text="志愿者"
-            />
 
         <TextView
             android:id="@+id/emtext_c"
@@ -40,25 +28,7 @@
             android:background="@drawable/select_center"
             android:drawableTop="@drawable/em_c"
             android:gravity="center"
-            android:text="应急救援"
-            />
-
-        <TextView
-            android:id="@+id/emtext_d"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="@drawable/select_center"
-            android:drawableTop="@drawable/em_d"
-            android:gravity="center"
-            android:text="物资调度" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/widget_size_10"
-        >
+            android:text="应急救援" />
 
         <TextView
             android:id="@+id/emtext_e"
@@ -66,9 +36,36 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:background="@drawable/select_center"
+            android:drawableTop="@drawable/em_k"
+            android:gravity="center"
+            android:text="站点监控" />
+
+        <TextView
+            android:id="@+id/emtext_d"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@drawable/select_center"
+            android:drawableTop="@drawable/em_l"
+            android:gravity="center"
+            android:text="应急开门" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="@dimen/widget_size_10">
+
+        <TextView
+            android:id="@+id/emtext_k"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@drawable/select_center"
             android:drawableTop="@drawable/em_e"
             android:gravity="center"
-            android:text="应急预案" />
+            android:text="历史记录" />
 
         <TextView
             android:id="@+id/emtext_f"
@@ -78,8 +75,17 @@
             android:background="@drawable/select_center"
             android:drawableTop="@drawable/em_f"
             android:gravity="center"
-            android:text="一键救援"
-            />
+            android:text="一键救援" />
+
+        <TextView
+            android:id="@+id/emtext_b"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@drawable/select_center"
+            android:drawableTop="@drawable/em_j"
+            android:gravity="center"
+            android:text="志愿者" />
 
         <TextView
             android:id="@+id/emtext_g"
@@ -88,9 +94,9 @@
             android:layout_weight="1"
             android:background="@drawable/select_center"
             android:drawableTop="@drawable/em_g"
-            android:visibility="gone"
             android:gravity="center"
-            android:text="处置报告" />
+            android:text="处置报告"
+            android:visibility="gone" />
 
         <TextView
             android:id="@+id/emtext_h"
