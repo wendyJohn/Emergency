@@ -3,10 +3,11 @@ package com.sanleng.electricalfire.ui.bean;
 import java.util.List;
 
 public class Station {
+
     /**
      * msg : 获取成功
      * code : 0
-     * data : {"total":1,"nextPage":-1,"list":[{"createtime":1552449365000,"address":"秣周东路地铁站","unitcode":"80799f58a3db4ed8835a83b278b5d394","lng":"118.837243","charge_person":"71e69854fe0947bd9a5ca1f1050f5e39","volunteername":"秣周东路地铁站","telephone":"13812341232","channel_two":"","mac":"B0F1EC8C9C05","unit_name":"秣周东路地铁站","volunteer":"ea816cc5b6df42c0a15355914bd5a838","channel_one":"","name":"秣周东路地铁运营中心","ids":"8e81b5148d7941acb6f49c2ecf10cc95","online":1552449364000,"lat":"31.874349","username":"周俐星2"}]}
+     * data : {"total":5,"nextPage":2,"list":[{"createtime":1557365107000,"address":"河津经济开发区管委会","unitcode":"22d1a7248ee049de823704c4eb5e981b","lng":"118.834105","charge_person":"0358eda87d8a4f51aec3623fb05d44f1","volunteername":"三棱研发中心","format":"enterprise","telephone":"13812341231","channel_two":"http://hls.open.ys7.com/openlive/8057c092897e4b269c4c56624f2bae86.m3u8","mac":"10D07AC38A31","unit_name":"三棱科技","volunteer":"41bfde8e383745a0bcebfa758b75db89","channel_one":"http://hls01open.ys7.com/openlive/f51656f1f4d2431ea96c6cfeabccc629.m3u8","name":"河津应急站","ids":"9dc13fdf3bf6417d9a0b59c74c6fb798","online":1557365107000,"lat":"31.874817","username":"周俐星1"}]}
      */
 
     private String msg;
@@ -39,9 +40,9 @@ public class Station {
 
     public static class DataBean {
         /**
-         * total : 1
-         * nextPage : -1
-         * list : [{"createtime":1552449365000,"address":"秣周东路地铁站","unitcode":"80799f58a3db4ed8835a83b278b5d394","lng":"118.837243","charge_person":"71e69854fe0947bd9a5ca1f1050f5e39","volunteername":"秣周东路地铁站","telephone":"13812341232","channel_two":"","mac":"B0F1EC8C9C05","unit_name":"秣周东路地铁站","volunteer":"ea816cc5b6df42c0a15355914bd5a838","channel_one":"","name":"秣周东路地铁运营中心","ids":"8e81b5148d7941acb6f49c2ecf10cc95","online":1552449364000,"lat":"31.874349","username":"周俐星2"}]
+         * total : 5
+         * nextPage : 2
+         * list : [{"createtime":1557365107000,"address":"河津经济开发区管委会","unitcode":"22d1a7248ee049de823704c4eb5e981b","lng":"118.834105","charge_person":"0358eda87d8a4f51aec3623fb05d44f1","volunteername":"三棱研发中心","format":"enterprise","telephone":"13812341231","channel_two":"http://hls.open.ys7.com/openlive/8057c092897e4b269c4c56624f2bae86.m3u8","mac":"10D07AC38A31","unit_name":"三棱科技","volunteer":"41bfde8e383745a0bcebfa758b75db89","channel_one":"http://hls01open.ys7.com/openlive/f51656f1f4d2431ea96c6cfeabccc629.m3u8","name":"河津应急站","ids":"9dc13fdf3bf6417d9a0b59c74c6fb798","online":1557365107000,"lat":"31.874817","username":"周俐星1"}]
          */
 
         private int total;
@@ -74,23 +75,24 @@ public class Station {
 
         public static class ListBean {
             /**
-             * createtime : 1552449365000
-             * address : 秣周东路地铁站
-             * unitcode : 80799f58a3db4ed8835a83b278b5d394
-             * lng : 118.837243
-             * charge_person : 71e69854fe0947bd9a5ca1f1050f5e39
-             * volunteername : 秣周东路地铁站
-             * telephone : 13812341232
-             * channel_two :
-             * mac : B0F1EC8C9C05
-             * unit_name : 秣周东路地铁站
-             * volunteer : ea816cc5b6df42c0a15355914bd5a838
-             * channel_one :
-             * name : 秣周东路地铁运营中心
-             * ids : 8e81b5148d7941acb6f49c2ecf10cc95
-             * online : 1552449364000
-             * lat : 31.874349
-             * username : 周俐星2
+             * createtime : 1557365107000
+             * address : 河津经济开发区管委会
+             * unitcode : 22d1a7248ee049de823704c4eb5e981b
+             * lng : 118.834105
+             * charge_person : 0358eda87d8a4f51aec3623fb05d44f1
+             * volunteername : 三棱研发中心
+             * format : enterprise
+             * telephone : 13812341231
+             * channel_two : http://hls.open.ys7.com/openlive/8057c092897e4b269c4c56624f2bae86.m3u8
+             * mac : 10D07AC38A31
+             * unit_name : 三棱科技
+             * volunteer : 41bfde8e383745a0bcebfa758b75db89
+             * channel_one : http://hls01open.ys7.com/openlive/f51656f1f4d2431ea96c6cfeabccc629.m3u8
+             * name : 河津应急站
+             * ids : 9dc13fdf3bf6417d9a0b59c74c6fb798
+             * online : 1557365107000
+             * lat : 31.874817
+             * username : 周俐星1
              */
 
             private long createtime;
@@ -99,6 +101,7 @@ public class Station {
             private String lng;
             private String charge_person;
             private String volunteername;
+            private String format;
             private String telephone;
             private String channel_two;
             private String mac;
@@ -157,6 +160,14 @@ public class Station {
 
             public void setVolunteername(String volunteername) {
                 this.volunteername = volunteername;
+            }
+
+            public String getFormat() {
+                return format;
+            }
+
+            public void setFormat(String format) {
+                this.format = format;
             }
 
             public String getTelephone() {

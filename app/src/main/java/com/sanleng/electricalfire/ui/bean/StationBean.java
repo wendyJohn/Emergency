@@ -20,6 +20,7 @@ public class StationBean implements Serializable {
     private String channel_one;
     private String channel_two;
     private String shortage;
+    private String format;
 
     private int type;//布局样式
 
@@ -125,5 +126,13 @@ public class StationBean implements Serializable {
 
     public void setShortage(String shortage) {
         this.shortage = shortage;
+    }
+
+    public String getFormat() {
+        return format;
+    }
+
+    public void setFormat(String format) {
+        this.format = format;
     }
 }

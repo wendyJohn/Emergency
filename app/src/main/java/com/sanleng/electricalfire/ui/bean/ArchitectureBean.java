@@ -14,6 +14,7 @@ public class ArchitectureBean {
 	private String address;
 	private String channel_two;
 	private String channel_one;
+	private String format;
 
 	public String getName() {
 		return name;
@@ -69,5 +70,13 @@ public class ArchitectureBean {
 
 	public void setChannel_one(String channel_one) {
 		this.channel_one = channel_one;
+	}
+
+	public String getFormat() {
+		return format;
+	}
+
+	public void setFormat(String format) {
+		this.format = format;
 	}
 }

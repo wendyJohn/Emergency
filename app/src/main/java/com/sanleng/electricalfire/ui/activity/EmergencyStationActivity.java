@@ -120,6 +120,7 @@ public class EmergencyStationActivity extends BaseActivity implements StationMod
                 ArchitectureBean bean = allList.get(position);
                 String mac = bean.getMac();
                 String ids = bean.getId();
+                String format = bean.getFormat();
                 channel_one = bean.getChannel_one();
                 channel_two = bean.getChannel_two();
 
@@ -132,6 +133,7 @@ public class EmergencyStationActivity extends BaseActivity implements StationMod
                 if (mode.equals("物资查询")) {
                     Intent intent = new Intent(EmergencyStationActivity.this, MaterialActivity.class);
                     intent.putExtra("ids", ids);
+                    intent.putExtra("format", format);
                     startActivity(intent);
                 }
                 if (mode.equals("视频监控")) {

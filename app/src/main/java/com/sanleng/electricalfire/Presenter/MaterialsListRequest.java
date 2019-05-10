@@ -25,17 +25,18 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class MaterialsListRequest {
     //物资列表
-    public static void getMaterialsList(final MaterialsListModel materialsListModel, final Context context, final String stationId, final String mac, final String name, final String address, final double distance, final List<StationBean> slists) {
+    public static void getMaterialsList(final MaterialsListModel materialsListModel, final Context context, final String stationId, final String mac, final String name, final String address, final double distance, final List<StationBean> slists, final String format) {
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(URLs.HOST) // 设置 网络请求 Url
                 .addConverterFactory(GsonConverterFactory.create()) //设置使用Gson解析(记得加入依赖)
                 .build();
         Request_Interface request_Interface = retrofit.create(Request_Interface.class);
         //对发送请求进行封装
-        Call<ArchitecturesBean> call = request_Interface.getArchitecturesCall(stationId, "enterprise", "admin", "app_firecontrol_owner");
+        Call<ArchitecturesBean> call = request_Interface.getArchitecturesCall(stationId, format, "admin", "app_firecontrol_owner");
         call.enqueue(new Callback<ArchitecturesBean>() {
             @Override
             public void onResponse(Call<ArchitecturesBean> call, Response<ArchitecturesBean> response) {
+
                 for (int i = 0; i < response.body().getData().size(); i++) {
                     StationBean bean = new StationBean();
                     // 获取数据
@@ -59,10 +60,10 @@ public class MaterialsListRequest {
                     }
                     bean.setType(1);
                     bean.setImage_type(model);
-                    bean.setMac(mac);
+                    bean.setMac(format);
                     slists.add(bean);
                 }
-                materialsListModel.MaterialsListSuccess(slists, stationId, mac, name, address, distance);
+                materialsListModel.MaterialsListSuccess(slists, stationId, format, name, address, distance);
             }
 
             @Override

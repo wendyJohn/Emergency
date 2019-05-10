@@ -47,10 +47,17 @@ public class StationRequest {
                     String mac = response.body().getData().getList().get(i).getMac();
                     String ids = response.body().getData().getList().get(i).getIds();
                     String address = response.body().getData().getList().get(i).getAddress();
+                    String Channel_one = response.body().getData().getList().get(i).getChannel_one();
+                    String Channel_two= response.body().getData().getList().get(i).getChannel_two();
+                    String format= response.body().getData().getList().get(i).getFormat();
+
                     bean.setName(name);
                     bean.setAddress(address);
                     bean.setMac(mac);
                     bean.setId(ids);
+                    bean.setChannel_one(Channel_one);
+                    bean.setChannel_two(Channel_two);
+                    bean.setFormat(format);
                     list.add(bean);
                 }
                 stationModel.StationSuccess(list,size);

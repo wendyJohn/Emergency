@@ -44,6 +44,7 @@ public class MaterialActivity extends BaseActivity implements MaterialsListModel
     private RelativeLayout r_back;
     private ListView materiallistview;
     private String ids;
+    private String format;
     private BottomMenuAdapter bottomMenuAdapter;
     private List<StationBean> slists;
     double distance;
@@ -65,6 +66,7 @@ public class MaterialActivity extends BaseActivity implements MaterialsListModel
 	private void initview() {
         Intent intent = getIntent();
         ids = intent.getStringExtra("ids");
+        format= intent.getStringExtra("format");
         r_back =  findViewById(R.id.r_back);
         r_back.setOnClickListener(new MyOnClickListener(0));
     }
@@ -72,7 +74,7 @@ public class MaterialActivity extends BaseActivity implements MaterialsListModel
     // 加载数据
     private void loadData() {
         slists=new ArrayList<>();
-        MaterialsListRequest.getMaterialsList(MaterialActivity.this,getApplicationContext(),ids,null,null,null,distance,slists);
+        MaterialsListRequest.getMaterialsList(MaterialActivity.this,getApplicationContext(),ids,null,null,null,distance,slists,format);
     }
 
     @Override

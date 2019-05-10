@@ -91,9 +91,9 @@ public class MonitorsActivity extends BaseActivity {
         });
         videoa = findViewById(R.id.videoa);
         videob = findViewById(R.id.videob);
-        //Intent inten = getIntent();
-        //channel_one = inten.getStringExtra("channel_one");
-        //channel_two = inten.getStringExtra("channel_two");
+        Intent inten = getIntent();
+        channel_one = inten.getStringExtra("channel_one");
+        channel_two = inten.getStringExtra("channel_two");
         setVideoa();
         setVideob();
     }
@@ -111,7 +111,7 @@ public class MonitorsActivity extends BaseActivity {
         MediaController mediaController = new MediaController(this);
         mediaController.setVisibility(View.GONE);//隐藏进度条
         videoa.setMediaController(mediaController);
-        videoa.setVideoURI(Uri.parse("http://hls01open.ys7.com/openlive/f51656f1f4d2431ea96c6cfeabccc629.m3u8"));
+        videoa.setVideoURI(Uri.parse(channel_one));
         videoa.start();
         videoa.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
             @Override
@@ -192,7 +192,7 @@ public class MonitorsActivity extends BaseActivity {
         MediaController mediaController = new MediaController(this);
         mediaController.setVisibility(View.GONE);//隐藏进度条
         videob.setMediaController(mediaController);
-        videob.setVideoURI(Uri.parse("http://hls.open.ys7.com/openlive/8057c092897e4b269c4c56624f2bae86.m3u8"));
+        videob.setVideoURI(Uri.parse(channel_two));
         videob.start();
         videob.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
             @Override

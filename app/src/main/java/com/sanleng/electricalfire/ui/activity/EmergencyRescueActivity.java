@@ -263,6 +263,7 @@ public class EmergencyRescueActivity extends BaseActivity implements OnClickList
                 String mac = bean.getMac();
                 String names = bean.getName();
                 String addresss = bean.getAddress();
+                String format = bean.getFormat();
                 double distances = bean.getDistance();
                 channel_one = bean.getChannel_one();
                 channel_two = bean.getChannel_two();
@@ -270,11 +271,11 @@ public class EmergencyRescueActivity extends BaseActivity implements OnClickList
                 name.setText(names);
                 address.setText(addresss);
                 distance.setText("距您 " + distances + " m");
-                BottomMenu(names, addresss, distances, ids, mac);
                 LatLng llA = new LatLng(E_mylatitude, E_mylongitude);
                 showInfoWindow(llA, names);
                 if (type == 1) {
                     mScrollLayout.setVisibility(View.VISIBLE);
+                    BottomMenu(names, addresss, distances, ids, mac, format);
                 }
                 if (type == 2) {
                     sos_ids = ids;
@@ -362,6 +363,7 @@ public class EmergencyRescueActivity extends BaseActivity implements OnClickList
                 String lng = msg.get(i).getLng();
                 String channel_two = msg.get(i).getChannel_two();
                 String channel_one = msg.get(i).getChannel_one();
+                String format = msg.get(i).getFormat();
 
                 bean.setId(ids);
                 bean.setName(name);
@@ -372,6 +374,7 @@ public class EmergencyRescueActivity extends BaseActivity implements OnClickList
                 bean.setType(1);
                 bean.setChannel_one(channel_one);
                 bean.setChannel_two(channel_two);
+                bean.setFormat(format);
                 bean.setDistance(gps_m(S_mylatitude, S_mylongitude, Double.parseDouble(lat), Double.parseDouble(lng)));
 
                 // 构建MarkerOption，用于在地图上添加Marker
@@ -398,6 +401,7 @@ public class EmergencyRescueActivity extends BaseActivity implements OnClickList
                     String names = slist.get(position).getName();
                     String addresss = slist.get(position).getAddress();
                     String mac = slist.get(position).getMac();
+                    String format = slist.get(position).getFormat();
                     double distances = slist.get(position).getDistance();
                     channel_one = slist.get(position).getChannel_one();
                     channel_two = slist.get(position).getChannel_two();
@@ -406,7 +410,7 @@ public class EmergencyRescueActivity extends BaseActivity implements OnClickList
                     distance.setText("距您 " + distances + "m");
 
 //                              ChooseMyLocation(E_mylatitude, E_mylongitude);
-                    BottomMenu(names, addresss, distances, ids, mac);
+                    BottomMenu(names, addresss, distances, ids, mac,format);
                     mScrollLayout.setVisibility(View.VISIBLE);
                     LatLng llA = new LatLng(E_mylatitude, E_mylongitude);
                     showInfoWindow(llA, names);
@@ -953,13 +957,13 @@ public class EmergencyRescueActivity extends BaseActivity implements OnClickList
 
     //底部菜单
     private void BottomMenu(String name, String address, double distance, String id, String
-            mac) {
+            mac,String format) {
         slists = new ArrayList<>();
 //        StationBean beana = new StationBean();
 //        beana.setType(0);
 //        slists.add(beana);
 
-        loadData(slists, name, address, distance, id, mac);
+        loadData(slists, name, address, distance, id, mac,format);
     }
 
     private ScrollLayout.OnScrollChangedListener mOnScrollChangedListener = new ScrollLayout.OnScrollChangedListener() {
@@ -1488,8 +1492,8 @@ public class EmergencyRescueActivity extends BaseActivity implements OnClickList
 
     // 加载物质数据
     private void loadData(List<StationBean> slists, final String name, final String address, final double distance,
-                          final String id, final String mac) {
-        MaterialsListRequest.getMaterialsList(EmergencyRescueActivity.this, getApplicationContext(), id, mac, name, address, distance, slists);
+                          final String id, final String mac, final String format) {
+        MaterialsListRequest.getMaterialsList(EmergencyRescueActivity.this, getApplicationContext(), id, mac, name, address, distance, slists,format);
     }
 
     private void showInfoWindows(LatLng ll, String name, String addresses, final String ids) {

@@ -300,6 +300,8 @@ public class FireAlarmActivity extends BaseActivity implements FireAlarmModel {
                 // 查看监控
                 case MyApplication.MSGViewMonitoring:
                     Intent intent_Inspection = new Intent(FireAlarmActivity.this, MonitorsActivity.class);
+                    intent_Inspection.putExtra("channel_one", "http://hls01open.ys7.com/openlive/f51656f1f4d2431ea96c6cfeabccc629.m3u8");
+                    intent_Inspection.putExtra("channel_two", "http://hls.open.ys7.com/openlive/8057c092897e4b269c4c56624f2bae86.m3u8");
                     startActivity(intent_Inspection);
                     break;
                 // 位置查看

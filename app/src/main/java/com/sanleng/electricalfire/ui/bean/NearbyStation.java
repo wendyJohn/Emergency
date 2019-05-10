@@ -3,11 +3,10 @@ package com.sanleng.electricalfire.ui.bean;
 import java.util.List;
 
 public class NearbyStation {
-
     /**
      * msg : 获取成功
      * code : 0
-     * data : {"total":3,"nextPage":-1,"list":[{"createtime":1546066958000,"address":"江宁","distance":60,"unitcode":"99950f1e2ebd466a8fed2e007cfd7c62","lng":"118.835191","charge_person":"5bb31f6772dc40a6b47453d62fa06f19","channel_two":null,"mac":"454657","channel_one":"1","name":"三棱","ids":"83ef7302eeda44bf816107dd46a52599","online":1547533244000,"lat":"31.874019"},{"createtime":1547522315000,"address":"三棱办公厅","distance":165,"unitcode":"00e31db02e024a05bfe8f91bf79d2be7","lng":"118.834083","charge_person":"23c839083c6b449ca88fe9b3d200fb99","channel_two":"8","mac":"98745632","channel_one":"9","name":"三棱应急站1","ids":"b1ad155d0078468aa7cc7d11ab123b86","online":1547522320000,"lat":"31.874155"},{"createtime":1547523384000,"address":"三棱科技1号室","distance":191,"unitcode":"90c3f0afb55a41d99c3acc4061d4d8cb","lng":"118.833809","charge_person":"fdd54fb40112477e85ba8fe8113c2df2","channel_two":"7","mac":"3698745","channel_one":"6","name":"应急站1号","ids":"428f19ad74a9412bb4658047fa211136","online":1547523389000,"lat":"31.873886"}]}
+     * data : {"total":1,"nextPage":-1,"list":[{"createtime":1551938453000,"address":"江苏省南京市江宁区","distance":35,"unitcode":"fa4dbf53997343c8b5ebd2cd47651735","lng":"118.835712","charge_person":"ce9f417b817e4a7e9f1047a2349381f4","format":null,"channel_two":"","mac":"561456465","volunteer":"3bde9957548f4bb6b29c4d305c2d4c1d","channel_one":"","name":"三棱科技站点B","ids":"e7a1cca4f7ea4123bedebc4360a0de50","online":1551938452000,"lat":"31.874322"}]}
      */
 
     private String msg;
@@ -40,9 +39,9 @@ public class NearbyStation {
 
     public static class DataBean {
         /**
-         * total : 3
+         * total : 1
          * nextPage : -1
-         * list : [{"createtime":1546066958000,"address":"江宁","distance":60,"unitcode":"99950f1e2ebd466a8fed2e007cfd7c62","lng":"118.835191","charge_person":"5bb31f6772dc40a6b47453d62fa06f19","channel_two":null,"mac":"454657","channel_one":"1","name":"三棱","ids":"83ef7302eeda44bf816107dd46a52599","online":1547533244000,"lat":"31.874019"},{"createtime":1547522315000,"address":"三棱办公厅","distance":165,"unitcode":"00e31db02e024a05bfe8f91bf79d2be7","lng":"118.834083","charge_person":"23c839083c6b449ca88fe9b3d200fb99","channel_two":"8","mac":"98745632","channel_one":"9","name":"三棱应急站1","ids":"b1ad155d0078468aa7cc7d11ab123b86","online":1547522320000,"lat":"31.874155"},{"createtime":1547523384000,"address":"三棱科技1号室","distance":191,"unitcode":"90c3f0afb55a41d99c3acc4061d4d8cb","lng":"118.833809","charge_person":"fdd54fb40112477e85ba8fe8113c2df2","channel_two":"7","mac":"3698745","channel_one":"6","name":"应急站1号","ids":"428f19ad74a9412bb4658047fa211136","online":1547523389000,"lat":"31.873886"}]
+         * list : [{"createtime":1551938453000,"address":"江苏省南京市江宁区","distance":35,"unitcode":"fa4dbf53997343c8b5ebd2cd47651735","lng":"118.835712","charge_person":"ce9f417b817e4a7e9f1047a2349381f4","format":null,"channel_two":"","mac":"561456465","volunteer":"3bde9957548f4bb6b29c4d305c2d4c1d","channel_one":"","name":"三棱科技站点B","ids":"e7a1cca4f7ea4123bedebc4360a0de50","online":1551938452000,"lat":"31.874322"}]
          */
 
         private int total;
@@ -75,19 +74,21 @@ public class NearbyStation {
 
         public static class ListBean {
             /**
-             * createtime : 1546066958000
-             * address : 江宁
-             * distance : 60
-             * unitcode : 99950f1e2ebd466a8fed2e007cfd7c62
-             * lng : 118.835191
-             * charge_person : 5bb31f6772dc40a6b47453d62fa06f19
-             * channel_two : null
-             * mac : 454657
-             * channel_one : 1
-             * name : 三棱
-             * ids : 83ef7302eeda44bf816107dd46a52599
-             * online : 1547533244000
-             * lat : 31.874019
+             * createtime : 1551938453000
+             * address : 江苏省南京市江宁区
+             * distance : 35
+             * unitcode : fa4dbf53997343c8b5ebd2cd47651735
+             * lng : 118.835712
+             * charge_person : ce9f417b817e4a7e9f1047a2349381f4
+             * format : null
+             * channel_two :
+             * mac : 561456465
+             * volunteer : 3bde9957548f4bb6b29c4d305c2d4c1d
+             * channel_one :
+             * name : 三棱科技站点B
+             * ids : e7a1cca4f7ea4123bedebc4360a0de50
+             * online : 1551938452000
+             * lat : 31.874322
              */
 
             private long createtime;
@@ -96,8 +97,10 @@ public class NearbyStation {
             private String unitcode;
             private String lng;
             private String charge_person;
+            private String format;
             private String channel_two;
             private String mac;
+            private String volunteer;
             private String channel_one;
             private String name;
             private String ids;
@@ -152,6 +155,14 @@ public class NearbyStation {
                 this.charge_person = charge_person;
             }
 
+            public String getFormat() {
+                return format;
+            }
+
+            public void setFormat(String format) {
+                this.format = format;
+            }
+
             public String getChannel_two() {
                 return channel_two;
             }
@@ -166,6 +177,14 @@ public class NearbyStation {
 
             public void setMac(String mac) {
                 this.mac = mac;
+            }
+
+            public String getVolunteer() {
+                return volunteer;
+            }
+
+            public void setVolunteer(String volunteer) {
+                this.volunteer = volunteer;
             }
 
             public String getChannel_one() {
