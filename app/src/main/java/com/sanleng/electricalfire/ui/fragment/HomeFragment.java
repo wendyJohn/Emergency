@@ -252,6 +252,8 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Fire
                 }
                 if (name.equals("安防监控")) {
                     Intent intent_Monitor = new Intent(getActivity(), MonitorsActivity.class);
+                    intent_Monitor.putExtra("channel_one", "http://hls01open.ys7.com/openlive/f51656f1f4d2431ea96c6cfeabccc629.m3u8");
+                    intent_Monitor.putExtra("channel_two", "http://hls.open.ys7.com/openlive/8057c092897e4b269c4c56624f2bae86.m3u8");
                     startActivity(intent_Monitor);
                 }
                 if (name.equals("危化品柜")) {

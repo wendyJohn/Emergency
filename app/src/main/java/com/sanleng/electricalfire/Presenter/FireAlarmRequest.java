@@ -50,7 +50,7 @@ public class FireAlarmRequest {
                         bean.setUnit_name(unit_name);
                         bean.setIds(taskId);
                         list.add(bean);
-                        String str = unit_name + position + device_name + "发生火警";
+                        String str = position + device_name + "发生火警";
                         info.add(str);
                     }
                     fireAlarmModel.FireSuccess(info);

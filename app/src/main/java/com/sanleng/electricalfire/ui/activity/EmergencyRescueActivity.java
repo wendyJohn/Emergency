@@ -292,31 +292,31 @@ public class EmergencyRescueActivity extends BaseActivity implements OnClickList
             }
 
         });
-        //拖拽定位
-        mBaiduMap.setOnMapStatusChangeListener(new BaiduMap.OnMapStatusChangeListener() {
-            @Override
-            public void onMapStatusChangeStart(MapStatus mapStatus) {
-
-            }
-
-            @Override
-            public void onMapStatusChangeStart(MapStatus mapStatus, int i) {
-
-            }
-
-            @Override
-            public void onMapStatusChange(MapStatus mapStatus) {
-
-            }
-
-            @Override
-            public void onMapStatusChangeFinish(MapStatus mapStatus) {
-                //改变结束之后，获取地图可视范围的中心点坐标
-                S_mylatitude = mapStatus.target.latitude;
-                S_mylongitude = mapStatus.target.longitude;
-                NearbyEmergencyStation();
-            }
-        });
+//        //拖拽定位
+//        mBaiduMap.setOnMapStatusChangeListener(new BaiduMap.OnMapStatusChangeListener() {
+//            @Override
+//            public void onMapStatusChangeStart(MapStatus mapStatus) {
+//
+//            }
+//
+//            @Override
+//            public void onMapStatusChangeStart(MapStatus mapStatus, int i) {
+//
+//            }
+//
+//            @Override
+//            public void onMapStatusChange(MapStatus mapStatus) {
+//
+//            }
+//
+//            @Override
+//            public void onMapStatusChangeFinish(MapStatus mapStatus) {
+//                //改变结束之后，获取地图可视范围的中心点坐标
+//                S_mylatitude = mapStatus.target.latitude;
+//                S_mylongitude = mapStatus.target.longitude;
+//                NearbyEmergencyStation();
+//            }
+//        });
     }
 
     //配置定位SDK参数
@@ -501,13 +501,13 @@ public class EmergencyRescueActivity extends BaseActivity implements OnClickList
             String position = list.get(i).getPosition();
             bean.setName("火警信息");
             bean.setAddress(position);
-            bean.setE_mylatitude(S_mylatitude+0.001);
-            bean.setE_mylongitude(S_mylongitude+0.001);
+            bean.setE_mylatitude(35.649975);
+            bean.setE_mylongitude(110.68193);
             bean.setType(3);
             bean.setId(ids);
-            bean.setDistance(gps_m(S_mylatitude, S_mylongitude+0.001, S_mylatitude, S_mylongitude+0.001));
+            bean.setDistance(gps_m(S_mylatitude, S_mylongitude, 35.649975, 110.68193));
             // 构建MarkerOption，用于在地图上添加Marker
-            LatLng llA = new LatLng(S_mylatitude+0.001, S_mylongitude+0.001);
+            LatLng llA = new LatLng(35.649975, 110.68193);
             MarkerOptions option = new MarkerOptions().position(llA).icon(bdF);
             Marker marker = (Marker) mBaiduMap.addOverlay(option);
             // 将信息保存
@@ -827,7 +827,7 @@ public class EmergencyRescueActivity extends BaseActivity implements OnClickList
 
     //火警列表数据
     private void NearbyFireAlarm() {
-        FireAlarmRequest.getFireAlarm(EmergencyRescueActivity.this, getApplicationContext(), "1", "pending", "oneday");
+        FireAlarmRequest.getFireAlarm(EmergencyRescueActivity.this, getApplicationContext(), "1", "pending,processed", "oneday");
     }
 
     //清除SOS
@@ -1519,9 +1519,12 @@ public class EmergencyRescueActivity extends BaseActivity implements OnClickList
         report.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent_Patrol = new Intent(EmergencyRescueActivity.this, ProcessingReportActivity.class);
-                intent_Patrol.putExtra("ids", ids);
-                startActivity(intent_Patrol);
+//                Intent intent_Patrol = new Intent(EmergencyRescueActivity.this, ProcessingReportActivity.class);
+//                intent_Patrol.putExtra("ids", ids);
+//                startActivity(intent_Patrol);
+
+                Intent intent_FireAlarms = new Intent(EmergencyRescueActivity.this, FireAlarmsActivity.class);
+                startActivity(intent_FireAlarms);
             }
         });
         walknavigation.setOnClickListener(new OnClickListener() {

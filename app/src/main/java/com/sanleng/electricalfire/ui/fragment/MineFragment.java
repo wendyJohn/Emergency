@@ -30,6 +30,7 @@ import com.sanleng.electricalfire.dialog.CustomDialog;
 import com.sanleng.electricalfire.Presenter.UpdateRequest;
 import com.sanleng.electricalfire.model.UpdateModel;
 import com.sanleng.electricalfire.service.UpdateService;
+import com.sanleng.electricalfire.ui.activity.FaceRegistrationActivity;
 import com.sanleng.electricalfire.ui.activity.LoginActivity;
 import com.sanleng.electricalfire.ui.activity.MainTabActivity;
 import com.sanleng.electricalfire.ui.activity.PwdChangeActivity;
@@ -51,6 +52,7 @@ public class MineFragment extends BaseFragment implements OnClickListener, Updat
     private RelativeLayout changepassword;
     private RelativeLayout scavengingcaching;
     private RelativeLayout dataupdate;
+    private RelativeLayout faceregistration;
     private RelativeLayout versionupdate;
     private RelativeLayout aboutus;
     private File cameraFile;
@@ -124,6 +126,7 @@ public class MineFragment extends BaseFragment implements OnClickListener, Updat
         changepassword = (RelativeLayout) view.findViewById(R.id.changepassword);
         scavengingcaching = (RelativeLayout) view.findViewById(R.id.scavengingcaching);
         dataupdate = (RelativeLayout) view.findViewById(R.id.dataupdate);
+        faceregistration= (RelativeLayout) view.findViewById(R.id.faceregistration);
         versionupdate = (RelativeLayout) view.findViewById(R.id.versionupdate);
         aboutus = (RelativeLayout) view.findViewById(R.id.aboutus);
         tv_user_headname = (TextView) view.findViewById(R.id.tv_user_headname);
@@ -148,6 +151,7 @@ public class MineFragment extends BaseFragment implements OnClickListener, Updat
         changepassword.setOnClickListener(this);
         scavengingcaching.setOnClickListener(this);
         dataupdate.setOnClickListener(this);
+        faceregistration.setOnClickListener(this);
         versionupdate.setOnClickListener(this);
         aboutus.setOnClickListener(this);
     }
@@ -186,7 +190,11 @@ public class MineFragment extends BaseFragment implements OnClickListener, Updat
             case R.id.dataupdate:
                 new SVProgressHUD(getActivity()).showInfoWithStatus("暂无数据更新");
                 break;
-
+            // 人脸注册
+            case R.id.faceregistration:
+                Intent faceRegistrationIntent = new Intent(getActivity(), FaceRegistrationActivity.class);
+                startActivity(faceRegistrationIntent);
+                break;
             // 版本更新
             case R.id.versionupdate:
                 UpdateRequest.GetUpdate(MineFragment.this, getActivity(), Version_mag.ostype, Version_mag.platformkey);

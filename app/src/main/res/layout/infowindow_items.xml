@@ -59,6 +59,7 @@
                     android:drawablePadding="2dp"
                     android:drawableTop="@drawable/viewdetails"
                     android:gravity="center"
+                    android:visibility="gone"
                     android:paddingTop="6dp"
                     android:text="查看详情"
                     android:textColor="@color/gray"

@@ -223,31 +223,31 @@ public class MapMonitoringActivity extends BaseActivity implements OnClickListen
             }
 
         });
-        //拖拽定位
-        mBaiduMap.setOnMapStatusChangeListener(new BaiduMap.OnMapStatusChangeListener() {
-            @Override
-            public void onMapStatusChangeStart(MapStatus mapStatus) {
-
-            }
-
-            @Override
-            public void onMapStatusChangeStart(MapStatus mapStatus, int i) {
-
-            }
-
-            @Override
-            public void onMapStatusChange(MapStatus mapStatus) {
-
-            }
-
-            @Override
-            public void onMapStatusChangeFinish(MapStatus mapStatus) {
-                //改变结束之后，获取地图可视范围的中心点坐标
-                S_mylatitude = mapStatus.target.latitude;
-                S_mylongitude = mapStatus.target.longitude;
-
-            }
-        });
+//        //拖拽定位
+//        mBaiduMap.setOnMapStatusChangeListener(new BaiduMap.OnMapStatusChangeListener() {
+//            @Override
+//            public void onMapStatusChangeStart(MapStatus mapStatus) {
+//
+//            }
+//
+//            @Override
+//            public void onMapStatusChangeStart(MapStatus mapStatus, int i) {
+//
+//            }
+//
+//            @Override
+//            public void onMapStatusChange(MapStatus mapStatus) {
+//
+//            }
+//
+//            @Override
+//            public void onMapStatusChangeFinish(MapStatus mapStatus) {
+//                //改变结束之后，获取地图可视范围的中心点坐标
+//                S_mylatitude = mapStatus.target.latitude;
+//                S_mylongitude = mapStatus.target.longitude;
+//
+//            }
+//        });
     }
 
     //配置定位SDK参数
@@ -288,13 +288,13 @@ public class MapMonitoringActivity extends BaseActivity implements OnClickListen
             String position=list.get(i).getPosition();
             bean.setName("火警信息");
             bean.setAddress(position);
-            bean.setE_mylatitude(S_mylatitude+0.001);
-            bean.setE_mylongitude(S_mylongitude+0.001);
+            bean.setE_mylatitude(35.649975);
+            bean.setE_mylongitude(110.68193);
             bean.setType(1);
             bean.setId(ids);
-            bean.setDistance(gps_m(S_mylatitude, S_mylongitude+0.001, S_mylatitude, S_mylongitude+0.001));
+            bean.setDistance(gps_m(S_mylatitude, S_mylongitude, 35.649975, 110.68193));
             // 构建MarkerOption，用于在地图上添加Marker
-            LatLng llA = new LatLng(S_mylatitude+0.001, S_mylongitude+0.001);
+            LatLng llA = new LatLng(35.649975, 110.68193);
             MarkerOptions option = new MarkerOptions().position(llA).icon(bdA);
             Marker marker = (Marker) mBaiduMap.addOverlay(option);
             // 将信息保存
@@ -341,13 +341,13 @@ public class MapMonitoringActivity extends BaseActivity implements OnClickListen
                 mBaiduMap.animateMapStatus(MapStatusUpdateFactory.newMapStatus(builder.build()));
                 if (location.getLocType() == BDLocation.TypeGpsLocation) {
                     // GPS定位结果
-                    Toast.makeText(MapMonitoringActivity.this, location.getAddrStr(), Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(MapMonitoringActivity.this, location.getAddrStr(), Toast.LENGTH_SHORT).show();
                 } else if (location.getLocType() == BDLocation.TypeNetWorkLocation) {
                     // 网络定位结果
-                    Toast.makeText(MapMonitoringActivity.this, location.getAddrStr(), Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(MapMonitoringActivity.this, location.getAddrStr(), Toast.LENGTH_SHORT).show();
                 } else if (location.getLocType() == BDLocation.TypeOffLineLocation) {
                     // 离线定位结果
-                    Toast.makeText(MapMonitoringActivity.this, location.getAddrStr(), Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(MapMonitoringActivity.this, location.getAddrStr(), Toast.LENGTH_SHORT).show();
                 } else if (location.getLocType() == BDLocation.TypeServerError) {
                     Toast.makeText(MapMonitoringActivity.this, "服务器错误，请检查", Toast.LENGTH_SHORT).show();
                 } else if (location.getLocType() == BDLocation.TypeNetWorkException) {
@@ -361,7 +361,7 @@ public class MapMonitoringActivity extends BaseActivity implements OnClickListen
     }
 
     private void fire() {
-        FireAlarmRequest.getFireAlarm(MapMonitoringActivity.this, getApplicationContext(),  "1", "pending", "oneday");
+        FireAlarmRequest.getFireAlarm(MapMonitoringActivity.this, getApplicationContext(),  "1", "pending,processed", "oneday");
     }
 
     @Override
@@ -527,9 +527,11 @@ public class MapMonitoringActivity extends BaseActivity implements OnClickListen
         report.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent_Patrol = new Intent(MapMonitoringActivity.this, ProcessingReportActivity.class);
-                intent_Patrol.putExtra("ids", ids);
-                startActivity(intent_Patrol);
+//                Intent intent_Patrol = new Intent(MapMonitoringActivity.this, ProcessingReportActivity.class);
+//                intent_Patrol.putExtra("ids", ids);
+//                startActivity(intent_Patrol);
+                Intent intent_FireAlarms = new Intent(MapMonitoringActivity.this, FireAlarmsActivity.class);
+                startActivity(intent_FireAlarms);
             }
         });
         walknavigation.setOnClickListener(new OnClickListener() {

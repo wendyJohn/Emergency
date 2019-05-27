@@ -32,4 +32,8 @@ public class URLs {
 
     // 火警处理上报
     public static String ProcessingReport_URL = HOST + "/kspf/app/electricalfire/recordfinish";
+
+    // 人脸图片上传
+    public static String FaceRecognition_URL = HOST + "/kspf/app/user/faceRecognition";
+
 }

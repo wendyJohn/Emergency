@@ -17,7 +17,7 @@ public class VideoData {
         videoList.add(new Video("应急宣传",
                 413000,
                 "https://slyj.slicity.com/RootFile/Platform/20181122/1542854162848.jpg",
-                "https://slyj.slicity.com/RootFile/Platform/20181114/1542178640266.mp4"));
+                "http://10.101.80.113:8080/RootFile/Platform/20181114/1542178640266.mp4"));
 
         videoList.add(new Video("应急宣传",
                 439000,

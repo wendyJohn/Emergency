@@ -51,5 +51,8 @@
         <item name="android:shadowDy">0.65</item>
         <item name="android:shadowRadius">1.0</item>
     </style>
-
+    <style name="popwindow_anim_style">
+        <item name="android:windowEnterAnimation">@anim/popup_show</item>
+        <item name="android:windowExitAnimation">@anim/popup_gone</item>
+    </style>
 </resources>

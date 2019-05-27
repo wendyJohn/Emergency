@@ -165,6 +165,46 @@
                 android:src="@drawable/into_pic" />
 
         </RelativeLayout>
+        <RelativeLayout
+            android:id="@+id/faceregistration"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/widget_size_45"
+            android:layout_marginTop="0.5dp"
+            android:background="@drawable/selector_mine_item_bg">
+
+            <ImageView
+                android:id="@+id/item_search_imgcs"
+                android:layout_width="@dimen/widget_size_40"
+                android:layout_height="@dimen/widget_size_40"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:src="@drawable/face_icon" />
+
+            <TextView
+                android:id="@+id/item_search_textcs"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="10dp"
+                android:layout_toRightOf="@+id/item_search_imgcs"
+                android:text="人脸注册"
+                android:textColor="@android:color/black"
+                android:textSize="@dimen/text_size_15" />
+
+            <ImageView
+                android:id="@+id/item_search_addcs"
+                android:layout_width="@dimen/widget_size_25"
+                android:layout_height="@dimen/widget_size_25"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="10dp"
+                android:src="@drawable/into_pic" />
+
+        </RelativeLayout>
+
+
 
         <RelativeLayout
             android:id="@+id/versionupdate"

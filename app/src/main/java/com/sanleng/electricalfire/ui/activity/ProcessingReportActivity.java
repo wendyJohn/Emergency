@@ -119,8 +119,7 @@ public class ProcessingReportActivity extends BaseActivity implements OnClickLis
         String desc = info_editText.getText().toString().trim();
         List<String> list = new ArrayList<String>();
         for (int i = 0; i < Bimp.drr.size(); i++) {
-            String Str = Bimp.drr.get(i).substring(Bimp.drr.get(i).lastIndexOf("/") + 1,
-                    Bimp.drr.get(i).lastIndexOf("."));
+            String Str = Bimp.drr.get(i).substring(Bimp.drr.get(i).lastIndexOf("/") + 1,Bimp.drr.get(i).lastIndexOf("."));
             list.add(FileUtils.SDPATH + Str + ".JPEG");
         }
         String unitcode = PreferenceUtils.getString(ProcessingReportActivity.this, "unitcode");
@@ -230,8 +229,7 @@ public class ProcessingReportActivity extends BaseActivity implements OnClickLis
             }
 
             if (position == Bimp.bmp.size()) {
-                holder.image
-                        .setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.icon_addpic_unfocused));
+                holder.image.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.icon_addpic_unfocused));
                 if (position == 20) {
                     holder.image.setVisibility(View.GONE);
                 }

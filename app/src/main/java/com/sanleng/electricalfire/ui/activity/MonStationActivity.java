@@ -147,6 +147,8 @@ public class MonStationActivity extends BaseActivity implements OnClickListener,
                 break;
             case 3:// 视频监控
                 Intent intent_videosurveillance = new Intent(MonStationActivity.this, MonitorsActivity.class);
+				intent_videosurveillance.putExtra("channel_one", "http://hls01open.ys7.com/openlive/f51656f1f4d2431ea96c6cfeabccc629.m3u8");
+				intent_videosurveillance.putExtra("channel_two", "http://hls.open.ys7.com/openlive/8057c092897e4b269c4c56624f2bae86.m3u8");
                 startActivity(intent_videosurveillance);
                 break;
 			case 4:// 应急开门

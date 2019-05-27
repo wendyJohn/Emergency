@@ -10,6 +10,7 @@ import android.os.Message;
 import com.bigkoo.svprogresshud.SVProgressHUD;
 import com.sanleng.electricalfire.dialog.MyProgressDialog;
 import com.sanleng.electricalfire.net.URLs;
+import com.sanleng.electricalfire.ui.activity.FaceRegistrationActivity;
 
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpPost;
@@ -28,33 +29,21 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * 隐患整改上传
+ * 人脸注册图像上传
  *
  * @author Qiaoshi
  */
-public class RectificationUplaods extends AsyncTask<String, Integer, String> {
+public class FaceRegistrationUplaod extends AsyncTask<String, Integer, String> {
     private Context context;
     private List<String> filePathList;
     private long totalSize;
     private MyProgressDialog dp;
     private String serverResponse;
     private Handler handler;
-    private String ids;
-    private String desc;
-    private String username;
-    private String unitCode;
-    private String app_firecontrol_owner;
-    private String type;
 
-    public RectificationUplaods(Context context, List<String> filePathList, String ids, String desc, String app_firecontrol_owner, String unitCode, String username, String type, Handler handler) {
+    public FaceRegistrationUplaod(Context context, List<String> filePathList, Handler handler) {
         this.context = context;
         this.filePathList = filePathList;
-        this.ids = ids;
-        this.desc = desc;
-        this.app_firecontrol_owner = app_firecontrol_owner;
-        this.unitCode = unitCode;
-        this.username = username;
-        this.type = type;
         this.handler = handler;
     }
 
@@ -72,8 +61,9 @@ public class RectificationUplaods extends AsyncTask<String, Integer, String> {
         serverResponse = null;
         HttpClient httpClient = new DefaultHttpClient();
         HttpContext httpContext = new BasicHttpContext();
-        HttpPost httpPost = new HttpPost(URLs.ProcessingReport_URL + "?pointId=" + ids + "&username="
-                + username + "&platformkey=" + app_firecontrol_owner + "&unitCode=" + unitCode + "&type=fire_alarm");
+        String ids = PreferenceUtils.getString(context, "ids");
+        String username = PreferenceUtils.getString(context, "ElectriFire_username");
+        HttpPost httpPost = new HttpPost(URLs.FaceRecognition_URL + "?ids=" + ids + "&platformkey=app_firecontrol_owner" + "&username=" + username);
         try {
             CustomMultipartEntity multipartContent = new CustomMultipartEntity(new CustomMultipartEntity.ProgressListener() {
                 @Override
@@ -83,7 +73,7 @@ public class RectificationUplaods extends AsyncTask<String, Integer, String> {
             });
             // 把上传内容添加到MultipartEntity
             for (int i = 0; i < filePathList.size(); i++) {
-                multipartContent.addPart("File", new FileBody(new File(filePathList.get(i))));
+                multipartContent.addPart("publictyedu", new FileBody(new File(filePathList.get(i))));
                 multipartContent.addPart("data",
                         new StringBody(filePathList.get(i), Charset.forName(org.apache.http.protocol.HTTP.UTF_8)));
             }
@@ -107,25 +97,20 @@ public class RectificationUplaods extends AsyncTask<String, Integer, String> {
 
     @Override
     protected void onPostExecute(String result) {
-        System.out.println("========AAAAA======="+result);
+        System.out.println("===========人脸注册结果===========" + result);
         try {
             JSONObject object = new JSONObject(result);
             String mymsg = object.getString("msg");
             if (serverResponse != null) {
-                if (mymsg.equals("电气火灾隐患处理成功！")) {
+                if (mymsg.equals("上传成功！")) {
                     Message msg = new Message();
-                    msg.what = 578678;
+                    msg.what = 4354343;
                     handler.sendMessage(msg);
-                    Bimp bimp = new Bimp();
-                    bimp.bmp = new ArrayList<Bitmap>();
-                    bimp.drr = new ArrayList<String>();
-                    bimp.max = 0;
-                    FileUtils.deleteDir();
                 } else {
-                    new SVProgressHUD(context).showErrorWithStatus("上报失败" + mymsg);
+                    new SVProgressHUD(context).showErrorWithStatus("注册失败" + mymsg);
                 }
             } else {
-                new SVProgressHUD(context).showErrorWithStatus("上报失败" + mymsg);
+                new SVProgressHUD(context).showErrorWithStatus("注册失败" + mymsg);
             }
             dp.dismiss();
         } catch (JSONException e) {

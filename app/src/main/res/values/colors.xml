@@ -187,5 +187,5 @@
     <color name="bg">#ffffff</color>
     <color name="login_b">#216193</color>
     <color name="login_wj">#68fff6</color>
-
+    <color name="colorMainGreen">#40cab3</color>
 </resources>
